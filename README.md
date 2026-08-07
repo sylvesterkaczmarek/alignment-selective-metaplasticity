@@ -145,8 +145,8 @@ The checked aggregate snapshot is in [`results/summary_summary.json`](results/su
 ## Quick start
 
 ```bash
-git clone https://github.com/sylvesterkaczmarek/alignment-metaplasticity.git
-cd alignment-metaplasticity
+git clone https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity.git
+cd alignment-selective-metaplasticity
 
 python -m venv .venv
 source .venv/bin/activate
@@ -230,7 +230,7 @@ results/
 ## Repository layout
 
 ```text
-alignment-metaplasticity/
+alignment-selective-metaplasticity/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
@@ -335,7 +335,7 @@ pip install -r requirements-dev.txt
 
 If you use or adapt this repository, please cite
 
-> Kaczmarek, S. (2026). *Alignment-Selective Metaplasticity*. GitHub. https://github.com/sylvesterkaczmarek/alignment-metaplasticity
+> Kaczmarek, S. (2026). *Alignment-Selective Metaplasticity*. GitHub. https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity
 
 **BibTeX**
 
@@ -344,7 +344,7 @@ If you use or adapt this repository, please cite
   author = {Sylvester Kaczmarek},
   title  = {{Alignment-Selective Metaplasticity}},
   year   = {2026},
-  url    = {https://github.com/sylvesterkaczmarek/alignment-metaplasticity}
+  url    = {https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity}
 }
 ```
 
