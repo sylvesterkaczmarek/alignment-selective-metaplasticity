@@ -25,4 +25,4 @@ jobs:
         run: pytest -q
       - name: Smoke experiment
         if: matrix.python-version == '3.11'
-        run: python -m experiments.baseline_forgetting --seeds 7 --out /tmp/alignment-metaplasticity-smoke
+        run: python -m experiments.baseline_forgetting --seeds 7 --out /tmp/alignment-selective-metaplasticity-smoke
