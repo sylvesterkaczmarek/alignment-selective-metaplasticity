@@ -2,9 +2,54 @@
 
 ![Alignment-Selective Metaplasticity](assets/social/github-social-card-alignment-selective-metaplasticity.png)
 
+[![CI](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/actions/workflows/ci.yml/badge.svg)](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 Controlled PyTorch experiments testing whether selective metaplasticity can preserve an alignment-relevant behavior through sequential capability updates.
 
 The benchmark uses a small selective-corrigibility proxy: a model must accept authorized corrections while resisting otherwise comparable unauthorized interventions. After learning that distinction, the same network learns new capability tasks in sequence. The experiment compares ordinary fine-tuning, static protection, Elastic Weight Consolidation, and a dynamic metaplastic rule that reduces the future updateability of parameters repeatedly implicated in the alignment proxy.
+
+## At a glance
+
+```mermaid
+flowchart LR
+    A["Selective-corrigibility pretraining"] --> B["Estimate alignment importance"]
+    B --> C["Sequential capability updates"]
+    C --> D["Fine-tuning"]
+    C --> E["Static freezing"]
+    C --> F["EWC"]
+    C --> G["Selective metaplasticity"]
+    D --> H["Measure retention, capability, forgetting, and drift"]
+    E --> H
+    F --> H
+    G --> H
+    H --> I["Route-around challenge"]
+```
+
+On the included three-seed synthetic benchmark, **alignment-selective metaplasticity retains a selective-corrigibility score of 0.732 ± 0.022 after sequential capability updates**, compared with 0.647 ± 0.036 for EWC, while mean new-capability acquisition remains about 0.97. The route-around challenge still succeeds, which is the key negative result: protecting an existing substrate does not stop optimization from learning another path around it.
+
+## Core mechanism
+
+The implementation is intentionally small. The central update path is: estimate which parameters matter for the alignment proxy, convert that importance into a future plasticity scale, then use that scale during later capability training.
+
+```python
+importance = compute_gradient_importance(
+    model, alignment_train, device, max_batches=max_batches, quantile=quantile
+)
+
+plasticity = plasticity_from_importance(
+    importance, strength=strength, min_plasticity=min_plasticity
+)
+
+train_epochs(
+    model, capability_loader, device,
+    epochs=capability_epochs, lr=lr, grad_scale=plasticity
+)
+```
+
+Higher alignment importance produces a smaller future gradient scale. Parameters unrelated to the alignment proxy remain comparatively free to change. The full implementation is in [`src/alignment_metaplasticity/`](src/alignment_metaplasticity/).
 
 ## Project overview
 
