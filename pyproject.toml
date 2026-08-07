@@ -22,7 +22,7 @@ dev = ["pytest>=8,<10"]
 
 [project.urls]
 Homepage = "https://www.sylvesterkaczmarek.com"
-Repository = "https://github.com/sylvesterkaczmarek/alignment-metaplasticity"
+Repository = "https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity"
 
 [tool.setuptools.packages.find]
 where = ["src"]
