@@ -1,0 +1,12 @@
+device: cpu
+importance:
+  max_batches: 8
+  quantile: 0.95
+metaplastic:
+  strength: 200.0
+  min_plasticity: 0.05
+  ema_decay: 0.80
+static:
+  freeze_quantile: 0.85
+ewc:
+  lambda: 18.0

@@ -1,0 +1,8 @@
+seed: 7
+device: cpu
+training:
+  alignment_epochs: 18
+  capability_epochs: 14
+  bypass_epochs: 12
+  lr: 0.03
+  weight_decay: 0.0001

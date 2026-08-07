@@ -1,0 +1,6 @@
+device: cpu
+ewc:
+  lambda: 18.0
+importance:
+  max_batches: 8
+  quantile: 0.95
