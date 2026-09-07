@@ -28,7 +28,7 @@ flowchart LR
     H --> I["Route-around challenge"]
 ```
 
-On the included three-seed synthetic benchmark, **alignment-selective metaplasticity retains a selective-corrigibility score of 0.732 ± 0.022 after sequential capability updates**, compared with 0.647 ± 0.036 for EWC, while mean new-capability acquisition remains about 0.97. The route-around challenge still succeeds, which is the key negative result: protecting an existing substrate does not stop optimization from learning another path around it.
+The corrected three-seed benchmark shows a retention/acquisition trade-off. **The EWC-style baseline retains a selective-corrigibility score of 0.982 ± 0.013**, compared with 0.735 ± 0.022 for metaplasticity. Metaplasticity has higher immediate new-capability acquisition, 0.968 ± 0.002 versus 0.928 ± 0.014. Both permit essentially complete context-specific bypass after joint attack and alignment-rehearsal training. These fixed settings support a descriptive comparison; they do not establish general superiority of either method.
 
 ## Core mechanism
 
@@ -45,11 +45,12 @@ plasticity = plasticity_from_importance(
 
 train_epochs(
     model, capability_loader, device,
-    epochs=capability_epochs, lr=lr, grad_scale=plasticity
+    epochs=capability_epochs, lr=lr,
+    weight_decay=weight_decay, grad_scale=plasticity
 )
 ```
 
-Higher alignment importance produces a smaller future gradient scale. Parameters unrelated to the alignment proxy remain comparatively free to change. The full implementation is in [`src/alignment_metaplasticity/`](src/alignment_metaplasticity/).
+Higher alignment importance produces a smaller future gradient scale. The coefficient applies to the loss gradient and weight decay before momentum, so decay cannot bypass protection. Parameters with low measured importance remain comparatively free to change. The full implementation is in [`src/alignment_metaplasticity/`](src/alignment_metaplasticity/).
 
 ## Project overview
 
@@ -117,7 +118,7 @@ High-importance parameter elements are identified after alignment pretraining an
 
 ### Elastic Weight Consolidation
 
-A diagonal EWC penalty discourages movement of parameters estimated to matter for the alignment task.
+A diagonal EWC-style penalty discourages movement from the aligned model using `lambda / 2 * sum(importance * displacement**2)`. It uses this benchmark's normalised squared minibatch-gradient proxy for importance. The exact estimator and differences from Fisher-based EWC are documented in [the method](docs/method.md).
 
 ### Alignment-selective metaplasticity
 
@@ -148,26 +149,26 @@ Two capability measures are kept separate:
 
 The bypass phase introduces an explicit new context feature. In that context, training rewards following an otherwise unauthorized intervention. The same training set also contains ordinary alignment examples that reward preserving the original behavior outside the bypass context.
 
-High bypass success together with high normal alignment retention is therefore evidence that the model learned a separate context-dependent route rather than merely erasing the original behavior.
+High bypass success together with a high final ordinary-alignment score demonstrates coexistence of the two behaviours after joint training. Ordinary alignment can recover during rehearsal. These endpoint measurements cannot establish continuous preservation or identify a separate causal circuit.
 
 This is a synthetic stress test, not a model of strategic deception.
 
 ## Results snapshot
 
-Reference results from three fixed seeds (`7`, `17`, `29`). Values are mean ± standard deviation. These are descriptive results from a small controlled benchmark, not inferential claims.
+Reference results from three fixed seeds (`7`, `17`, `29`), regenerated after correcting protected weight decay, the EWC penalty and static mask selection. Values are mean ± sample standard deviation. The CPU run used Python 3.12.13, PyTorch 2.14.0 and NumPy 2.3.5 with one intra-operation thread; full runtime settings and source hashes are recorded with the runs. These are descriptive results from a small controlled benchmark.
 
 | Method | Alignment after capability updates | Alignment forgetting | New capability acquisition | Final capability retention | Bypass success | Alignment after bypass |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | Fine-tuning | 0.482 ± 0.010 | 0.518 ± 0.010 | 0.972 ± 0.002 | 0.583 ± 0.005 | 0.991 ± 0.005 | 0.278 ± 0.245 |
-| Static freezing | 0.550 ± 0.015 | 0.450 ± 0.015 | 0.970 ± 0.003 | 0.583 ± 0.005 | 1.000 ± 0.000 | 1.000 ± 0.000 |
-| EWC | 0.647 ± 0.036 | 0.353 ± 0.036 | 0.967 ± 0.001 | 0.581 ± 0.004 | 1.000 ± 0.000 | 1.000 ± 0.000 |
-| Alignment-selective metaplasticity | **0.732 ± 0.022** | **0.268 ± 0.022** | 0.968 ± 0.001 | **0.613 ± 0.011** | 1.000 ± 0.000 | 0.997 ± 0.002 |
+| Static freezing | 0.552 ± 0.017 | 0.448 ± 0.017 | 0.970 ± 0.003 | 0.583 ± 0.006 | 1.000 ± 0.000 | 1.000 ± 0.000 |
+| EWC-style | 0.982 ± 0.013 | 0.018 ± 0.013 | 0.928 ± 0.014 | 0.592 ± 0.028 | 1.000 ± 0.000 | 1.000 ± 0.000 |
+| Alignment-selective metaplasticity | 0.735 ± 0.022 | 0.265 ± 0.022 | 0.968 ± 0.002 | 0.614 ± 0.012 | 1.000 ± 0.000 | 0.998 ± 0.002 |
 
-In this benchmark, the metaplastic condition retains more of the selective-corrigibility proxy than the three comparison methods while preserving similar immediate new-task acquisition.
+At these settings, metaplasticity retains more alignment than fine-tuning or static freezing and acquires new tasks more accurately than the EWC-style baseline. EWC-style protection retains substantially more alignment. The earlier claim that metaplasticity led all comparison methods is superseded by this corrected result. Hyperparameters were kept unchanged; equal numeric coefficients across old and corrected EWC implementations do not represent equal penalty strength.
 
-The stronger negative result is the bypass test. Static freezing, EWC, and metaplasticity all allow essentially perfect context-specific bypass behavior while leaving the original alignment benchmark intact. Protecting the original substrate therefore does not prevent optimization from learning an alternative route around it.
+Static freezing, EWC-style protection and metaplasticity all reach essentially perfect context-specific bypass scores together with high final ordinary-alignment scores. The attack phase explicitly rehearses ordinary alignment, so its post-training score can include recovery from earlier forgetting. This outcome shows that final ordinary-alignment accuracy alone cannot rule out the trained context-specific failure.
 
-The checked aggregate snapshot is in [`results/summary_summary.json`](results/summary_summary.json). The reference suite regenerates full run-level JSON, the strength ablation, and all figures from the code and fixed seeds.
+The checked evidence includes [all 12 runs](results/summary.json), [aggregate statistics](results/summary_summary.json), and the [five-strength ablation](results/plasticity_ablation.json). Source hashes link these files to the executed package. The reference workflow regenerates the JSON and figures from fixed seeds.
 
 ## Features
 
@@ -198,6 +199,12 @@ source .venv/bin/activate
 
 python -m pip install --upgrade pip
 pip install -e ".[dev]"
+```
+
+For the reference CPU thread settings and headless plotting:
+
+```bash
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MPLBACKEND=Agg
 ```
 
 Run the tests:
@@ -268,9 +275,11 @@ results/
     └── plasticity_ablation.png
 ```
 
-`summary.json` contains each seed, each method, per-task alignment history, capability accuracy, parameter drift, and bypass results.
+`summary.json` contains each seed, each method, per-task alignment history, capability accuracy, parameter drift, bypass results, and runtime/source metadata. Unknown method names and duplicate seeds are rejected before training.
 
 `summary_summary.json` contains method-level mean, standard deviation, and sample count.
+
+Individual named experiments place their figures in `results/<experiment-stem>/figures/` to preserve the full reference plots. The public capability generator separates `rule_seed` from the sample seed, keeping the classification problem fixed across training and evaluation.
 
 ## Repository layout
 
@@ -296,7 +305,9 @@ alignment-selective-metaplasticity/
 │   ├── plasticity_ablation.py
 │   └── run_all.py
 ├── results/
-│   └── summary_summary.json
+│   ├── summary.json
+│   ├── summary_summary.json
+│   └── plasticity_ablation.json
 ├── scripts/
 │   └── run_reference_suite.sh
 ├── src/

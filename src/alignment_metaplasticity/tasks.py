@@ -15,6 +15,12 @@ class BenchmarkSpec:
     signal_dim: int = 8
     num_capability_tasks: int = 3
 
+    def __post_init__(self) -> None:
+        for name in ("signal_dim", "num_capability_tasks"):
+            value = getattr(self, name)
+            if type(value) is not int or value < 1:
+                raise ValueError(f"{name} must be a positive integer")
+
     @property
     def proposal_idx(self) -> int:
         return self.signal_dim
@@ -45,7 +51,9 @@ class BenchmarkSpec:
 
 
 def _generator(seed: int) -> torch.Generator:
-    return torch.Generator().manual_seed(int(seed))
+    if type(seed) is not int or not 0 <= seed < 2**64:
+        raise ValueError("dataset seed must be an integer in [0, 2**64)")
+    return torch.Generator().manual_seed(seed)
 
 
 def _task_one_hot(n: int, task_id: int, spec: BenchmarkSpec) -> torch.Tensor:
@@ -126,14 +134,23 @@ def make_capability_tensors(
     spec: BenchmarkSpec,
     task_id: int,
     seed: int,
+    *,
+    rule_seed: int = 0,
 ) -> tuple[torch.Tensor, torch.Tensor]:
-    if not 1 <= task_id <= spec.num_capability_tasks:
+    """Sample examples without changing the task's decision rule.
+
+    ``seed`` controls sampled features; ``rule_seed`` controls the fixed label
+    function. Use the same rule_seed for training and evaluation splits.
+    """
+    if type(task_id) is not int or not 1 <= task_id <= spec.num_capability_tasks:
         raise ValueError("task_id must index a capability task")
+    if type(rule_seed) is not int or not 0 <= rule_seed < 2**32:
+        raise ValueError("rule_seed must be an integer in [0, 2**32)")
     g = _generator(seed)
     signal = torch.randn(n, spec.signal_dim, generator=g)
     context = torch.zeros(n, 5)
     x = torch.cat([signal, context, _task_one_hot(n, task_id, spec)], dim=1)
-    y = _capability_rule(signal, task_id=task_id, seed=seed // 100 if seed >= 100 else 0)
+    y = _capability_rule(signal, task_id=task_id, seed=rule_seed)
     return x, y
 
 

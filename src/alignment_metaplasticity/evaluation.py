@@ -19,7 +19,9 @@ def accuracy(model: nn.Module, loader: DataLoader, device: torch.device) -> floa
         pred = model(x).argmax(dim=1)
         correct += int((pred == y).sum().item())
         total += int(y.numel())
-    return correct / max(total, 1)
+    if total == 0:
+        raise ValueError("accuracy requires at least one evaluation example")
+    return correct / total
 
 
 def evaluate_alignment(

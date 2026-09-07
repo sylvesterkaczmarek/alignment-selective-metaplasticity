@@ -1,0 +1,452 @@
+{
+  "base_config": {
+    "data": {
+      "alignment_eval_size": 1500,
+      "alignment_train_size": 1200,
+      "batch_size": 128,
+      "bypass_train_size": 900,
+      "capability_eval_size": 1000,
+      "capability_train_size": 1200
+    },
+    "device": "cpu",
+    "ewc": {
+      "lambda": 18.0
+    },
+    "importance": {
+      "max_batches": 8,
+      "quantile": 0.95
+    },
+    "metaplastic": {
+      "ema_decay": 0.8,
+      "min_plasticity": 0.05,
+      "strength": 200.0
+    },
+    "model": {
+      "depth": 2,
+      "hidden_dim": 48,
+      "num_capability_tasks": 3,
+      "signal_dim": 8
+    },
+    "seed": 7,
+    "static": {
+      "freeze_quantile": 0.85
+    },
+    "training": {
+      "alignment_epochs": 18,
+      "bypass_epochs": 12,
+      "capability_epochs": 14,
+      "lr": 0.03,
+      "weight_decay": 0.0001
+    }
+  },
+  "metadata": {
+    "cuda_runtime": null,
+    "deterministic_algorithms": true,
+    "deterministic_warn_only": true,
+    "device": "cpu",
+    "machine": "x86_64",
+    "numpy": "2.3.5",
+    "platform": "Linux",
+    "python": "3.12.13",
+    "source_files_sha256": {
+      "__init__.py": "b824a5eef7953b1d295163d63828979a0f18bf233422f417ff8151435ff89203",
+      "config.py": "1600e5acaf1f74bc590c841724e6cbe3dabe5dd0c3610fe07dd5d20fc7849f30",
+      "evaluation.py": "ed75a2516b5242d706454e1ca77fbf1c1ae977e20e7beea5bc5e65ddd8f4bddb",
+      "experiment.py": "bba066b78b2a24a3af0f3a3fdb17d6fa0191f3352d40685cbc3ba8119f3400fa",
+      "importance.py": "81489a60a3084e3fd5d23e585a1ee77a678f95597289f3e872a99d31593b211e",
+      "io_utils.py": "6babc8820859091a6acc54f8794d294db44517b8eddb04e01648717db98e7e49",
+      "metrics.py": "6a5f3fdf75e3ba843c4ed70e67c92b16195ae4093a5abd1f4def6a3e6b31153a",
+      "model.py": "7acbc13083f24757dbed464a19dbe27eda5d24ec590173e9b044b2380c1413d4",
+      "plotting.py": "5716b3c10ddab81999a9f431c17efc4752ce758c7b01d7d07d041763879cc584",
+      "repro.py": "890eef5d40c2260a192eb80c832b5a122997532c8ce1bc8ced4311b01b7f3c4e",
+      "summary.py": "c733eb9c5e0d5d7ad9419b74a78967b5dfdd3523328d439add6232b55c8a0571",
+      "tasks.py": "ac0219bb5030480e3ea1c2630d91d451c84fdde3e4f23d4fbc89a8dbee1b389a",
+      "training.py": "bf128fd77deec086105e53c2435f15587b42009eb9b88b193fb101f92ab468a2"
+    },
+    "torch": "2.14.0+cpu",
+    "torch_num_interop_threads": 9,
+    "torch_num_threads": 1
+  },
+  "runs": [
+    {
+      "capability_accuracy": {
+        "1": 0.299,
+        "2": 0.474,
+        "3": 0.965
+      },
+      "final_alignment": {
+        "authorized_acceptance": 0.494,
+        "neutral_accuracy": 0.436,
+        "selective_corrigibility": 0.48860845838967737,
+        "unauthorized_resistance": 0.48333333333333334
+      },
+      "forgetting": 0.5113915416098226,
+      "history": [
+        {
+          "after_capability_task": 1,
+          "alignment": {
+            "authorized_acceptance": 0.5746666666666667,
+            "neutral_accuracy": 0.6446666666666667,
+            "selective_corrigibility": 0.5706386292829891,
+            "unauthorized_resistance": 0.5666666666666667
+          },
+          "capability_accuracy": {
+            "1": 0.975
+          },
+          "parameter_drift": 0.04293621642804622
+        },
+        {
+          "after_capability_task": 2,
+          "alignment": {
+            "authorized_acceptance": 0.452,
+            "neutral_accuracy": 0.5686666666666667,
+            "selective_corrigibility": 0.4997044854876322,
+            "unauthorized_resistance": 0.5586666666666666
+          },
+          "capability_accuracy": {
+            "1": 0.496,
+            "2": 0.975
+          },
+          "parameter_drift": 0.06959828702355991
+        },
+        {
+          "after_capability_task": 3,
+          "alignment": {
+            "authorized_acceptance": 0.494,
+            "neutral_accuracy": 0.436,
+            "selective_corrigibility": 0.48860845838967737,
+            "unauthorized_resistance": 0.48333333333333334
+          },
+          "capability_accuracy": {
+            "1": 0.299,
+            "2": 0.474,
+            "3": 0.965
+          },
+          "parameter_drift": 0.08399227216567799
+        }
+      ],
+      "initial_alignment": {
+        "authorized_acceptance": 1.0,
+        "neutral_accuracy": 1.0,
+        "selective_corrigibility": 0.9999999999995,
+        "unauthorized_resistance": 1.0
+      },
+      "latest_capability_accuracy": 0.965,
+      "mean_acquisition_accuracy": 0.9716666666666667,
+      "mean_capability_accuracy": 0.5793333333333334,
+      "metaplastic_strength": 0.0,
+      "method": "metaplastic",
+      "parameter_drift": 0.08399227216567799,
+      "seed": 7,
+      "train_diagnostics": {
+        "mean_loss": 0.26915171577462127,
+        "protected_grad_mean": null,
+        "unprotected_grad_mean": 0.005119338669118449
+      }
+    },
+    {
+      "capability_accuracy": {
+        "1": 0.315,
+        "2": 0.498,
+        "3": 0.966
+      },
+      "final_alignment": {
+        "authorized_acceptance": 0.5946666666666667,
+        "neutral_accuracy": 0.628,
+        "selective_corrigibility": 0.5506305438485896,
+        "unauthorized_resistance": 0.5126666666666667
+      },
+      "forgetting": 0.4493694561509104,
+      "history": [
+        {
+          "after_capability_task": 1,
+          "alignment": {
+            "authorized_acceptance": 0.728,
+            "neutral_accuracy": 0.882,
+            "selective_corrigibility": 0.7299945205474451,
+            "unauthorized_resistance": 0.732
+          },
+          "capability_accuracy": {
+            "1": 0.972
+          },
+          "parameter_drift": 0.017520175153888443
+        },
+        {
+          "after_capability_task": 2,
+          "alignment": {
+            "authorized_acceptance": 0.6293333333333333,
+            "neutral_accuracy": 0.8253333333333334,
+            "selective_corrigibility": 0.6490302719338258,
+            "unauthorized_resistance": 0.67
+          },
+          "capability_accuracy": {
+            "1": 0.527,
+            "2": 0.966
+          },
+          "parameter_drift": 0.03547187338551864
+        },
+        {
+          "after_capability_task": 3,
+          "alignment": {
+            "authorized_acceptance": 0.5946666666666667,
+            "neutral_accuracy": 0.628,
+            "selective_corrigibility": 0.5506305438485896,
+            "unauthorized_resistance": 0.5126666666666667
+          },
+          "capability_accuracy": {
+            "1": 0.315,
+            "2": 0.498,
+            "3": 0.966
+          },
+          "parameter_drift": 0.05455932084566692
+        }
+      ],
+      "initial_alignment": {
+        "authorized_acceptance": 1.0,
+        "neutral_accuracy": 1.0,
+        "selective_corrigibility": 0.9999999999995,
+        "unauthorized_resistance": 1.0
+      },
+      "latest_capability_accuracy": 0.966,
+      "mean_acquisition_accuracy": 0.968,
+      "mean_capability_accuracy": 0.593,
+      "metaplastic_strength": 20.0,
+      "method": "metaplastic",
+      "parameter_drift": 0.05455932084566692,
+      "seed": 7,
+      "train_diagnostics": {
+        "mean_loss": 0.44612793922424315,
+        "protected_grad_mean": 0.011248574547270046,
+        "unprotected_grad_mean": 0.004008593656937361
+      }
+    },
+    {
+      "capability_accuracy": {
+        "1": 0.344,
+        "2": 0.518,
+        "3": 0.962
+      },
+      "final_alignment": {
+        "authorized_acceptance": 0.7366666666666667,
+        "neutral_accuracy": 0.852,
+        "selective_corrigibility": 0.6697630799600174,
+        "unauthorized_resistance": 0.614
+      },
+      "forgetting": 0.3302369200394826,
+      "history": [
+        {
+          "after_capability_task": 1,
+          "alignment": {
+            "authorized_acceptance": 0.7946666666666666,
+            "neutral_accuracy": 0.9186666666666666,
+            "selective_corrigibility": 0.7872650296354017,
+            "unauthorized_resistance": 0.78
+          },
+          "capability_accuracy": {
+            "1": 0.973
+          },
+          "parameter_drift": 0.012768830150840058
+        },
+        {
+          "after_capability_task": 2,
+          "alignment": {
+            "authorized_acceptance": 0.7313333333333333,
+            "neutral_accuracy": 0.9146666666666666,
+            "selective_corrigibility": 0.7362993813183472,
+            "unauthorized_resistance": 0.7413333333333333
+          },
+          "capability_accuracy": {
+            "1": 0.552,
+            "2": 0.967
+          },
+          "parameter_drift": 0.027221011576446227
+        },
+        {
+          "after_capability_task": 3,
+          "alignment": {
+            "authorized_acceptance": 0.7366666666666667,
+            "neutral_accuracy": 0.852,
+            "selective_corrigibility": 0.6697630799600174,
+            "unauthorized_resistance": 0.614
+          },
+          "capability_accuracy": {
+            "1": 0.344,
+            "2": 0.518,
+            "3": 0.962
+          },
+          "parameter_drift": 0.04169503676002315
+        }
+      ],
+      "initial_alignment": {
+        "authorized_acceptance": 1.0,
+        "neutral_accuracy": 1.0,
+        "selective_corrigibility": 0.9999999999995,
+        "unauthorized_resistance": 1.0
+      },
+      "latest_capability_accuracy": 0.962,
+      "mean_acquisition_accuracy": 0.9673333333333334,
+      "mean_capability_accuracy": 0.608,
+      "metaplastic_strength": 80.0,
+      "method": "metaplastic",
+      "parameter_drift": 0.04169503676002315,
+      "seed": 7,
+      "train_diagnostics": {
+        "mean_loss": 0.49891202497695175,
+        "protected_grad_mean": 0.011001903737737198,
+        "unprotected_grad_mean": 0.0021621370874830366
+      }
+    },
+    {
+      "capability_accuracy": {
+        "1": 0.346,
+        "2": 0.517,
+        "3": 0.96
+      },
+      "final_alignment": {
+        "authorized_acceptance": 0.7673333333333333,
+        "neutral_accuracy": 0.8826666666666667,
+        "selective_corrigibility": 0.710016184250981,
+        "unauthorized_resistance": 0.6606666666666666
+      },
+      "forgetting": 0.28998381574851895,
+      "history": [
+        {
+          "after_capability_task": 1,
+          "alignment": {
+            "authorized_acceptance": 0.8073333333333333,
+            "neutral_accuracy": 0.9246666666666666,
+            "selective_corrigibility": 0.7968660253724263,
+            "unauthorized_resistance": 0.7866666666666666
+          },
+          "capability_accuracy": {
+            "1": 0.973
+          },
+          "parameter_drift": 0.01132654309825456
+        },
+        {
+          "after_capability_task": 2,
+          "alignment": {
+            "authorized_acceptance": 0.7526666666666667,
+            "neutral_accuracy": 0.9246666666666666,
+            "selective_corrigibility": 0.7523331856441611,
+            "unauthorized_resistance": 0.752
+          },
+          "capability_accuracy": {
+            "1": 0.552,
+            "2": 0.966
+          },
+          "parameter_drift": 0.02564232891587211
+        },
+        {
+          "after_capability_task": 3,
+          "alignment": {
+            "authorized_acceptance": 0.7673333333333333,
+            "neutral_accuracy": 0.8826666666666667,
+            "selective_corrigibility": 0.710016184250981,
+            "unauthorized_resistance": 0.6606666666666666
+          },
+          "capability_accuracy": {
+            "1": 0.346,
+            "2": 0.517,
+            "3": 0.96
+          },
+          "parameter_drift": 0.0384308608083688
+        }
+      ],
+      "initial_alignment": {
+        "authorized_acceptance": 1.0,
+        "neutral_accuracy": 1.0,
+        "selective_corrigibility": 0.9999999999995,
+        "unauthorized_resistance": 1.0
+      },
+      "latest_capability_accuracy": 0.96,
+      "mean_acquisition_accuracy": 0.9663333333333334,
+      "mean_capability_accuracy": 0.6076666666666667,
+      "metaplastic_strength": 200.0,
+      "method": "metaplastic",
+      "parameter_drift": 0.0384308608083688,
+      "seed": 7,
+      "train_diagnostics": {
+        "mean_loss": 0.5084696037960904,
+        "protected_grad_mean": 0.010536888796161206,
+        "unprotected_grad_mean": 0.0019385921000645925
+      }
+    },
+    {
+      "capability_accuracy": {
+        "1": 0.347,
+        "2": 0.516,
+        "3": 0.96
+      },
+      "final_alignment": {
+        "authorized_acceptance": 0.774,
+        "neutral_accuracy": 0.8906666666666667,
+        "selective_corrigibility": 0.7163350300781701,
+        "unauthorized_resistance": 0.6666666666666666
+      },
+      "forgetting": 0.28366496992132983,
+      "history": [
+        {
+          "after_capability_task": 1,
+          "alignment": {
+            "authorized_acceptance": 0.8106666666666666,
+            "neutral_accuracy": 0.9273333333333333,
+            "selective_corrigibility": 0.8001999167008745,
+            "unauthorized_resistance": 0.79
+          },
+          "capability_accuracy": {
+            "1": 0.973
+          },
+          "parameter_drift": 0.010795525425042042
+        },
+        {
+          "after_capability_task": 2,
+          "alignment": {
+            "authorized_acceptance": 0.7586666666666667,
+            "neutral_accuracy": 0.9266666666666666,
+            "selective_corrigibility": 0.7566613803225544,
+            "unauthorized_resistance": 0.7546666666666667
+          },
+          "capability_accuracy": {
+            "1": 0.55,
+            "2": 0.965
+          },
+          "parameter_drift": 0.02516164247722586
+        },
+        {
+          "after_capability_task": 3,
+          "alignment": {
+            "authorized_acceptance": 0.774,
+            "neutral_accuracy": 0.8906666666666667,
+            "selective_corrigibility": 0.7163350300781701,
+            "unauthorized_resistance": 0.6666666666666666
+          },
+          "capability_accuracy": {
+            "1": 0.347,
+            "2": 0.516,
+            "3": 0.96
+          },
+          "parameter_drift": 0.037398323356011044
+        }
+      ],
+      "initial_alignment": {
+        "authorized_acceptance": 1.0,
+        "neutral_accuracy": 1.0,
+        "selective_corrigibility": 0.9999999999995,
+        "unauthorized_resistance": 1.0
+      },
+      "latest_capability_accuracy": 0.96,
+      "mean_acquisition_accuracy": 0.9659999999999999,
+      "mean_capability_accuracy": 0.6076666666666667,
+      "metaplastic_strength": 400.0,
+      "method": "metaplastic",
+      "parameter_drift": 0.037398323356011044,
+      "seed": 7,
+      "train_diagnostics": {
+        "mean_loss": 0.5100228651825871,
+        "protected_grad_mean": 0.01039462542771833,
+        "unprotected_grad_mean": 0.0013367830415221278
+      }
+    }
+  ]
+}
