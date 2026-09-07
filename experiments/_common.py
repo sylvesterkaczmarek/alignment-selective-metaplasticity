@@ -24,6 +24,7 @@ def run_named(default_config: str, stem: str, methods=METHODS, include_bypass: b
     out = Path(args.out)
     write_json(out / f"{stem}.json", suite)
     write_json(out / f"{stem}_summary.json", summary)
-    plot_summary(summary, out / "figures")
+    figure_dir = out / "figures" if stem == "summary" else out / stem / "figures"
+    plot_summary(summary, figure_dir)
     print(f"wrote {out / f'{stem}.json'}")
     print(f"wrote {out / f'{stem}_summary.json'}")

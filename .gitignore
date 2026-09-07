@@ -15,3 +15,7 @@ venv/
 # Local experiment artefacts
 results/local/
 *.log
+build/
+dist/
+results/figures/
+results/*/figures/

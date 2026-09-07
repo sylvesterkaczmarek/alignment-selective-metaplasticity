@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
+import math
+from numbers import Real
 
 import torch
 from torch import nn
@@ -23,13 +25,21 @@ def _ewc_penalty(
     anchor: TensorMap,
     importance: TensorMap,
 ) -> torch.Tensor:
+    """Return half the importance-weighted sum over scalar parameters.
+
+    ``ewc_lambda`` multiplies this penalty in ``train_epochs``. Importance is
+    the benchmark's normalized squared minibatch-gradient proxy, rather than
+    an estimate of the model Fisher information.
+    """
     terms = []
     for name, p in model.named_parameters():
         if p.requires_grad and name in anchor:
-            terms.append((importance[name] * (p - anchor[name].to(p.device)).pow(2)).mean())
+            delta = p - anchor[name].to(device=p.device, dtype=p.dtype)
+            weights = importance[name].to(device=p.device, dtype=p.dtype)
+            terms.append((weights * delta.pow(2)).sum())
     if not terms:
         return torch.zeros((), device=next(model.parameters()).device)
-    return torch.stack(terms).sum()
+    return 0.5 * torch.stack(terms).sum()
 
 
 def train_epochs(
@@ -46,8 +56,18 @@ def train_epochs(
     ewc_importance: TensorMap | None = None,
     ewc_lambda: float = 0.0,
 ) -> TrainDiagnostics:
+    if (
+        isinstance(weight_decay, bool)
+        or not isinstance(weight_decay, Real)
+        or not math.isfinite(weight_decay)
+        or weight_decay < 0
+    ):
+        raise ValueError("weight_decay must be a finite nonnegative number")
     criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9, weight_decay=weight_decay)
+    # Apply L2 decay before protection so it cannot move frozen elements or
+    # bypass their plasticity coefficient. Momentum starts fresh for each call;
+    # the fixed mask/scale therefore also applies to its accumulated updates.
+    optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9, weight_decay=0.0)
     losses: list[float] = []
     protected_grads: list[float] = []
     unprotected_grads: list[float] = []
@@ -62,10 +82,11 @@ def train_epochs(
                 loss = loss + ewc_lambda * _ewc_penalty(model, ewc_anchor, ewc_importance)
             loss.backward()
 
-            if grad_scale is not None:
-                for name, p in model.named_parameters():
-                    if p.grad is None or name not in grad_scale:
-                        continue
+            for name, p in model.named_parameters():
+                if p.grad is None:
+                    continue
+                scale = None
+                if grad_scale is not None and name in grad_scale:
                     scale = grad_scale[name].to(p.grad.device)
                     imp_proxy = 1.0 - scale
                     protected = imp_proxy >= 0.5
@@ -73,12 +94,12 @@ def train_epochs(
                         protected_grads.append(float(p.grad.detach().abs()[protected].mean().item()))
                     if (~protected).any():
                         unprotected_grads.append(float(p.grad.detach().abs()[~protected].mean().item()))
+                if weight_decay:
+                    p.grad.add_(p.detach(), alpha=weight_decay)
+                if scale is not None:
                     p.grad.mul_(scale)
-
-            if grad_mask is not None:
-                for name, p in model.named_parameters():
-                    if p.grad is not None and name in grad_mask:
-                        p.grad.mul_(grad_mask[name].to(p.grad.device))
+                if grad_mask is not None and name in grad_mask:
+                    p.grad.mul_(grad_mask[name].to(p.grad.device))
 
             optimizer.step()
             losses.append(float(loss.detach().item()))

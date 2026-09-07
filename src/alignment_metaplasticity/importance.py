@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+import math
+from numbers import Real
 
 import torch
 from torch import nn
@@ -8,6 +10,24 @@ from torch.utils.data import DataLoader
 
 
 TensorMap = dict[str, torch.Tensor]
+
+
+def _finite_number(name: str, value: float, *, upper: float | None = None) -> None:
+    if (
+        isinstance(value, bool)
+        or not isinstance(value, Real)
+        or not math.isfinite(value)
+        or value < 0
+        or (upper is not None and value > upper)
+    ):
+        bound = "nonnegative" if upper is None else f"between 0 and {upper:g}"
+        raise ValueError(f"{name} must be a finite number {bound}")
+
+
+def _validate_values(importance: Mapping[str, torch.Tensor]) -> None:
+    for name, value in importance.items():
+        if not torch.isfinite(value).all() or (value < 0).any():
+            raise ValueError(f"importance[{name!r}] must contain finite nonnegative values")
 
 
 def clone_parameters(model: nn.Module) -> TensorMap:
@@ -21,7 +41,16 @@ def compute_gradient_importance(
     max_batches: int = 8,
     quantile: float = 0.95,
 ) -> TensorMap:
-    """Estimate diagonal parameter importance from squared alignment-loss gradients."""
+    """Average squared gradients of the mean alignment loss within each batch.
+
+    Batches receive equal weight, including a shorter final batch. Squaring
+    takes place after averaging example losses, so opposing example gradients
+    can cancel. This is a batch-dependent importance proxy, not a per-example
+    empirical Fisher estimate.
+    """
+    if type(max_batches) is not int or max_batches < 1:
+        raise ValueError("max_batches must be a positive integer")
+    _finite_number("quantile", quantile, upper=1.0)
     criterion = nn.CrossEntropyLoss()
     importance = {name: torch.zeros_like(p, device=device) for name, p in model.named_parameters() if p.requires_grad}
     seen = 0
@@ -48,6 +77,10 @@ def compute_gradient_importance(
 
 
 def normalize_importance(importance: Mapping[str, torch.Tensor], quantile: float = 0.95) -> TensorMap:
+    _finite_number("quantile", quantile, upper=1.0)
+    _validate_values(importance)
+    if not importance:
+        return {}
     flat = torch.cat([v.detach().flatten().float().cpu() for v in importance.values()])
     scale = torch.quantile(flat, quantile).item() if flat.numel() else 1.0
     scale = max(scale, 1e-12)
@@ -55,6 +88,7 @@ def normalize_importance(importance: Mapping[str, torch.Tensor], quantile: float
 
 
 def ema_importance(old: Mapping[str, torch.Tensor], new: Mapping[str, torch.Tensor], decay: float) -> TensorMap:
+    _finite_number("decay", decay, upper=1.0)
     return {name: decay * old[name] + (1.0 - decay) * new[name] for name in old}
 
 
@@ -63,6 +97,9 @@ def plasticity_from_importance(
     strength: float,
     min_plasticity: float,
 ) -> TensorMap:
+    _finite_number("strength", strength)
+    _finite_number("min_plasticity", min_plasticity, upper=1.0)
+    _validate_values(importance)
     return {
         name: min_plasticity + (1.0 - min_plasticity) * torch.exp(-strength * value)
         for name, value in importance.items()
@@ -70,6 +107,24 @@ def plasticity_from_importance(
 
 
 def static_train_masks(importance: Mapping[str, torch.Tensor], freeze_quantile: float) -> TensorMap:
-    flat = torch.cat([v.detach().flatten().float().cpu() for v in importance.values()])
-    threshold = torch.quantile(flat, freeze_quantile).item() if flat.numel() else float("inf")
-    return {name: (value < threshold).to(value.dtype) for name, value in importance.items()}
+    """Freeze the highest-ranked ``N - floor(freeze_quantile * N)`` elements.
+
+    Equal importances are ordered by mapping insertion order and then by flat
+    element index. This keeps the requested count even when many values tie;
+    quantile zero freezes every element and quantile one freezes none.
+    """
+    _finite_number("freeze_quantile", freeze_quantile, upper=1.0)
+    _validate_values(importance)
+    if not importance:
+        return {}
+    flat = torch.cat([v.detach().flatten().to(device="cpu", dtype=torch.float64) for v in importance.values()])
+    freeze_count = flat.numel() - math.floor(freeze_quantile * flat.numel())
+    ranked = torch.argsort(flat, descending=True, stable=True)
+    trainable = torch.ones(flat.numel(), dtype=torch.bool)
+    trainable[ranked[:freeze_count]] = False
+    masks = {}
+    offset = 0
+    for name, value in importance.items():
+        masks[name] = trainable[offset : offset + value.numel()].reshape(value.shape).to(value)
+        offset += value.numel()
+    return masks

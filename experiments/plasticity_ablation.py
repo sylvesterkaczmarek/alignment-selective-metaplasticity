@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 
 from alignment_metaplasticity.config import load_config
-from alignment_metaplasticity.experiment import run_method
+from alignment_metaplasticity.experiment import run_method, runtime_metadata
 from alignment_metaplasticity.io_utils import write_json
 from alignment_metaplasticity.plotting import plot_ablation
 
@@ -24,7 +24,7 @@ def main() -> None:
         run = run_method(cfg, args.seed, "metaplastic", include_bypass=False)
         run["metaplastic_strength"] = strength
         runs.append(run)
-    payload = {"base_config": base, "runs": runs}
+    payload = {"base_config": base, "metadata": runtime_metadata(base["device"]), "runs": runs}
     write_json(Path(args.out), payload)
     plot_ablation(payload, Path(args.out).parent / "figures" / "plasticity_ablation.png")
     print(f"wrote {args.out}")

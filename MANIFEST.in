@@ -1,0 +1,6 @@
+include Makefile requirements.txt requirements-dev.txt
+recursive-include configs *.yaml
+recursive-include docs *.md
+recursive-include experiments *.py
+include results/summary.json results/summary_summary.json results/plasticity_ablation.json
+recursive-include scripts *.sh
