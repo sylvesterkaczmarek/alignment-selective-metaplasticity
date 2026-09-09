@@ -1,5 +1,6 @@
 """A short CPU restart check; this is an optimisation example, not a safety result."""
 import copy
+import hashlib
 from pathlib import Path
 import tempfile
 
@@ -7,6 +8,7 @@ import torch
 from torch import nn
 
 from alignment_metaplasticity.checkpoint import save_checkpoint, load_checkpoint
+from alignment_metaplasticity.experiment import runtime_metadata
 from alignment_metaplasticity.repro import set_seed
 from alignment_metaplasticity.tasks import make_loader
 from alignment_metaplasticity.training import train_epochs
@@ -24,7 +26,8 @@ def main():
     kwargs={'device':torch.device('cpu'),'lr':.01,'weight_decay':.01,'update_scale':scale}
     train_epochs(full,fl,epochs=3,optimizer=fo,**kwargs)
     train_epochs(part,pl,epochs=1,optimizer=po,**kwargs)
-    provenance={'example':'restart-v1','config':{'lr':.01,'weight_decay':.01},'source':'experiments.restart_example'}
+    provenance={'example':'restart-v1','config':{'lr':.01,'weight_decay':.01},
+                'runtime':runtime_metadata('cpu'),'driver_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
     with tempfile.TemporaryDirectory() as directory:
         path=save_checkpoint(Path(directory)/'epoch.pt',part,po,loaders={'train':pl},
                              protection={'scale':scale},progress={'epoch':1},provenance=provenance)

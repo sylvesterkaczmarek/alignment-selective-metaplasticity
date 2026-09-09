@@ -27,9 +27,9 @@ def _ewc_penalty(
 ) -> torch.Tensor:
     """Return half the importance-weighted sum over scalar parameters.
 
-    ``ewc_lambda`` multiplies this penalty in ``train_epochs``. Importance is
-    the benchmark's normalized squared minibatch-gradient proxy, rather than
-    an estimate of the model Fisher information.
+    ``ewc_lambda`` multiplies this penalty in ``train_epochs``. The reference
+    benchmark supplies its normalized squared minibatch-gradient proxy;
+    callers may instead supply an explicitly named per-example estimate.
     """
     terms = []
     for name, p in model.named_parameters():

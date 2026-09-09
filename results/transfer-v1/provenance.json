@@ -6,11 +6,12 @@
   "initial_default_commit": "2157d6b4e2a926c3cd5db0aa0d0c20d581226aaf",
   "journal_uncompressed_sha256": "686949031d0a6194881fdd8a81399cca53e5cf218b19c3ff93e675ec3fbafeae",
   "schema_version": 1,
-  "source_note": "The source hashes in plan.json match the executed source commit. Subsequent changes tighten checkpoint input checks and add tests/documentation; they do not affect the recorded transfer training.",
+  "source_note": "The source hashes in plan.json match the executed source commit. Subsequent changes tighten checkpoint input checks, identify custom methods, enrich example provenance and update tests/documentation; they do not affect the recorded built-in transfer training.",
   "trials": 30,
   "validation": {
+    "custom_method": "Identity protection substituted through the callable interface reproduces fine-tuning weights and records a distinct method identifier.",
     "pairing": "all five methods share initial weights and data for each architecture/cell",
-    "pytest": "141 passed on Python 3.12.14, torch 2.14.0+cpu",
+    "pytest": "142 passed on Python 3.12.14, torch 2.14.0+cpu",
     "reference": "All summary values match the start-of-task rerun exactly. All historical non-drift summary fields match exactly; historical parameter-drift values differ by floating-point roundoff (maximum mean difference below 3e-9). Historical files were retained.",
     "restart_example": "executed; exact CPU AdamW restart"
   }

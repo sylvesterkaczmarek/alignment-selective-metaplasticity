@@ -103,13 +103,20 @@ class CountedLoader:
 class StudyRun:
     """One trial with explicit data access; supports a model and protection callable."""
     def __init__(self, cfg, trial: Trial, setting: Setting, *, model_factory: Callable = default_model,
-                 protection_factory: Callable | None = None, importance_estimator="batch", loader_factory=build_loaders):
+                 protection_factory: Callable | None = None, protection_name=None,
+                 importance_estimator="batch", loader_factory=build_loaders):
         validate_config(cfg)
         trial.validate(cfg["model"]["num_capability_tasks"])
         if cfg["device"] != "cpu":
             raise ValueError("controlled studies currently require CPU for measured runtime")
         self.cfg, self.trial, self.setting = cfg, trial, setting
+        if protection_factory is not None and (not isinstance(protection_name, str) or not protection_name.strip()
+                                              or protection_name in STUDY_METHODS):
+            raise ValueError("a custom protection factory requires a distinct protection_name")
+        if protection_factory is None and protection_name is not None:
+            raise ValueError("protection_name requires a custom protection factory")
         self.protection_factory = protection_factory
+        self.method_id = protection_name or setting.method
         if importance_estimator not in ("batch", "empirical", "model_fisher"):
             raise ValueError("unknown importance estimator")
         self.importance_estimator = importance_estimator
@@ -205,7 +212,8 @@ class StudyRun:
             process_peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * (1 if sys.platform == "darwin" else 1024)
         except ImportError:
             process_peak = None
-        return {"trial": asdict(self.trial), "setting": asdict(self.setting), "importance_estimator": self.importance_estimator, "initial_digest": self.initial_digest,
+        return {"trial": asdict(self.trial), "setting": asdict(self.setting), "method_id": self.method_id,
+                "importance_estimator": self.importance_estimator, "initial_digest": self.initial_digest,
                 "data_sha256": self.data_hashes, "initial_alignment": self.initial_alignment,
                 "alignment": self.history[-1]["alignment"], "history": self.history,
                 "acquisition": sum(h["capabilities"][str(h["task"])] for h in self.history) / len(self.history),
