@@ -31,3 +31,23 @@ class SelectiveCorrigibilityNet(nn.Module):
         h = self.input(x)
         h = self.blocks(h)
         return self.output(h)
+
+
+class SelectiveCorrigibilityTransformer(nn.Module):
+    """Small scalar-feature token encoder for an architecture-transfer check."""
+    def __init__(self, input_dim: int, hidden_dim: int = 48, depth: int = 2):
+        super().__init__()
+        if min(input_dim, hidden_dim, depth) < 1 or hidden_dim % 4:
+            raise ValueError("positive dimensions and hidden width divisible by four are required")
+        self.feature_vectors = nn.Parameter(torch.empty(input_dim, hidden_dim))
+        self.feature_bias = nn.Parameter(torch.empty(input_dim, hidden_dim))
+        nn.init.normal_(self.feature_vectors, std=.2)
+        nn.init.normal_(self.feature_bias, std=.2)
+        layer = nn.TransformerEncoderLayer(hidden_dim, 4, dim_feedforward=2*hidden_dim,
+                                           dropout=0., batch_first=True)
+        self.encoder = nn.TransformerEncoder(layer, depth, enable_nested_tensor=False)
+        self.output = nn.Linear(input_dim * hidden_dim, 2)
+
+    def forward(self, x):
+        tokens = x.unsqueeze(-1) * self.feature_vectors + self.feature_bias
+        return self.output(self.encoder(tokens).flatten(1))

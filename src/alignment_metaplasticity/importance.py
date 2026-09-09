@@ -150,6 +150,10 @@ def compute_example_importance(model, loader, device, *, kind="empirical", quant
     count = 0
     try:
         for batch_x, batch_y in loader:
+            if len(batch_x) != len(batch_y) or batch_y.ndim != 1:
+                raise ValueError("expected one class label per example")
+            if kind == "empirical" and batch_y.dtype != torch.int64:
+                raise ValueError("empirical labels must have int64 dtype")
             for x, y in zip(batch_x.to(device), batch_y.to(device)):
                 logp = model(x.unsqueeze(0)).log_softmax(dim=-1)
                 if logp.ndim != 2 or logp.shape[0] != 1 or logp.shape[1] < 2:
@@ -173,4 +177,5 @@ def compute_example_importance(model, loader, device, *, kind="empirical", quant
     if count == 0:
         raise ValueError("importance requires at least one example")
     values = {name:(value / count).to(params[name].dtype) for name,value in totals.items()}
+    _validate_values(values)
     return normalize_importance(values, quantile) if normalize else values
