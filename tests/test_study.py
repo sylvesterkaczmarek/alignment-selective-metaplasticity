@@ -79,3 +79,17 @@ def test_selection_uses_utility_constraint_and_deterministic_ties():
     selected = select(records, settings, 2, .95)["selected"][0]
     assert selected["setting"] == settings[0]
     assert selected["utility_feasible_on_development"]
+
+
+def test_custom_protection_can_be_substituted_without_mislabelled_results():
+    def identity(importance, anchor):
+        return {"grad_scale":{n:torch.ones_like(v) for n,v in importance.items()}}
+    trial=Trial(5,5,20)
+    with pytest.raises(ValueError,match="protection_name"):
+        StudyRun(cfg(),trial,Setting("metaplastic"),protection_factory=identity)
+    custom=StudyRun(cfg(),trial,Setting("metaplastic"),protection_factory=identity,
+                    protection_name="identity-control-v1").run()
+    ordinary=StudyRun(cfg(),trial,Setting("fine_tune")).run()
+    assert custom["method_id"]=="identity-control-v1"
+    assert ordinary["method_id"]=="fine_tune"
+    assert custom["final_digest"]==ordinary["final_digest"]

@@ -29,7 +29,7 @@ Figures show means and sample standard deviations across trained cells. Developm
 
 ## Small extension points
 
-`StudyRun(config, Trial(...), Setting(...), model_factory=...)` accepts a callable returning a two-logit PyTorch model. A `protection_factory(importance, anchor)` callable can supply the existing training function's protection arguments. Return independently owned tensors if mutating them. Extra computation inside custom callables must be separately accounted for. The current built-in implementation uses SGD and an enforced training procedure; it makes no unrestricted weight-tampering claim.
+`StudyRun(config, Trial(...), Setting(...), model_factory=...)` accepts a callable returning a two-logit PyTorch model. A `protection_factory(importance, anchor)` callable can supply the existing training function's protection arguments. Give a custom factory a distinct `protection_name`, recorded as `method_id`; `Setting` defines its inherited access protocol and training budget. Return independently owned tensors if mutating them. Extra computation and source identity inside custom callables must be separately accounted for. The current built-in implementation uses SGD and an enforced training procedure; it makes no unrestricted weight-tampering claim.
 
 ## Recorded pilot
 

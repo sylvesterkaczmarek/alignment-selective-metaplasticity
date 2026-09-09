@@ -413,3 +413,5 @@ MIT. See [LICENSE](LICENSE).
 The separate [controlled-study runner](docs/controlled-studies.md) adds paired controls, explicit alignment-data budgets and development-selected settings evaluated on untouched model/sample/task-rule cells. Its [recorded pilot](results/controlled-v1/test-summary.json) supports a selective-assignment effect, while finding little benefit from importance refresh in this task family. Historical reference results above remain unchanged.
 
 The [mechanism study](docs/mechanism-studies.md) adds per-example and model Fisher estimates, matched weight interventions, longer task sequences and context challenges with training trajectories. Its [results](results/mechanisms-v1/summary.json) show failures in familiar and held-out contexts as well as the original novel-flag condition.
+
+The [transfer and restart guide](docs/transfer-and-restart.md) covers a small transformer pilot, persistent SGD/AdamW protection and exact CPU epoch restart. The [recorded transfer results](results/transfer-v1/summary.json) do not establish consistent alignment preservation across architectures.
