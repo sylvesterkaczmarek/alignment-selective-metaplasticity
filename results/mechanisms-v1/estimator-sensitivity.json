@@ -1,0 +1,422 @@
+[
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "batch",
+    "examples": 64,
+    "mean": 0.12990906834602356,
+    "quantile": 0.95,
+    "sha256": "509bcfdfffc878982b809767ffcb27a0c9dc7595242e5d1ce62cec37148f6a47",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "batch",
+    "examples": 64,
+    "mean": 0.1287626177072525,
+    "quantile": 0.95,
+    "sha256": "1334d0974f82075e4330d520125a7496aa512c8ac081861d9105a4617c0b47d6",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "batch",
+    "examples": 64,
+    "mean": 0.1214640736579895,
+    "quantile": 0.95,
+    "sha256": "2ebb586800704a4c94462bf9f973ecf45eb82819d94c18a4ac6acdc95a9b3874",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "batch",
+    "examples": 256,
+    "mean": 0.1331726759672165,
+    "quantile": 0.95,
+    "sha256": "3e44d2e2fe3fa01f9acadea9091bc21dbb838dc8840d9afcd9efbe8cd16a4621",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "batch",
+    "examples": 256,
+    "mean": 0.13023529946804047,
+    "quantile": 0.95,
+    "sha256": "f333e2a3d91a789e9d77a8f63c2897e7ffef7410f8be40ba9eb9edd365491969",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "batch",
+    "examples": 256,
+    "mean": 0.12740285694599152,
+    "quantile": 0.95,
+    "sha256": "bff66691782c0cee157d6700b87d9ba6945c12d1a040bb98ef55f3b11bb918d0",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "empirical",
+    "examples": 64,
+    "mean": 0.2237275093793869,
+    "quantile": 0.9,
+    "sha256": "39d53963dcfc95dfbb9bca8ec0ef2a089f789b2682e4c79c51bafa1adea0a6e4",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "empirical",
+    "examples": 64,
+    "mean": 0.12990908324718475,
+    "quantile": 0.95,
+    "sha256": "a3a453da29b7e674d1cafd0a9d89b9876b9dbfc9bdcbbf23745c67d5e34e39ba",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "empirical",
+    "examples": 64,
+    "mean": 0.0013082482619211078,
+    "quantile": 1.0,
+    "sha256": "6c2e72657b2d86ace1a7870197fc6636a24db78a7d5d11cc10a75f5d3d86e9f6",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "empirical",
+    "examples": 64,
+    "mean": 0.2237275093793869,
+    "quantile": 0.9,
+    "sha256": "39d53963dcfc95dfbb9bca8ec0ef2a089f789b2682e4c79c51bafa1adea0a6e4",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "empirical",
+    "examples": 64,
+    "mean": 0.12990908324718475,
+    "quantile": 0.95,
+    "sha256": "a3a453da29b7e674d1cafd0a9d89b9876b9dbfc9bdcbbf23745c67d5e34e39ba",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "empirical",
+    "examples": 64,
+    "mean": 0.0013082482619211078,
+    "quantile": 1.0,
+    "sha256": "6c2e72657b2d86ace1a7870197fc6636a24db78a7d5d11cc10a75f5d3d86e9f6",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "empirical",
+    "examples": 64,
+    "mean": 0.2237275093793869,
+    "quantile": 0.9,
+    "sha256": "39d53963dcfc95dfbb9bca8ec0ef2a089f789b2682e4c79c51bafa1adea0a6e4",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "empirical",
+    "examples": 64,
+    "mean": 0.12990908324718475,
+    "quantile": 0.95,
+    "sha256": "a3a453da29b7e674d1cafd0a9d89b9876b9dbfc9bdcbbf23745c67d5e34e39ba",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "empirical",
+    "examples": 64,
+    "mean": 0.0013082482619211078,
+    "quantile": 1.0,
+    "sha256": "6c2e72657b2d86ace1a7870197fc6636a24db78a7d5d11cc10a75f5d3d86e9f6",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "empirical",
+    "examples": 256,
+    "mean": 0.22745811939239502,
+    "quantile": 0.9,
+    "sha256": "51536ce7f56971b0e16281a2052df0224ed90850b249beb2d7d9163e036e2de9",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "empirical",
+    "examples": 256,
+    "mean": 0.1331726759672165,
+    "quantile": 0.95,
+    "sha256": "d899fcd1a4b2849de94ded93953957cf5c723cd183762cafbaa6ba03cc505b88",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "empirical",
+    "examples": 256,
+    "mean": 0.003127118106931448,
+    "quantile": 1.0,
+    "sha256": "e5d4ac3d241b4c31e6254820bbb8b929f2f8dfa0d1547fa9f194c2689220b9fd",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "empirical",
+    "examples": 256,
+    "mean": 0.22745811939239502,
+    "quantile": 0.9,
+    "sha256": "51536ce7f56971b0e16281a2052df0224ed90850b249beb2d7d9163e036e2de9",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "empirical",
+    "examples": 256,
+    "mean": 0.1331726759672165,
+    "quantile": 0.95,
+    "sha256": "d899fcd1a4b2849de94ded93953957cf5c723cd183762cafbaa6ba03cc505b88",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "empirical",
+    "examples": 256,
+    "mean": 0.003127118106931448,
+    "quantile": 1.0,
+    "sha256": "e5d4ac3d241b4c31e6254820bbb8b929f2f8dfa0d1547fa9f194c2689220b9fd",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "empirical",
+    "examples": 256,
+    "mean": 0.22745811939239502,
+    "quantile": 0.9,
+    "sha256": "51536ce7f56971b0e16281a2052df0224ed90850b249beb2d7d9163e036e2de9",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "empirical",
+    "examples": 256,
+    "mean": 0.1331726759672165,
+    "quantile": 0.95,
+    "sha256": "d899fcd1a4b2849de94ded93953957cf5c723cd183762cafbaa6ba03cc505b88",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "empirical",
+    "examples": 256,
+    "mean": 0.003127118106931448,
+    "quantile": 1.0,
+    "sha256": "e5d4ac3d241b4c31e6254820bbb8b929f2f8dfa0d1547fa9f194c2689220b9fd",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "model_fisher",
+    "examples": 64,
+    "mean": 0.21412916481494904,
+    "quantile": 0.9,
+    "sha256": "e6c179e54df5cce095da1023b097e91d8ff141675d235d3ae0fec668fc5ea492",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "model_fisher",
+    "examples": 64,
+    "mean": 0.1219220757484436,
+    "quantile": 0.95,
+    "sha256": "eabbeb101c2e03a87ca75a139de24d9cbdf07de5858b0ad6f3e6c4213074ccdd",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "model_fisher",
+    "examples": 64,
+    "mean": 0.0013297746190801263,
+    "quantile": 1.0,
+    "sha256": "4f1fd83fab41602ec07e159cc60c1d3eb8804d91e94bc86ea54370c9338f5030",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "model_fisher",
+    "examples": 64,
+    "mean": 0.21412916481494904,
+    "quantile": 0.9,
+    "sha256": "e6c179e54df5cce095da1023b097e91d8ff141675d235d3ae0fec668fc5ea492",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "model_fisher",
+    "examples": 64,
+    "mean": 0.1219220757484436,
+    "quantile": 0.95,
+    "sha256": "eabbeb101c2e03a87ca75a139de24d9cbdf07de5858b0ad6f3e6c4213074ccdd",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "model_fisher",
+    "examples": 64,
+    "mean": 0.0013297746190801263,
+    "quantile": 1.0,
+    "sha256": "4f1fd83fab41602ec07e159cc60c1d3eb8804d91e94bc86ea54370c9338f5030",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "model_fisher",
+    "examples": 64,
+    "mean": 0.21412916481494904,
+    "quantile": 0.9,
+    "sha256": "e6c179e54df5cce095da1023b097e91d8ff141675d235d3ae0fec668fc5ea492",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "model_fisher",
+    "examples": 64,
+    "mean": 0.1219220757484436,
+    "quantile": 0.95,
+    "sha256": "eabbeb101c2e03a87ca75a139de24d9cbdf07de5858b0ad6f3e6c4213074ccdd",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "model_fisher",
+    "examples": 64,
+    "mean": 0.0013297746190801263,
+    "quantile": 1.0,
+    "sha256": "4f1fd83fab41602ec07e159cc60c1d3eb8804d91e94bc86ea54370c9338f5030",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "model_fisher",
+    "examples": 256,
+    "mean": 0.22307312488555908,
+    "quantile": 0.9,
+    "sha256": "86d79794145ab4d6a590b617ddf2b9a5bd2f059dc191eb770d215a3880a21e6b",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "model_fisher",
+    "examples": 256,
+    "mean": 0.13179588317871094,
+    "quantile": 0.95,
+    "sha256": "972ec8fffd031e68d04cc88605ddf5b339b3a54954487256a530b4136efde007",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 1,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "model_fisher",
+    "examples": 256,
+    "mean": 0.004007859155535698,
+    "quantile": 1.0,
+    "sha256": "876c1eedb3f4e79f10756dc628384eef3301fecf34a8a49fbb381e28c569c549",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "model_fisher",
+    "examples": 256,
+    "mean": 0.22307312488555908,
+    "quantile": 0.9,
+    "sha256": "86d79794145ab4d6a590b617ddf2b9a5bd2f059dc191eb770d215a3880a21e6b",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "model_fisher",
+    "examples": 256,
+    "mean": 0.13179588317871094,
+    "quantile": 0.95,
+    "sha256": "972ec8fffd031e68d04cc88605ddf5b339b3a54954487256a530b4136efde007",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 32,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "model_fisher",
+    "examples": 256,
+    "mean": 0.004007859155535698,
+    "quantile": 1.0,
+    "sha256": "876c1eedb3f4e79f10756dc628384eef3301fecf34a8a49fbb381e28c569c549",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.10005706548690796,
+    "estimator": "model_fisher",
+    "examples": 256,
+    "mean": 0.22307312488555908,
+    "quantile": 0.9,
+    "sha256": "86d79794145ab4d6a590b617ddf2b9a5bd2f059dc191eb770d215a3880a21e6b",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 0.05002853274345398,
+    "estimator": "model_fisher",
+    "examples": 256,
+    "mean": 0.13179588317871094,
+    "quantile": 0.95,
+    "sha256": "972ec8fffd031e68d04cc88605ddf5b339b3a54954487256a530b4136efde007",
+    "zero_fraction": 0.031957391649484634
+  },
+  {
+    "batch_size": 128,
+    "clipped_fraction": 9.511128155281767e-05,
+    "estimator": "model_fisher",
+    "examples": 256,
+    "mean": 0.004007859155535698,
+    "quantile": 1.0,
+    "sha256": "876c1eedb3f4e79f10756dc628384eef3301fecf34a8a49fbb381e28c569c549",
+    "zero_fraction": 0.031957391649484634
+  }
+]

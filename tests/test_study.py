@@ -35,9 +35,9 @@ def test_shared_initialisation_data_and_exact_exposure():
     assert a["data_sha256"] == b["data_sha256"]
     assert a["final_digest"] == b["final_digest"]
     assert a["cost"]["capability"] == {"examples": 512, "batches": 8}
-    assert a["cost"]["importance"] == {"examples": 128, "batches": 2}
+    assert a["cost"]["importance"] == {"examples": 128, "batches": 2, "backward_calls": 2}
     c = StudyRun(cfg(), trial, Setting("uniform", "periodic")).run()
-    assert c["cost"]["importance"] == {"examples": 384, "batches": 6}
+    assert c["cost"]["importance"] == {"examples": 384, "batches": 6, "backward_calls": 6}
     d = StudyRun(cfg(), trial, Setting("rehearsal", "periodic")).run()
     assert d["cost"]["rehearsal"] == {"examples": 256, "batches": 4}
     assert "importance" not in d["cost"]

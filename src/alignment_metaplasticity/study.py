@@ -14,7 +14,7 @@ from torch import nn
 from .config import validate_config, validate_seed
 from .evaluation import accuracy, evaluate_alignment
 from .experiment import build_loaders
-from .importance import (clone_parameters, compute_gradient_importance, ema_importance,
+from .importance import (clone_parameters, compute_gradient_importance, compute_example_importance, ema_importance,
                          plasticity_from_importance, static_train_masks)
 from .model import SelectiveCorrigibilityNet
 from .repro import set_seed
@@ -103,18 +103,21 @@ class CountedLoader:
 class StudyRun:
     """One trial with explicit data access; supports a model and protection callable."""
     def __init__(self, cfg, trial: Trial, setting: Setting, *, model_factory: Callable = default_model,
-                 protection_factory: Callable | None = None):
+                 protection_factory: Callable | None = None, importance_estimator="batch", loader_factory=build_loaders):
         validate_config(cfg)
         trial.validate(cfg["model"]["num_capability_tasks"])
         if cfg["device"] != "cpu":
             raise ValueError("controlled studies currently require CPU for measured runtime")
         self.cfg, self.trial, self.setting = cfg, trial, setting
         self.protection_factory = protection_factory
+        if importance_estimator not in ("batch", "empirical", "model_fisher"):
+            raise ValueError("unknown importance estimator")
+        self.importance_estimator = importance_estimator
         self.device = torch.device("cpu")
         self.started = time.perf_counter()
         self.cost = {}
         self.spec = BenchmarkSpec(cfg["model"]["signal_dim"], cfg["model"]["num_capability_tasks"])
-        self.loaders = build_loaders(cfg, self.spec, trial.sample_seed, rule_seed=trial.rule_seed)
+        self.loaders = loader_factory(cfg, self.spec, trial.sample_seed, rule_seed=trial.rule_seed)
         self.order = trial.order or tuple(range(1, self.spec.num_capability_tasks + 1))
         self.data_hashes = {"alignment_train": self._data_hash(self.loaders[0])}
         self.data_hashes.update({f"capability_train_{t}": self._data_hash(v) for t, v in self.loaders[2].items()})
@@ -158,8 +161,13 @@ class StudyRun:
         return make_loader((x[idx], y[idx]), self.cfg["data"]["batch_size"], False, self.trial.sample_seed + 50000 + step)
 
     def estimate(self, step):
-        return compute_gradient_importance(self.model, self.counted(self.probe_loader(step), "importance"),
-                                           self.device, **self.cfg["importance"])
+        loader = self.counted(self.probe_loader(step), "importance")
+        if self.importance_estimator == "batch":
+            values = compute_gradient_importance(self.model, loader, self.device, **self.cfg["importance"])
+            self.cost["importance"]["backward_calls"] = self.cost["importance"]["batches"]
+            return values
+        return compute_example_importance(self.model, loader, self.device, kind=self.importance_estimator,
+                                          quantile=self.cfg["importance"]["quantile"], stats=self.cost["importance"])
 
     def protection(self):
         s = self.setting
@@ -197,7 +205,7 @@ class StudyRun:
             process_peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * (1 if sys.platform == "darwin" else 1024)
         except ImportError:
             process_peak = None
-        return {"trial": asdict(self.trial), "setting": asdict(self.setting), "initial_digest": self.initial_digest,
+        return {"trial": asdict(self.trial), "setting": asdict(self.setting), "importance_estimator": self.importance_estimator, "initial_digest": self.initial_digest,
                 "data_sha256": self.data_hashes, "initial_alignment": self.initial_alignment,
                 "alignment": self.history[-1]["alignment"], "history": self.history,
                 "acquisition": sum(h["capabilities"][str(h["task"])] for h in self.history) / len(self.history),

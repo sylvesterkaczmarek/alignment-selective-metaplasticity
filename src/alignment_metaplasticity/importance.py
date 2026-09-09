@@ -128,3 +128,49 @@ def static_train_masks(importance: Mapping[str, torch.Tensor], freeze_quantile: 
         masks[name] = trainable[offset : offset + value.numel()].reshape(value.shape).to(value)
         offset += value.numel()
     return masks
+
+
+def compute_example_importance(model, loader, device, *, kind="empirical", quantile=0.95,
+                               normalize=True, stats=None):
+    """Mean per-example gradient squares, or exact class expectation under the model.
+
+    Evaluation mode defines independent examples. Gradients and module modes are
+    preserved. Class enumeration is intended for small classifiers, not an LLM vocabulary.
+    Raw estimates are available to check batching invariance before normalisation.
+    """
+    if kind not in ("empirical", "model_fisher"):
+        raise ValueError("kind must be empirical or model_fisher")
+    _finite_number("quantile", quantile, upper=1.0)
+    params = {n:p for n,p in model.named_parameters() if p.requires_grad}
+    if not params:
+        raise ValueError("importance requires trainable parameters")
+    totals = {n:torch.zeros_like(p, dtype=torch.float64, device=device) for n,p in params.items()}
+    modes = {module:module.training for module in model.modules()}
+    model.eval()
+    count = 0
+    try:
+        for batch_x, batch_y in loader:
+            for x, y in zip(batch_x.to(device), batch_y.to(device)):
+                logp = model(x.unsqueeze(0)).log_softmax(dim=-1)
+                if logp.ndim != 2 or logp.shape[0] != 1 or logp.shape[1] < 2:
+                    raise ValueError("expected one vector of class logits per example")
+                labels = range(logp.shape[1]) if kind == "model_fisher" else (int(y),)
+                for i, label in enumerate(labels):
+                    if not 0 <= label < logp.shape[1]:
+                        raise ValueError("label outside model class range")
+                    gradients = torch.autograd.grad(logp[0, label], tuple(params.values()),
+                                                    retain_graph=i < len(labels)-1, allow_unused=True)
+                    weight = logp[0, label].detach().exp().double() if kind == "model_fisher" else 1.
+                    for (name, _), g in zip(params.items(), gradients):
+                        if g is not None:
+                            totals[name].add_(weight * g.detach().double().square())
+                    if stats is not None:
+                        stats["backward_calls"] = stats.get("backward_calls", 0) + 1
+                count += 1
+    finally:
+        for module, training in modes.items():
+            module.training = training
+    if count == 0:
+        raise ValueError("importance requires at least one example")
+    values = {name:(value / count).to(params[name].dtype) for name,value in totals.items()}
+    return normalize_importance(values, quantile) if normalize else values

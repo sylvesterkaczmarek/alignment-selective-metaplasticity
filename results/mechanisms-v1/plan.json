@@ -1,0 +1,152 @@
+{
+  "challenge_epochs": 8,
+  "conditions": [
+    "novel_flag",
+    "heldout_context",
+    "no_marker",
+    "policy_change"
+  ],
+  "config": {
+    "data": {
+      "alignment_eval_size": 512,
+      "alignment_train_size": 1200,
+      "batch_size": 128,
+      "bypass_train_size": 900,
+      "capability_eval_size": 384,
+      "capability_train_size": 1200
+    },
+    "device": "cpu",
+    "ewc": {
+      "lambda": 18.0
+    },
+    "importance": {
+      "max_batches": 8,
+      "quantile": 0.95
+    },
+    "metaplastic": {
+      "ema_decay": 0.8,
+      "min_plasticity": 0.05,
+      "strength": 200.0
+    },
+    "model": {
+      "depth": 2,
+      "hidden_dim": 48,
+      "num_capability_tasks": 6,
+      "signal_dim": 8
+    },
+    "seed": 7,
+    "static": {
+      "freeze_quantile": 0.85
+    },
+    "training": {
+      "alignment_epochs": 18,
+      "bypass_epochs": 12,
+      "capability_epochs": 14,
+      "lr": 0.03,
+      "weight_decay": 0.0001
+    }
+  },
+  "driver_sha256": "7c79d218124a0c7d1cbc2390bd111cb05b662a794b62d2ac7ec1958fe38e27b1",
+  "estimators": [
+    "batch",
+    "empirical",
+    "model_fisher"
+  ],
+  "interpretation": "Exploratory six-task extension on fresh cells. Original development-selected parameters are kept fixed across estimator substitutions; estimators are not independently tuned.",
+  "intervention_magnitudes": [
+    0.1,
+    0.5,
+    1.0
+  ],
+  "metadata": {
+    "cuda_runtime": null,
+    "deterministic_algorithms": false,
+    "deterministic_warn_only": false,
+    "device": "cpu",
+    "machine": "x86_64",
+    "numpy": "2.3.5",
+    "platform": "Linux",
+    "python": "3.12.14",
+    "source_files_sha256": {
+      "__init__.py": "b824a5eef7953b1d295163d63828979a0f18bf233422f417ff8151435ff89203",
+      "config.py": "1600e5acaf1f74bc590c841724e6cbe3dabe5dd0c3610fe07dd5d20fc7849f30",
+      "evaluation.py": "ed75a2516b5242d706454e1ca77fbf1c1ae977e20e7beea5bc5e65ddd8f4bddb",
+      "experiment.py": "a65c412258a0e70b1346aa647f7d0a89b2e57e4c607901fbbc2c4baa31814b85",
+      "importance.py": "47e391648eab239552a6e532edec2522d44ea22a0645037ce0d5353082f0a8e7",
+      "io_utils.py": "6babc8820859091a6acc54f8794d294db44517b8eddb04e01648717db98e7e49",
+      "metrics.py": "6a5f3fdf75e3ba843c4ed70e67c92b16195ae4093a5abd1f4def6a3e6b31153a",
+      "model.py": "7acbc13083f24757dbed464a19dbe27eda5d24ec590173e9b044b2380c1413d4",
+      "plotting.py": "5716b3c10ddab81999a9f431c17efc4752ce758c7b01d7d07d041763879cc584",
+      "probes.py": "87d4daa20af7cf2bc2e9af2af9326967ed671a2886eede1b9bda8284bab24fbd",
+      "repro.py": "890eef5d40c2260a192eb80c832b5a122997532c8ce1bc8ced4311b01b7f3c4e",
+      "study.py": "6b02ce4eccef50d525a9e85012386ecef1543d7d03b7e9dc8a4e17684c62ed33",
+      "summary.py": "c733eb9c5e0d5d7ad9419b74a78967b5dfdd3523328d439add6232b55c8a0571",
+      "tasks.py": "ac0219bb5030480e3ea1c2630d91d451c84fdde3e4f23d4fbc89a8dbee1b389a",
+      "training.py": "1a5984db330db0010b2e9ccd8f157f971c93f130846e1a0d96150396b49e07ce"
+    },
+    "torch": "2.14.0+cpu",
+    "torch_num_interop_threads": 9,
+    "torch_num_threads": 1
+  },
+  "schema_version": 1,
+  "selection_sha256": "75adfd11922718485e3aab732525f5ce1a840e53c8fb20aa41d77465472855b5",
+  "settings": [
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "ewc",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "metaplastic",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  ],
+  "trials": [
+    {
+      "model_seed": 307,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "rule_seed": 1500,
+      "sample_seed": 3307
+    },
+    {
+      "model_seed": 311,
+      "order": [
+        6,
+        4,
+        2,
+        5,
+        3,
+        1
+      ],
+      "rule_seed": 1600,
+      "sample_seed": 3311
+    },
+    {
+      "model_seed": 313,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "rule_seed": 1700,
+      "sample_seed": 3313
+    }
+  ]
+}

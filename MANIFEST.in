@@ -5,3 +5,4 @@ recursive-include experiments *.py
 include results/summary.json results/summary_summary.json results/plasticity_ablation.json
 recursive-include scripts *.sh
 recursive-include results/controlled-v1 *.json *.gz *.png
+recursive-include results/mechanisms-v1 *.json *.gz
