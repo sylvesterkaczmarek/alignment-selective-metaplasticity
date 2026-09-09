@@ -99,3 +99,37 @@ def test_nonfinite_training_cannot_report_success():
     m=nn.Linear(1,2)
     with pytest.raises(FloatingPointError):
         train_epochs(m,[(torch.tensor([[float('nan')]]),torch.tensor([0]))],torch.device('cpu'),epochs=1,lr=.1,weight_decay=0.)
+
+
+def test_checkpoint_rejects_untracked_sampler_and_custom_collation(tmp_path):
+    from torch.utils.data import DataLoader, RandomSampler
+    source=loader(); m=model()
+    separate=RandomSampler(source.dataset,generator=torch.Generator().manual_seed(2))
+    unsupported=[DataLoader(source.dataset,batch_size=7,sampler=separate,generator=source.generator),
+                 DataLoader(source.dataset,batch_size=7,generator=source.generator,collate_fn=lambda x:x)]
+    for data in unsupported:
+        with pytest.raises(ValueError,match='sampler|standard'):
+            save_checkpoint(tmp_path/'bad.pt',m,None,loaders={'train':data},protection={},progress={},provenance={})
+
+
+def test_checkpoint_rejects_changed_dropout_before_mutating_model(tmp_path):
+    a=model(); p=save_checkpoint(tmp_path/'a.pt',a,None,loaders={'train':loader()},protection={},progress={},provenance={})
+    b=model(); b[1].p=.75; before=copy.deepcopy(b.state_dict())
+    with pytest.raises(ValueError,match='configuration'):
+        load_checkpoint(p,b,None,loaders={'train':loader()},expected_provenance={})
+    assert_state_equal(before,b.state_dict())
+
+
+def test_small_transformer_supports_classification_gradients():
+    from alignment_metaplasticity.model import SelectiveCorrigibilityTransformer
+    m=SelectiveCorrigibilityTransformer(5,hidden_dim=8,depth=1)
+    logits=m(torch.randn(3,5))
+    assert logits.shape==(3,2)
+    torch.nn.functional.cross_entropy(logits,torch.tensor([0,1,0])).backward()
+    assert all(p.grad is not None and torch.isfinite(p.grad).all() for p in m.parameters())
+
+
+def test_example_importance_rejects_fractional_labels():
+    from alignment_metaplasticity.importance import compute_example_importance
+    with pytest.raises(ValueError,match='int64'):
+        compute_example_importance(nn.Linear(1,2),[(torch.ones(1,1),torch.tensor([.5]))],torch.device('cpu'))

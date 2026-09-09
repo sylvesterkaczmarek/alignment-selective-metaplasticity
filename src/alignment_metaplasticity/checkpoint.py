@@ -9,6 +9,7 @@ import tempfile
 
 import numpy as np
 import torch
+from torch.utils.data import BatchSampler, DataLoader, RandomSampler, SequentialSampler, TensorDataset, default_collate
 
 from .study import tensor_digest
 
@@ -16,13 +17,26 @@ from .study import tensor_digest
 def _loader_states(loaders):
     result = {}
     for name, loader in loaders.items():
-        if loader.num_workers != 0 or loader.generator is None or not hasattr(loader.dataset, 'tensors'):
-            raise ValueError('exact restart supports generator-backed TensorDataset loaders with num_workers=0')
+        if (type(loader) is not DataLoader or loader.num_workers != 0 or loader.generator is None
+                or type(loader.dataset) is not TensorDataset or type(loader.batch_sampler) is not BatchSampler
+                or type(loader.sampler) not in (RandomSampler, SequentialSampler)
+                or loader.collate_fn is not default_collate):
+            raise ValueError('exact restart requires standard generator-backed TensorDataset loaders with num_workers=0')
+        if type(loader.sampler) is RandomSampler and (loader.sampler.generator is not loader.generator
+                or loader.sampler.replacement or loader.sampler.num_samples != len(loader.dataset)):
+            raise ValueError('random sampler must use the loader generator without replacement or subsampling')
         result[name] = {'generator':loader.generator.get_state(),
                         'dataset_sha256':tensor_digest(dict(enumerate(loader.dataset.tensors))),
                         'batch_size':loader.batch_size,'drop_last':loader.drop_last,
                         'sampler':type(loader.sampler).__qualname__}
     return result
+
+
+def _model_signature(model):
+    if any(t.device.type != 'cpu' for t in (*model.parameters(), *model.buffers())):
+        raise ValueError('exact checkpoint contract currently covers CPU only')
+    return {n:(type(m).__module__ + '.' + type(m).__qualname__, m.extra_repr())
+            for n,m in model.named_modules()}
 
 
 def _optimizer_names(model, optimizer):
@@ -34,11 +48,10 @@ def _optimizer_names(model, optimizer):
 
 def save_checkpoint(path, model, optimizer, *, loaders, protection, progress, provenance):
     """Call only after finishing an epoch; no sampler cursor is saved mid-epoch."""
-    if any(p.device.type != 'cpu' for p in model.parameters()):
-        raise ValueError('exact checkpoint contract currently covers CPU only')
+    signature = _model_signature(model)
     plain = json.loads(json.dumps({'progress':progress,'provenance':provenance},allow_nan=False))
     numpy_state = np.random.get_state()
-    payload = {'schema_version':1, 'model':model.state_dict(),
+    payload = {'schema_version':1, 'model':model.state_dict(), 'model_signature':signature,
                'optimizer':optimizer.state_dict() if optimizer is not None else None,
                'optimizer_type':type(optimizer).__qualname__ if optimizer is not None else None,
                'optimizer_names':_optimizer_names(model, optimizer),
@@ -62,8 +75,8 @@ def load_checkpoint(path, model, optimizer, *, loaders, expected_provenance):
     payload=torch.load(path,map_location='cpu',weights_only=True)
     if payload['schema_version']!=1 or payload['provenance']!=expected_provenance:
         raise ValueError('checkpoint schema or provenance mismatch')
-    if any(p.device.type!='cpu' for p in model.parameters()):
-        raise ValueError('exact checkpoint contract currently covers CPU only')
+    if payload['model_signature'] != _model_signature(model):
+        raise ValueError('model module type or configuration mismatch')
     expected_type=type(optimizer).__qualname__ if optimizer is not None else None
     if payload['optimizer_type']!=expected_type or payload['optimizer_names']!=_optimizer_names(model,optimizer):
         raise ValueError('optimizer type or parameter order mismatch')

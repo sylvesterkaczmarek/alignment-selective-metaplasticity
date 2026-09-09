@@ -1,0 +1,456 @@
+{
+  "comparisons": [
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.9751157407407407,
+          "n": 3,
+          "sd": 0.006398537149159773
+        },
+        "alignment": {
+          "mean": 0.5540314662328688,
+          "n": 3,
+          "sd": 0.07510265673608921
+        },
+        "authorized_acceptance": {
+          "mean": 0.5638020833333334,
+          "n": 3,
+          "sd": 0.10576371754324689
+        },
+        "retention": {
+          "mean": 0.6785300925925926,
+          "n": 3,
+          "sd": 0.09753303698292248
+        },
+        "seconds": {
+          "mean": 2.952657059999789,
+          "n": 3,
+          "sd": 1.8259959539807906
+        },
+        "unauthorized_resistance": {
+          "mean": 0.546875,
+          "n": 3,
+          "sd": 0.04752158226795484
+        }
+      },
+      "model": "mlp",
+      "parameters": 2754,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "fine_tune",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    },
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.9484953703703703,
+          "n": 3,
+          "sd": 0.013513072255596831
+        },
+        "alignment": {
+          "mean": 0.912351407738588,
+          "n": 3,
+          "sd": 0.028184958155978563
+        },
+        "authorized_acceptance": {
+          "mean": 0.9055989583333334,
+          "n": 3,
+          "sd": 0.03440679755657243
+        },
+        "retention": {
+          "mean": 0.6646412037037037,
+          "n": 3,
+          "sd": 0.09628897527703921
+        },
+        "seconds": {
+          "mean": 2.145959055333757,
+          "n": 3,
+          "sd": 0.1363610580064115
+        },
+        "unauthorized_resistance": {
+          "mean": 0.9192708333333334,
+          "n": 3,
+          "sd": 0.021778292556872046
+        }
+      },
+      "model": "mlp",
+      "parameters": 2754,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "ewc",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    },
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.9725115740740741,
+          "n": 3,
+          "sd": 0.0032864052927084825
+        },
+        "alignment": {
+          "mean": 0.9171145833073377,
+          "n": 3,
+          "sd": 0.015852538448628606
+        },
+        "authorized_acceptance": {
+          "mean": 0.9290364583333334,
+          "n": 3,
+          "sd": 0.015907280889154447
+        },
+        "retention": {
+          "mean": 0.6938657407407407,
+          "n": 3,
+          "sd": 0.08658972009664088
+        },
+        "seconds": {
+          "mean": 2.2604261043331157,
+          "n": 3,
+          "sd": 0.07155670436078022
+        },
+        "unauthorized_resistance": {
+          "mean": 0.9055989583333334,
+          "n": 3,
+          "sd": 0.019757800658194685
+        }
+      },
+      "model": "mlp",
+      "parameters": 2754,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "metaplastic",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    },
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.9664351851851852,
+          "n": 3,
+          "sd": 0.0035082047607007906
+        },
+        "alignment": {
+          "mean": 0.7001411524461971,
+          "n": 3,
+          "sd": 0.07114353576041814
+        },
+        "authorized_acceptance": {
+          "mean": 0.7552083333333334,
+          "n": 3,
+          "sd": 0.10016948324888653
+        },
+        "retention": {
+          "mean": 0.6765046296296297,
+          "n": 3,
+          "sd": 0.09083666701253125
+        },
+        "seconds": {
+          "mean": 2.1686279213317903,
+          "n": 3,
+          "sd": 0.06642558676827216
+        },
+        "unauthorized_resistance": {
+          "mean": 0.6640625,
+          "n": 3,
+          "sd": 0.10602788709484347
+        }
+      },
+      "model": "mlp",
+      "parameters": 2754,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "shuffled",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    },
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.9736689814814815,
+          "n": 3,
+          "sd": 0.0036140034712954278
+        },
+        "alignment": {
+          "mean": 0.702569068492892,
+          "n": 3,
+          "sd": 0.03903208862566584
+        },
+        "authorized_acceptance": {
+          "mean": 0.7578125,
+          "n": 3,
+          "sd": 0.034053897996411515
+        },
+        "retention": {
+          "mean": 0.6765046296296297,
+          "n": 3,
+          "sd": 0.09759868416490136
+        },
+        "seconds": {
+          "mean": 1.9873138576670801,
+          "n": 3,
+          "sd": 0.014381204713774152
+        },
+        "unauthorized_resistance": {
+          "mean": 0.65625,
+          "n": 3,
+          "sd": 0.05562121431991462
+        }
+      },
+      "model": "mlp",
+      "parameters": 2754,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "uniform",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    },
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.8668981481481481,
+          "n": 3,
+          "sd": 0.07307323083514383
+        },
+        "alignment": {
+          "mean": 0.4826853046735849,
+          "n": 3,
+          "sd": 0.024322574668227882
+        },
+        "authorized_acceptance": {
+          "mean": 0.5579427083333334,
+          "n": 3,
+          "sd": 0.06928319223239832
+        },
+        "retention": {
+          "mean": 0.6669560185185185,
+          "n": 3,
+          "sd": 0.08955007412674741
+        },
+        "seconds": {
+          "mean": 22.34545383033401,
+          "n": 3,
+          "sd": 1.8615269437753332
+        },
+        "unauthorized_resistance": {
+          "mean": 0.4348958333333333,
+          "n": 3,
+          "sd": 0.067158348205744
+        }
+      },
+      "model": "transformer",
+      "parameters": 10722,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "fine_tune",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    },
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.880787037037037,
+          "n": 3,
+          "sd": 0.0632212276627575
+        },
+        "alignment": {
+          "mean": 0.7936699652963468,
+          "n": 3,
+          "sd": 0.11956216922372624
+        },
+        "authorized_acceptance": {
+          "mean": 0.9108072916666666,
+          "n": 3,
+          "sd": 0.07565261042550157
+        },
+        "retention": {
+          "mean": 0.6559606481481481,
+          "n": 3,
+          "sd": 0.10784287533571173
+        },
+        "seconds": {
+          "mean": 23.899703924998903,
+          "n": 3,
+          "sd": 0.27586996018306925
+        },
+        "unauthorized_resistance": {
+          "mean": 0.7356770833333334,
+          "n": 3,
+          "sd": 0.2353036074501121
+        }
+      },
+      "model": "transformer",
+      "parameters": 10722,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "ewc",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    },
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.9351851851851852,
+          "n": 3,
+          "sd": 0.02085743204969912
+        },
+        "alignment": {
+          "mean": 0.30312364472958586,
+          "n": 3,
+          "sd": 0.2518787811398504
+        },
+        "authorized_acceptance": {
+          "mean": 0.9348958333333334,
+          "n": 3,
+          "sd": 0.11107656153656566
+        },
+        "retention": {
+          "mean": 0.666087962962963,
+          "n": 3,
+          "sd": 0.10437382949492759
+        },
+        "seconds": {
+          "mean": 25.38077710533374,
+          "n": 3,
+          "sd": 0.9341376689828778
+        },
+        "unauthorized_resistance": {
+          "mean": 0.19986979166666666,
+          "n": 3,
+          "sd": 0.17038520404413482
+        }
+      },
+      "model": "transformer",
+      "parameters": 10722,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "metaplastic",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    },
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.7939814814814815,
+          "n": 3,
+          "sd": 0.1025273691096093
+        },
+        "alignment": {
+          "mean": 0.13891076190259127,
+          "n": 3,
+          "sd": 0.20536843202517302
+        },
+        "authorized_acceptance": {
+          "mean": 0.7291666666666666,
+          "n": 3,
+          "sd": 0.23845195388148077
+        },
+        "retention": {
+          "mean": 0.677951388888889,
+          "n": 3,
+          "sd": 0.13074830168355042
+        },
+        "seconds": {
+          "mean": 25.2118294673334,
+          "n": 3,
+          "sd": 0.7462849340618328
+        },
+        "unauthorized_resistance": {
+          "mean": 0.091796875,
+          "n": 3,
+          "sd": 0.14066568421899092
+        }
+      },
+      "model": "transformer",
+      "parameters": 10722,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "shuffled",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    },
+    {
+      "complete": true,
+      "metrics": {
+        "acquisition": {
+          "mean": 0.8952546296296297,
+          "n": 3,
+          "sd": 0.104066551040169
+        },
+        "alignment": {
+          "mean": 0.19217341048268932,
+          "n": 3,
+          "sd": 0.17443418167649294
+        },
+        "authorized_acceptance": {
+          "mean": 0.8515625,
+          "n": 3,
+          "sd": 0.211704695682047
+        },
+        "retention": {
+          "mean": 0.6750578703703703,
+          "n": 3,
+          "sd": 0.08750729090362214
+        },
+        "seconds": {
+          "mean": 26.09836511099881,
+          "n": 3,
+          "sd": 1.189312587866731
+        },
+        "unauthorized_resistance": {
+          "mean": 0.12434895833333333,
+          "n": 3,
+          "sd": 0.12111474952326547
+        }
+      },
+      "model": "transformer",
+      "parameters": 10722,
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "uniform",
+        "protocol": "fixed",
+        "strength": 200.0
+      }
+    }
+  ],
+  "failures": [],
+  "interpretation": "Untuned architecture pilot. Three fresh cells, shared data and training budgets within and across architectures. Different parameter counts. No pretrained language models or real-world safety evaluation. No adaptation based on these results."
+}
