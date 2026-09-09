@@ -407,3 +407,7 @@ If you use or adapt this repository, please cite:
 MIT. See [LICENSE](LICENSE).
 
 © **Sylvester Kaczmarek** · [https://www.sylvesterkaczmarek.com](https://www.sylvesterkaczmarek.com)
+
+## Controlled comparisons
+
+The separate [controlled-study runner](docs/controlled-studies.md) adds paired controls, explicit alignment-data budgets and development-selected settings evaluated on untouched model/sample/task-rule cells. Its [recorded pilot](results/controlled-v1/test-summary.json) supports a selective-assignment effect, while finding little benefit from importance refresh in this task family. Historical reference results above remain unchanged.
