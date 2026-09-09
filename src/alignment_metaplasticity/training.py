@@ -55,6 +55,7 @@ def train_epochs(
     ewc_anchor: TensorMap | None = None,
     ewc_importance: TensorMap | None = None,
     ewc_lambda: float = 0.0,
+    epoch_callback=None,
 ) -> TrainDiagnostics:
     if (
         isinstance(weight_decay, bool)
@@ -73,7 +74,7 @@ def train_epochs(
     unprotected_grads: list[float] = []
 
     model.train()
-    for _ in range(epochs):
+    for epoch in range(epochs):
         for x, y in loader:
             x, y = x.to(device), y.to(device)
             optimizer.zero_grad(set_to_none=True)
@@ -103,6 +104,14 @@ def train_epochs(
 
             optimizer.step()
             losses.append(float(loss.detach().item()))
+
+        if epoch_callback is not None:
+            modes = {module: module.training for module in model.modules()}
+            try:
+                epoch_callback(epoch + 1)
+            finally:
+                for module, training in modes.items():
+                    module.training = training
 
     return TrainDiagnostics(
         mean_loss=sum(losses) / max(len(losses), 1),
