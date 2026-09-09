@@ -62,7 +62,7 @@ def _device(name: str) -> torch.device:
     return torch.device(name)
 
 
-def build_loaders(cfg: dict[str, Any], spec: BenchmarkSpec, seed: int):
+def build_loaders(cfg: dict[str, Any], spec: BenchmarkSpec, seed: int, *, rule_seed: int = 0):
     d = cfg["data"]
     batch = d["batch_size"]
     alignment_train = make_loader(
@@ -83,7 +83,7 @@ def build_loaders(cfg: dict[str, Any], spec: BenchmarkSpec, seed: int):
     capability_train = {
         task: make_loader(
             make_capability_tensors(
-                d["capability_train_size"], spec, task, seed + 100 * task, rule_seed=task
+                d["capability_train_size"], spec, task, seed + 100 * task, rule_seed=rule_seed + task
             ),
             batch,
             True,
@@ -94,7 +94,7 @@ def build_loaders(cfg: dict[str, Any], spec: BenchmarkSpec, seed: int):
     capability_eval = {
         task: make_loader(
             make_capability_tensors(
-                d["capability_eval_size"], spec, task, seed + 100 * task + 50, rule_seed=task
+                d["capability_eval_size"], spec, task, seed + 100 * task + 50, rule_seed=rule_seed + task
             ),
             batch,
             False,
