@@ -11,6 +11,29 @@ import numpy as np
 from .study import Setting, Trial
 
 
+def strict_json(text):
+    def object_pairs(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f'duplicate JSON key {key}')
+            result[key] = value
+        return result
+    def constant(value):
+        raise ValueError(f'nonfinite JSON number {value}')
+    value = json.loads(text, object_pairs_hook=object_pairs, parse_constant=constant)
+    # JSON exponent overflow is not passed through parse_constant.
+    def check(item):
+        if isinstance(item, dict):
+            for v in item.values(): check(v)
+        elif isinstance(item, list):
+            for v in item: check(v)
+        elif isinstance(item, float) and not math.isfinite(item):
+            raise ValueError('nonfinite JSON number')
+    check(value)
+    return value
+
+
 def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, allow_nan=False).encode()).hexdigest()
 
@@ -68,7 +91,7 @@ def read_journal(path):
     starts, terminals = {}, {}
     with opener(path, 'rt', encoding='utf-8') as handle:
         for line in handle:
-            row = json.loads(line)
+            row = strict_json(line)
             identity = digest([row['setting'], row['trial']])
             if row.get('id', identity) != identity:
                 raise ValueError('journal identity hash mismatch')

@@ -32,5 +32,8 @@ def parameter_map(model, values, name, *, bounds=None, binary=False):
                 raise ValueError(f"{name}[{key!r}] is outside its allowed range")
         if binary and not ((value == 0) | (value == 1)).all():
             raise ValueError(f"{name}[{key!r}] must be binary")
-        owned[key] = value.detach().to(param).clone()
+        converted = value.detach().to(param).clone()
+        if not torch.isfinite(converted).all():
+            raise ValueError(f'{name}[{key!r}] cannot be represented in the parameter dtype')
+        owned[key] = converted
     return owned

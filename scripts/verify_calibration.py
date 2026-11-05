@@ -4,12 +4,13 @@ import argparse
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))  # Experiments are source tools, not installed runtime modules.
-from alignment_metaplasticity.research_integrity import digest, paired_difference, read_journal, validate_records
+from alignment_metaplasticity.research_integrity import digest, paired_difference, read_journal, validate_records, strict_json
 from experiments.calibrated_transfer import METHODS, expected_selection
 from experiments.controlled_study import aggregate
 
@@ -29,10 +30,32 @@ def equivalent(a, b):
 
 def verify(directory):
     directory = Path(directory)
-    plan = json.loads((directory/'plan.json').read_text())
-    selection = json.loads((directory/'selection.json').read_text())
-    lock = json.loads((directory/'test-lock.json').read_text())
-    summary = json.loads((directory/'summary.json').read_text())
+    # A checked evidence set carries a manifest. Fresh runs can be checked
+    # before packaging; once a manifest exists every listed artifact is binding.
+    manifest_path = directory/'checksums.json'
+    if (directory/'provenance.json').exists() != manifest_path.exists():
+        raise ValueError('packaged evidence requires provenance and checksum manifest together')
+    if manifest_path.exists():
+        manifest = strict_json(manifest_path.read_text())
+        required = {'plan.json', 'provenance.json', 'selection.json', 'summary.json',
+                    'development.jsonl', 'test-lock.json', 'test.jsonl', 'tradeoffs.png'}
+        if not isinstance(manifest, dict) or set(manifest) != required:
+            raise ValueError('artifact manifest must list exactly the expected files')
+        for name, expected_hash in manifest.items():
+            if not isinstance(expected_hash, str) or re.fullmatch('[0-9a-f]{64}', expected_hash) is None:
+                raise ValueError('invalid artifact digest')
+            path = directory/name
+            if not path.is_file() or path.is_symlink() or hashlib.sha256(path.read_bytes()).hexdigest() != expected_hash:
+                raise ValueError(f'artifact digest mismatch: {name}')
+    plan = strict_json((directory/'plan.json').read_text())
+    selection = strict_json((directory/'selection.json').read_text())
+    lock = strict_json((directory/'test-lock.json').read_text())
+    summary = strict_json((directory/'summary.json').read_text())
+    if manifest_path.exists():
+        provenance = strict_json((directory/'provenance.json').read_text())
+        if (provenance.get('source_files') != plan['metadata']['source_files_sha256']
+                or provenance.get('experiment_drivers') != plan['metadata']['experiment_drivers_sha256']):
+            raise ValueError('artifact provenance differs from the executed-source identity')
     expected = expected_selection(plan, directory/'development.jsonl')
     if not equivalent(selection, expected):
         raise ValueError('selection is inconsistent with the development journal')

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 import json
+import inspect
 import math
 import os
 from pathlib import Path
@@ -15,7 +16,7 @@ from torch.utils.data import BatchSampler, DataLoader, RandomSampler, Sequential
 
 from .study import tensor_digest
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 
 def _loader_states(loaders):
@@ -29,6 +30,11 @@ def _loader_states(loaders):
                 or type(loader.sampler) not in (RandomSampler, SequentialSampler)
                 or loader.collate_fn is not default_collate):
             raise ValueError('exact restart requires standard generator-backed TensorDataset loaders with num_workers=0')
+        if (type(loader.batch_size) is not int or loader.batch_size < 1
+                or loader.batch_sampler.sampler is not loader.sampler
+                or loader.batch_sampler.batch_size != loader.batch_size
+                or loader.batch_sampler.drop_last is not loader.drop_last):
+            raise ValueError('exact restart requires unchanged automatic batching')
         if id(loader.generator) in generators:
             raise ValueError('loaders must have independent generators for exact restart')
         generators.add(id(loader.generator))
@@ -82,6 +88,95 @@ def _safe_tree(value, depth=0):
         raise ValueError('nonfinite checkpoint state value')
 
 
+def _buffers(model):
+    return dict(model.named_buffers(remove_duplicate=False))
+
+
+def _buffer_aliases(model):
+    groups = {}
+    for name, tensor in _buffers(model).items():
+        groups.setdefault(id(tensor), []).append(name)
+    return list(groups.values())
+
+
+def _validate_optimizer_payload(optimizer, payload):
+    """Check raw native state before load_state_dict can cast or fill defaults."""
+    if not isinstance(payload, dict) or set(payload) != {'state', 'param_groups'}:
+        raise ValueError('invalid optimizer state container')
+    groups, states = payload['param_groups'], payload['state']
+    if not isinstance(groups, list) or not isinstance(states, dict) or len(groups) != len(optimizer.param_groups):
+        raise ValueError('optimizer group/state structure mismatch')
+    parameters, parameters_to_groups = {}, {}
+    expected_id = 0
+    constructor_keys = set(inspect.signature(type(optimizer)).parameters) - {'params'}
+    for saved, current in zip(groups, optimizer.param_groups):
+        if not isinstance(saved, dict) or not set(optimizer.defaults) <= saved.keys() or 'params' not in saved:
+            raise ValueError('missing native optimizer group settings')
+        ids = saved['params']
+        if not isinstance(ids, list) or len(ids) != len(current['params']):
+            raise ValueError('invalid optimizer parameter group')
+        for identifier, param in zip(ids, current['params']):
+            if type(identifier) is not int or identifier != expected_id:
+                raise ValueError('optimizer parameter identifiers/order mismatch')
+            parameters[identifier] = param
+            parameters_to_groups[identifier] = saved
+            expected_id += 1
+        for name in ('lr', 'weight_decay', 'eps', 'momentum', 'dampening'):
+            if name in saved:
+                value = saved[name]
+                if isinstance(value, torch.Tensor) and value.numel() == 1:
+                    value = value.item()
+                if type(value) not in (int, float) or not math.isfinite(value) or value < 0:
+                    raise ValueError(f'invalid optimizer {name}')
+        for name in ('nesterov', 'amsgrad', 'maximize', 'capturable', 'differentiable', 'decoupled_weight_decay'):
+            if name in saved and type(saved[name]) is not bool:
+                raise ValueError(f'invalid optimizer boolean {name}')
+        for name in ('foreach', 'fused'):
+            if name in saved and saved[name] is not None and type(saved[name]) is not bool:
+                raise ValueError(f'invalid optimizer optional boolean {name}')
+        if 'betas' in saved:
+            betas = saved['betas']
+            if not isinstance(betas, (tuple, list)) or len(betas) != 2:
+                raise ValueError('invalid optimizer betas')
+            for beta in betas:
+                if isinstance(beta, torch.Tensor) and beta.numel() == 1:
+                    beta = beta.item()
+                if type(beta) not in (float, int) or not 0 <= beta < 1:
+                    raise ValueError('invalid optimizer beta')
+        if type(optimizer) is torch.optim.AdamW and saved.get('decoupled_weight_decay', True) is not True:
+            raise ValueError('AdamW requires decoupled weight decay')
+        # Invoke native constructor validation on each group's actual arguments,
+        # not on untouched default arguments with a param-group override.
+        type(optimizer)([deepcopy(p) for p in current['params']],
+                        **{k: deepcopy(v) for k, v in saved.items() if k in constructor_keys})
+    for identifier, state in states.items():
+        if type(identifier) is not int or identifier not in parameters or not isinstance(state, dict):
+            raise ValueError('optimizer state references an unknown parameter')
+        if not state:
+            continue
+        param, group = parameters[identifier], parameters_to_groups[identifier]
+        if type(optimizer) is torch.optim.AdamW:
+            required = {'step', 'exp_avg', 'exp_avg_sq'}
+            if group['amsgrad']:
+                required.add('max_exp_avg_sq')
+            if not required <= state.keys() or set(state) - {'step', 'exp_avg', 'exp_avg_sq', 'max_exp_avg_sq'}:
+                raise ValueError('incomplete or unknown AdamW state')
+            step = state['step']
+            if isinstance(step, torch.Tensor) and step.numel() == 1:
+                step = step.item()
+            if type(step) not in (int, float) or not math.isfinite(step) or step < 0 or step != int(step):
+                raise ValueError('invalid optimizer step')
+        elif set(state) != {'momentum_buffer'}:
+            raise ValueError('invalid SGD state')
+        for name in ('momentum_buffer', 'exp_avg', 'exp_avg_sq', 'max_exp_avg_sq'):
+            if name in state:
+                tensor = state[name]
+                if not isinstance(tensor, torch.Tensor) or tensor.shape != param.shape or tensor.dtype != param.dtype:
+                    raise ValueError('optimizer state shape or dtype mismatch before casting')
+                if name in ('exp_avg_sq', 'max_exp_avg_sq') and (tensor < 0).any():
+                    raise ValueError('negative optimizer second moment')
+
+
 def save_checkpoint(path, model, optimizer, *, loaders, protection, progress, provenance):
     """Save at an epoch boundary. Files are for trusted local experiment recovery."""
     signature = _model_signature(model)
@@ -89,6 +184,7 @@ def save_checkpoint(path, model, optimizer, *, loaders, protection, progress, pr
     numpy_state = np.random.get_state()
     payload = {'schema_version': SCHEMA_VERSION, 'model': model.state_dict(), 'model_signature': signature,
                'trainability': {n: p.requires_grad for n, p in model.named_parameters()},
+               'buffers': _buffers(model), 'buffer_aliases': _buffer_aliases(model),
                'optimizer': optimizer.state_dict() if optimizer is not None else None,
                'optimizer_type': type(optimizer).__qualname__ if optimizer is not None else None,
                'optimizer_names': _optimizer_names(model, optimizer),
@@ -98,6 +194,8 @@ def save_checkpoint(path, model, optimizer, *, loaders, protection, progress, pr
                'torch_rng': torch.random.get_rng_state(),
                'modes': {n: m.training for n, m in model.named_modules()}}
     _safe_tree(payload)
+    if optimizer is not None:
+        _validate_optimizer_payload(optimizer, payload['optimizer'])
     payload = deepcopy(payload)
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -118,13 +216,21 @@ def _numpy_state(value):
 def load_checkpoint(path, model, optimizer, *, loaders, expected_provenance):
     """Validate and stage every mutable component before committing a restore.
 
-    Schema 1 omitted trainability and cannot establish this contract. Use the
-    original code to load an old checkpoint; do not silently migrate its claim.
+    Schemas 1 and 2 omitted parts of this exact-restart contract. Use their
+    original source to load old checkpoints; do not relabel their schema.
     Restricted loading is not a sandbox for arbitrary untrusted model files.
     """
     payload = torch.load(path, map_location='cpu', weights_only=True)
     try:
         _safe_tree(payload)
+        required = {'schema_version', 'model', 'model_signature', 'trainability', 'buffers', 'buffer_aliases',
+                    'optimizer', 'optimizer_type', 'optimizer_names', 'protection', 'progress', 'provenance',
+                    'loaders', 'python_rng', 'numpy_rng', 'torch_rng', 'modes'}
+        if not isinstance(payload, dict) or set(payload) != required:
+            raise ValueError('checkpoint fields or schema mismatch')
+        for name in ('model', 'model_signature', 'trainability', 'buffers', 'loaders', 'modes'):
+            if not isinstance(payload[name], dict):
+                raise ValueError(f'invalid checkpoint mapping {name}')
         if type(payload['schema_version']) is not int or payload['schema_version'] != SCHEMA_VERSION or payload['provenance'] != expected_provenance:
             raise ValueError('checkpoint schema or provenance mismatch')
         if payload['model_signature'] != _model_signature(model):
@@ -142,6 +248,17 @@ def load_checkpoint(path, model, optimizer, *, loaders, expected_provenance):
                 not isinstance(v, torch.Tensor) or current[n].shape != v.shape or current[n].dtype != v.dtype
                 for n, v in payload['model'].items()):
             raise ValueError('model state shape or dtype mismatch')
+        buffers = _buffers(model)
+        if (payload['buffers'].keys() != buffers.keys() or payload['buffer_aliases'] != _buffer_aliases(model)
+                or any(not isinstance(value, torch.Tensor) or value.shape != buffers[name].shape
+                       or value.dtype != buffers[name].dtype for name, value in payload['buffers'].items())):
+            raise ValueError('buffer names, alias topology, shape or dtype mismatch')
+        for name, value in payload['buffers'].items():
+            if name in payload['model'] and not torch.equal(value, payload['model'][name]):
+                raise ValueError('persistent buffer differs between checkpoint representations')
+        for aliases in payload['buffer_aliases']:
+            if any(not torch.equal(payload['buffers'][aliases[0]], payload['buffers'][name]) for name in aliases):
+                raise ValueError('aliased buffer values disagree')
         modules = dict(model.named_modules())
         if payload['modes'].keys() != modules.keys() or any(type(v) is not bool for v in payload['modes'].values()):
             raise ValueError('invalid model mode state')
@@ -157,6 +274,8 @@ def load_checkpoint(path, model, optimizer, *, loaders, expected_provenance):
         np.random.RandomState().set_state(_numpy_state(payload['numpy_rng']))
         torch.Generator().set_state(payload['torch_rng'])
         # Deepcopy the model/optimizer together to retain their parameter bindings.
+        if optimizer is not None:
+            _validate_optimizer_payload(optimizer, payload['optimizer'])
         staged_model, staged_optimizer = deepcopy((model, optimizer))
         staged_model.load_state_dict(payload['model'])
         if staged_optimizer is not None:
@@ -184,11 +303,15 @@ def load_checkpoint(path, model, optimizer, *, loaders, expected_provenance):
         raise ValueError(f'invalid checkpoint state: {exc}') from exc
 
     before_model = deepcopy(model.state_dict())
+    before_buffers = {name: value.clone() for name, value in buffers.items()}
     before_optimizer = deepcopy(optimizer.state_dict()) if optimizer is not None else None
     before_modes = {name: module.training for name, module in modules.items()}
     before_rng = random.getstate(), np.random.get_state(), torch.random.get_rng_state()
     try:
         model.load_state_dict(payload['model'])
+        with torch.no_grad():
+            for name, value in buffers.items():
+                value.copy_(payload['buffers'][name])
         if optimizer is not None:
             optimizer.load_state_dict(payload['optimizer'])
         for name, loader in loaders.items():
@@ -200,6 +323,9 @@ def load_checkpoint(path, model, optimizer, *, loaders, expected_provenance):
         torch.random.set_rng_state(payload['torch_rng'])
     except Exception:
         model.load_state_dict(before_model)
+        with torch.no_grad():
+            for name, value in buffers.items():
+                value.copy_(before_buffers[name])
         if optimizer is not None:
             optimizer.load_state_dict(before_optimizer)
         for name, loader in loaders.items():
