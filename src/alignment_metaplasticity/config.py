@@ -8,6 +8,24 @@ from typing import Any
 import yaml
 
 
+class UniqueSafeLoader(yaml.SafeLoader):
+    """Reject duplicate settings, including conflicts introduced by YAML merges."""
+
+
+def _unique_mapping(loader, node, deep=False):
+    loader.flatten_mapping(node)
+    result = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if not isinstance(key, str) or key in result:
+            raise ValueError("configuration keys must be unique strings")
+        result[key] = loader.construct_object(value_node, deep=deep)
+    return result
+
+
+UniqueSafeLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _unique_mapping)
+
+
 DEFAULT_CONFIG: dict[str, Any] = {
     "seed": 7,
     "device": "cpu",
@@ -120,7 +138,7 @@ def load_config(path: str | Path | None = None, overrides: dict[str, Any] | None
     cfg = deepcopy(DEFAULT_CONFIG)
     if path is not None:
         with Path(path).open("r", encoding="utf-8") as f:
-            loaded = yaml.safe_load(f)
+            loaded = yaml.load(f, Loader=UniqueSafeLoader)
         if loaded is None:
             loaded = {}
         cfg = _deep_update(cfg, loaded)

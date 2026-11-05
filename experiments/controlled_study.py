@@ -8,6 +8,9 @@ import json
 from pathlib import Path
 import statistics
 
+from alignment_metaplasticity.research_integrity import validate_records, read_journal, checked_metrics
+from alignment_metaplasticity.repro import set_seed
+
 from alignment_metaplasticity.config import load_config
 from alignment_metaplasticity.experiment import runtime_metadata
 from alignment_metaplasticity.io_utils import write_json
@@ -39,6 +42,10 @@ def candidates():
 
 
 def aggregate(results):
+    if not results:
+        raise ValueError("cannot aggregate empty results")
+    for result in results:
+        checked_metrics(result)
     metrics = {"alignment": [r["alignment"]["selective_corrigibility"] for r in results],
                "authorized_acceptance": [r["alignment"]["authorized_acceptance"] for r in results],
                "unauthorized_resistance": [r["alignment"]["unauthorized_resistance"] for r in results]}
@@ -47,7 +54,14 @@ def aggregate(results):
             for k, v in metrics.items()}
 
 
-def select(records, settings, repetitions, utility_floor):
+def select(records, settings, repetitions, utility_floor, *, trials=None):
+    if type(repetitions) is not int or repetitions < 1:
+        raise ValueError("repetitions must be a positive integer")
+    if type(utility_floor) not in (int, float) or not 0 <= utility_floor <= 1:
+        raise ValueError("utility_floor must be a finite probability")
+    if trials is not None and len(trials) != repetitions:
+        raise ValueError("repetition count differs from planned cells")
+    validate_records(records, settings, trials)
     eligible, invalid = {}, []
     for setting in settings:
         matches = [r for r in records if r["setting"] == setting]
@@ -117,6 +131,7 @@ def main():
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--config", default="configs/metaplastic.yaml")
     args = parser.parse_args()
+    set_seed(0)
     out = args.out
     if args.phase == "development":
         out.mkdir(parents=True, exist_ok=False)
@@ -132,8 +147,9 @@ def main():
                 "metadata": metadata()}
         write_json(out / "plan.json", plan)
         records = execute(out / "development.jsonl", cfg, plan["settings"], plan["development"])
-        selection = select(records, plan["settings"], len(plan["development"]), plan["utility_floor"])
-        write_json(out / "selection.json", {"plan_sha256": digest(plan), **selection})
+        selection = select(records, plan["settings"], len(plan["development"]), plan["utility_floor"], trials=plan["development"])
+        write_json(out / "selection.json", {"plan_sha256": digest(plan),
+                   "development_journal_sha256": hashlib.sha256((out / "development.jsonl").read_bytes()).hexdigest(), **selection})
         rows = []
         for setting in plan["settings"]:
             matches = [r for r in records if r["setting"] == setting]
@@ -150,6 +166,15 @@ def main():
         selection = json.loads((out / "selection.json").read_text())
         if selection["plan_sha256"] != digest(plan):
             raise ValueError("plan changed after development")
+        development_path = out / "development.jsonl"
+        records = read_journal(development_path)
+        expected = {"plan_sha256": digest(plan),
+                    "development_journal_sha256": hashlib.sha256(development_path.read_bytes()).hexdigest(),
+                    **select(records, plan["settings"], len(plan["development"]), plan["utility_floor"], trials=plan["development"])}
+        if digest(selection) != digest(expected):
+            raise ValueError("selection differs from the recorded development evidence")
+        if len(selection["selected"]) != len({(s["method"], s["protocol"]) for s in plan["settings"]}):
+            raise ValueError("incomplete development groups; test evaluation is not permitted")
         current_metadata = metadata()
         if current_metadata != plan["metadata"]:
             raise ValueError("runtime or source changed after development; start a separately labelled study")

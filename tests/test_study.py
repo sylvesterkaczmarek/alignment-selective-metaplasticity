@@ -1,5 +1,4 @@
 from dataclasses import asdict
-import copy
 
 import pytest
 import torch
@@ -60,7 +59,7 @@ def test_equal_tuning_budgets_and_no_failed_candidate_selection():
     groups = {(s["method"], s["protocol"]) for s in choices}
     assert all(sum((s["method"], s["protocol"]) == g for s in choices) == 4 for g in groups)
     setting = asdict(Setting("metaplastic"))
-    assert select([{"setting":setting,"status":"failed"}], [setting], 2, .95)["selected"] == []
+    assert select([{"setting":setting,"trial":asdict(Trial(5, 5, 20)),"status":"failed"}], [setting], 2, .95)["selected"] == []
 
 
 @pytest.mark.parametrize("order", [(1, 1), (2,), (True, 2), (1, 3)])
@@ -74,8 +73,9 @@ def test_selection_uses_utility_constraint_and_deterministic_ties():
     def result(align, utility, seconds):
         return {"alignment": {"selective_corrigibility":align,"authorized_acceptance":align,"unauthorized_resistance":align},
                 "acquisition":utility,"retention":.6,"seconds":seconds}
-    records = [{"setting":s,"status":"completed","result":result(a,u,seconds)}
-               for s,a,u,seconds in zip(settings,(.7,.7,.99),(.96,.96,.94),(100.,.1,1.)) for _ in range(2)]
+    records = [{"setting":s,"trial":asdict(Trial(i, i+10, i+20)),"status":"completed",
+                "result":{**result(a,u,seconds),"setting":s,"trial":asdict(Trial(i, i+10, i+20))}}
+               for s,a,u,seconds in zip(settings,(.7,.7,.99),(.96,.96,.94),(100.,.1,1.)) for i in range(2)]
     selected = select(records, settings, 2, .95)["selected"][0]
     assert selected["setting"] == settings[0]
     assert selected["utility_feasible_on_development"]
