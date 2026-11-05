@@ -1,0 +1,42 @@
+{
+  "base_commit": "439c379",
+  "candidate_version": "0.2.0rc1",
+  "experiment_drivers": {
+    "__init__.py": "ca127a34501654b43f34a9ee15cae4942f0828768d26ebaf1656642b95de2ed4",
+    "_common.py": "c0060d62e081df118eb666d1fceff6c9c129a31a93a13ef5da2753c6abb04cd3",
+    "baseline_forgetting.py": "6bd48105245e9a303f7187fa4fb98c1448cd79ba487e54000e7468f2a3e8c935",
+    "bypass_test.py": "5d0fa278da012b4f30faa25fbd76c0e1884fc31cba7b19a235fd79511d3d28cd",
+    "calibrated_transfer.py": "920f728ba0ad5738d77a73c2a3dfbf055048a0bd969346f329a4025682f6138e",
+    "controlled_study.py": "b43006bc01b1203895dea4585c81fd58c1418e080f0922a36bea54a25ff585c5",
+    "mechanism_study.py": "7c79d218124a0c7d1cbc2390bd111cb05b662a794b62d2ac7ec1958fe38e27b1",
+    "metaplastic_retention.py": "982f2d8824fa22b17e9d76eb1cbeca36a2889e16c1c9a7d9ce1abfd4788243b4",
+    "plasticity_ablation.py": "e86b0cb9df8dd1d57a2b2fbe65b84d2de71c2d4190f283cedf942ae6c921b32b",
+    "portfolio_demo.py": "886309245a9647cd704a1a2c078c9723c583b473547c4013e3b1768f6ede6eff",
+    "restart_example.py": "aef539fb1c032c4e6c662f3ab5ba3b2cef53b140a352cd61727f00c4a1a77a02",
+    "run_all.py": "4e43f2e3b12251fefc0c4d4b978dafec48e7045659b825b47cdecfd95877fb05",
+    "transfer_study.py": "62ee6b879e7b058eedddff9701aedaee8b70d599403a4eac55921937b211256c"
+  },
+  "historical_reference_parity": "12/12 baseline versus candidate runs match all behavioural outputs; loss diagnostics intentionally sample-weighted.",
+  "reproduction": "40/40 outcomes exactly reproduced excluding wall time and process-lifetime peak RSS; no new independent cells.",
+  "source_files": {
+    "__init__.py": "5239ff61d0e9bcd2c3e12703f04849559694c6c193c97e3abef5252bb724ff55",
+    "checkpoint.py": "41102e26794d7ad41b098f737ff8bbe5a9c4fb7f292671d761d0357e5232fd9f",
+    "config.py": "0f4dd359a2606fe2302f331f09fdf069b02ab8642a6407275407ca46f5529ad6",
+    "evaluation.py": "05e1d562a833f440aa2c66537f5f67d338c6fb97ac102a3550fbab7eda7473ef",
+    "experiment.py": "a65c412258a0e70b1346aa647f7d0a89b2e57e4c607901fbbc2c4baa31814b85",
+    "importance.py": "4c891172a3332d8996b3d06f27f8f98ffb9fc834c31dc2511c2647ed7fb628f1",
+    "io_utils.py": "4df2f86a4110f65803c4a8b0a8cee5a7c0ff0698599fe4b7d0ebb503126cb08a",
+    "metrics.py": "6a5f3fdf75e3ba843c4ed70e67c92b16195ae4093a5abd1f4def6a3e6b31153a",
+    "model.py": "1c56d9ba4c110ee7bb62984f5cc7d8a0220128f70aa2d533d7dbaf4006689b21",
+    "plotting.py": "5716b3c10ddab81999a9f431c17efc4752ce758c7b01d7d07d041763879cc584",
+    "probes.py": "87d4daa20af7cf2bc2e9af2af9326967ed671a2886eede1b9bda8284bab24fbd",
+    "repro.py": "890eef5d40c2260a192eb80c832b5a122997532c8ce1bc8ced4311b01b7f3c4e",
+    "research_integrity.py": "ff34f144ee19f397bdc1f14f5f8fc44da2dbff097cb03aba67b054a5872854b7",
+    "study.py": "6d65b6963c7d5980d85451f79aa03ca20e63f8cbad9d3a675c7570d7485cdf7c",
+    "summary.py": "c733eb9c5e0d5d7ad9419b74a78967b5dfdd3523328d439add6232b55c8a0571",
+    "tasks.py": "ac0219bb5030480e3ea1c2630d91d451c84fdde3e4f23d4fbc89a8dbee1b389a",
+    "training.py": "a57508726d8583354b1c6926d94886d33b7c9c4b47c1eeba2fcc3babe593f60d",
+    "validation.py": "b6090ca692fc487b1b4a142393c33adf271e5dbefb5fd427dc2449738eb3b7fc"
+  },
+  "source_identity": "Exact file hashes in plan.metadata, verified against final candidate source."
+}

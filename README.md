@@ -7,6 +7,32 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+## November research-integrity candidate
+
+Version **0.2.0rc1** is an unpublished candidate for separate review. It rejects
+incomplete protection mappings, preserves model state during measurement, checks
+checkpoint recovery before mutating live state, and validates unique development
+cells and selection provenance. See the [audit and migration record](docs/research-integrity-2026-11-05.md).
+
+A new [development-calibrated transformer follow-up](docs/calibrated-transfer.md)
+uses equal two-candidate search budgets, two development cells and four untouched
+held-out cells. Selective metaplasticity has mean alignment **0.683 ± 0.462** and
+acquisition **0.942 ± 0.014**; EWC has alignment **0.892 ± 0.034** and acquisition
+**0.878 ± 0.067**. These small-sample results remain variable and do not establish
+reliable architectural transfer or a matched-utility advantage. All cell outcomes,
+component metrics, failed-attempt handling and paired uncertainty are inspectable.
+The previous reference, controlled, mechanism and transfer evidence is unchanged.
+
+A one-seed demonstration trains the four reference methods and their context
+challenge, without a model download or external service:
+
+```bash
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MPLBACKEND=Agg python -m experiments.portfolio_demo --out /tmp/asm-demo-new
+```
+
+Use an absent output directory. The demonstration is a synthetic classifier
+experiment, not evidence about human beliefs or language-model safety.
+
 Controlled PyTorch experiments testing whether selective metaplasticity can preserve an alignment-relevant behavior through sequential capability updates.
 
 The benchmark uses a small selective-corrigibility proxy: a model must accept authorized corrections while resisting otherwise comparable unauthorized interventions. After learning that distinction, the same network learns new capability tasks in sequence. The experiment compares ordinary fine-tuning, static protection, Elastic Weight Consolidation, and a dynamic metaplastic rule that reduces the future updateability of parameters repeatedly implicated in the alignment proxy.
@@ -354,7 +380,7 @@ See [docs/limitations.md](docs/limitations.md) for the full scope.
 
 ## Extending
 
-- replace the MLP with a small transformer
+- extend the existing transformer pilot using a separately declared development and evaluation split
 - estimate importance at the activation or circuit level
 - use causal tracing rather than squared gradients
 - learn authorization rather than providing it explicitly

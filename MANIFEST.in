@@ -7,3 +7,7 @@ recursive-include scripts *.sh
 recursive-include results/controlled-v1 *.json *.gz *.png
 recursive-include results/mechanisms-v1 *.json *.gz
 recursive-include results/transfer-v1 *.json *.gz
+include requirements-reference.txt
+recursive-include scripts *.py
+recursive-include tests *.py
+recursive-include results/calibrated-transfer-v2 *.json *.jsonl *.png *.md
