@@ -11,3 +11,5 @@ include requirements-reference.txt
 recursive-include scripts *.py
 recursive-include tests *.py
 recursive-include results/calibrated-transfer-v2 *.json *.jsonl *.png *.md
+
+recursive-include verification *.json

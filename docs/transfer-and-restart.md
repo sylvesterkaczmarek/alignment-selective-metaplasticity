@@ -63,3 +63,10 @@ The [calibrated follow-up](calibrated-transfer.md) adds development-only learnin
 selection and paired held-out reporting. The [integrity update](research-integrity-2026-11-05.md)
 introduces checkpoint schema 2, failure-atomic restore checks and strict protection
 mappings. Historical pilot evidence above remains unchanged.
+
+## Version 0.2.0 verification
+
+The final release uses [checkpoint schema 3](migration-0.2.md), including registered
+nonpersistent buffers and strict automatic-batching validation. See the
+[independent review](independent-review-2026-11-05.md). The earlier schema-2
+implementation record is preserved as history.

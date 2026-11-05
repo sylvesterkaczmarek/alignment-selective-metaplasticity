@@ -7,12 +7,18 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## November research-integrity candidate
+## Version 0.2.0
 
-Version **0.2.0rc1** is an unpublished candidate for separate review. It rejects
-incomplete protection mappings, preserves model state during measurement, checks
-checkpoint recovery before mutating live state, and validates unique development
-cells and selection provenance. See the [audit and migration record](docs/research-integrity-2026-11-05.md).
+This release strengthens experiment integrity and CPU checkpoint recovery.
+A separate review added 48 checks, reproduced the recorded transformer study,
+and corrected remaining checkpoint, dtype and evidence-validation defects.
+The complete suite contains 258 tests. See the [independent review](docs/independent-review-2026-11-05.md),
+[release notes](docs/release-0.2.0.md), and [migration guide](docs/migration-0.2.md).
+
+The [GitHub release](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/tag/v0.2.0)
+provides the verified wheel, source distribution, exact source archive and checksums.
+The Python import remains `alignment_metaplasticity`. Package-index publication is
+not configured; use the GitHub assets or the source checkout documented below.
 
 A new [development-calibrated transformer follow-up](docs/calibrated-transfer.md)
 uses equal two-candidate search budgets, two development cells and four untouched
