@@ -1,6 +1,7 @@
 """Controlled comparisons; the historical experiment runner remains independent."""
 from __future__ import annotations
 
+from copy import deepcopy
 from dataclasses import asdict, dataclass
 import hashlib
 import math
@@ -9,7 +10,6 @@ import time
 from typing import Callable
 
 import torch
-from torch import nn
 
 from .config import validate_config, validate_seed
 from .evaluation import accuracy, evaluate_alignment
@@ -68,7 +68,7 @@ def tensor_digest(values):
     for name, value in values.items():
         value = value.detach().cpu().contiguous()
         digest.update(str((name, str(value.dtype), tuple(value.shape))).encode())
-        digest.update(value.numpy().tobytes())
+        digest.update(value.reshape(-1).view(torch.uint8).numpy().tobytes())
     return digest.hexdigest()
 
 
@@ -109,7 +109,9 @@ class StudyRun:
         trial.validate(cfg["model"]["num_capability_tasks"])
         if cfg["device"] != "cpu":
             raise ValueError("controlled studies currently require CPU for measured runtime")
-        self.cfg, self.trial, self.setting = cfg, trial, setting
+        cfg = deepcopy(cfg)
+        self.cfg, self.trial, self.setting = cfg, deepcopy(trial), setting
+        self._run_state = "ready"
         if protection_factory is not None and (not isinstance(protection_name, str) or not protection_name.strip()
                                               or protection_name in STUDY_METHODS):
             raise ValueError("a custom protection factory requires a distinct protection_name")
@@ -190,6 +192,9 @@ class StudyRun:
         return {}
 
     def run(self):
+        if self._run_state != "ready":
+            raise ValueError("StudyRun is single-use; create a fresh trial after completion or failure")
+        self._run_state = "running"
         for i, task in enumerate(self.order):
             self.train(self.loaders[2][task], self.cfg["training"]["capability_epochs"], "capability", **self.protection())
             if self.setting.protocol == "periodic":
@@ -199,11 +204,12 @@ class StudyRun:
                     self.importance = ema_importance(self.importance, self.estimate(i + 1), self.cfg["metaplastic"]["ema_decay"])
             caps = {str(t): accuracy(self.model, self.loaders[3][t], self.device) for t in self.order[:i + 1]}
             self.history.append({"task": task, "alignment": self.alignment(), "capabilities": caps})
+        self._run_state = "completed"
         return self.result()
 
     def result(self):
-        if not self.history:
-            raise ValueError("run capability training before requesting results")
+        if self._run_state != "completed":
+            raise ValueError("complete capability training before requesting results")
         caps = self.history[-1]["capabilities"]
         state = [*self.model.parameters(), *self.anchor.values(), *self.importance.values()]
         # ru_maxrss is a process lifetime high-water mark, not a per-trial allocation measurement.
@@ -212,7 +218,7 @@ class StudyRun:
             process_peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * (1 if sys.platform == "darwin" else 1024)
         except ImportError:
             process_peak = None
-        return {"trial": asdict(self.trial), "setting": asdict(self.setting), "method_id": self.method_id,
+        return deepcopy({"trial": asdict(self.trial), "setting": asdict(self.setting), "method_id": self.method_id,
                 "importance_estimator": self.importance_estimator, "initial_digest": self.initial_digest,
                 "data_sha256": self.data_hashes, "initial_alignment": self.initial_alignment,
                 "alignment": self.history[-1]["alignment"], "history": self.history,
@@ -222,4 +228,4 @@ class StudyRun:
                 "cost": self.cost, "seconds": time.perf_counter() - self.started,
                 "persistent_tensor_bytes": sum(t.numel() * t.element_size() for t in state),
                 "process_lifetime_peak_rss_bytes": process_peak,
-                "final_digest": tensor_digest(dict(self.model.named_parameters()))}
+                "final_digest": tensor_digest(dict(self.model.named_parameters()))})

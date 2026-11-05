@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "candidate_commit": "2393c326f822be6b0cc5fc90221d384d5b8d3937",
+  "release_version": "0.2.0",
+  "independent_candidate_replay_runs": 40,
+  "independent_final_source_replay_runs": 40,
+  "evaluation_independent_cells": 4,
+  "all_non_timing_fields_identical": true,
+  "new_plan_sha256": "411c72c8965bb8d7952eb9fdce9f66fb17c605c5dc028bd696fce6a60b5ed454",
+  "scope": "Within this same recorded CPU environment. Replayed cells are not additional independent samples."
+}

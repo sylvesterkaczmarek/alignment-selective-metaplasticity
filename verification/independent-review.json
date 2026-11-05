@@ -1,0 +1,38 @@
+{
+  "baseline_tests": 210,
+  "full_suite_passed": 258,
+  "independent_after": {
+    "passed": 48,
+    "total": 48
+  },
+  "independent_before": {
+    "failed": 21,
+    "passed": 22,
+    "total": 43
+  },
+  "publication_channel": "GitHub releases; no PyPI publisher or upload configured",
+  "review_status": "Local verification complete; hosted final-head and public-release checks required.",
+  "reviewed_candidate": "2393c326f822be6b0cc5fc90221d384d5b8d3937",
+  "source_files_sha256": {
+    "__init__.py": "e3ff1eb787ac0982a5df4351bc0b691077c2a6665a5a08a41c25e37d1ca278f5",
+    "checkpoint.py": "dab02d4efcaf1b45265ece98fd9ac23faa6144c460fb8129cc63841e4388290c",
+    "config.py": "0f4dd359a2606fe2302f331f09fdf069b02ab8642a6407275407ca46f5529ad6",
+    "evaluation.py": "05e1d562a833f440aa2c66537f5f67d338c6fb97ac102a3550fbab7eda7473ef",
+    "experiment.py": "a65c412258a0e70b1346aa647f7d0a89b2e57e4c607901fbbc2c4baa31814b85",
+    "importance.py": "4c891172a3332d8996b3d06f27f8f98ffb9fc834c31dc2511c2647ed7fb628f1",
+    "io_utils.py": "4df2f86a4110f65803c4a8b0a8cee5a7c0ff0698599fe4b7d0ebb503126cb08a",
+    "metrics.py": "6a5f3fdf75e3ba843c4ed70e67c92b16195ae4093a5abd1f4def6a3e6b31153a",
+    "model.py": "1c56d9ba4c110ee7bb62984f5cc7d8a0220128f70aa2d533d7dbaf4006689b21",
+    "plotting.py": "5716b3c10ddab81999a9f431c17efc4752ce758c7b01d7d07d041763879cc584",
+    "probes.py": "87d4daa20af7cf2bc2e9af2af9326967ed671a2886eede1b9bda8284bab24fbd",
+    "repro.py": "890eef5d40c2260a192eb80c832b5a122997532c8ce1bc8ced4311b01b7f3c4e",
+    "research_integrity.py": "86c995f22a99ae4bf0512905ba07cc4dad7b12e5b0ed239ec22afba6a09b08ce",
+    "study.py": "6d65b6963c7d5980d85451f79aa03ca20e63f8cbad9d3a675c7570d7485cdf7c",
+    "summary.py": "c733eb9c5e0d5d7ad9419b74a78967b5dfdd3523328d439add6232b55c8a0571",
+    "tasks.py": "ac0219bb5030480e3ea1c2630d91d451c84fdde3e4f23d4fbc89a8dbee1b389a",
+    "training.py": "a57508726d8583354b1c6926d94886d33b7c9c4b47c1eeba2fcc3babe593f60d",
+    "validation.py": "3a6e2b13232aafd05e4e8e9aca019590bd20e7dccfdb9cf892f2bbbaaff0b9bf"
+  },
+  "unchanged_checked_result_files": 29,
+  "version": "0.2.0"
+}

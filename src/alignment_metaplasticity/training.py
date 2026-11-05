@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
-import math
-from numbers import Real
 
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
+
+from .validation import finite_number, parameter_map
 
 
 TensorMap = Mapping[str, torch.Tensor]
@@ -59,13 +59,22 @@ def train_epochs(
     optimizer=None,
     update_scale: TensorMap | None = None,
 ) -> TrainDiagnostics:
-    if (
-        isinstance(weight_decay, bool)
-        or not isinstance(weight_decay, Real)
-        or not math.isfinite(weight_decay)
-        or weight_decay < 0
-    ):
-        raise ValueError("weight_decay must be a finite nonnegative number")
+    finite_number("weight_decay", weight_decay)
+    if type(epochs) is not int or epochs < 0:
+        raise ValueError("epochs must be a nonnegative integer")
+    finite_number("lr", lr, strictly_positive=True)
+    finite_number("ewc_lambda", ewc_lambda)
+    if (ewc_anchor is None) != (ewc_importance is None) or (ewc_lambda > 0 and ewc_anchor is None):
+        raise ValueError("EWC requires both anchor and importance mappings")
+    if grad_scale is not None:
+        grad_scale = parameter_map(model, grad_scale, "grad_scale", bounds=(0., 1.))
+    if grad_mask is not None:
+        grad_mask = parameter_map(model, grad_mask, "grad_mask", binary=True)
+    if update_scale is not None:
+        update_scale = parameter_map(model, update_scale, "update_scale", bounds=(0., 1.))
+    if ewc_anchor is not None:
+        ewc_anchor = parameter_map(model, ewc_anchor, "ewc_anchor")
+        ewc_importance = parameter_map(model, ewc_importance, "ewc_importance", bounds=(0., None))
     criterion = nn.CrossEntropyLoss()
     # Apply L2 decay before protection so it cannot move frozen elements or
     # bypass their plasticity coefficient. Momentum starts fresh for each call;
@@ -95,6 +104,7 @@ def train_epochs(
             if s.shape != p.shape or not torch.isfinite(s).all() or (s < 0).any() or (s > 1).any():
                 raise ValueError(f"invalid update_scale for {name}")
     losses: list[float] = []
+    examples = 0
     protected_grads: list[float] = []
     unprotected_grads: list[float] = []
 
@@ -109,6 +119,8 @@ def train_epochs(
             if not torch.isfinite(loss):
                 raise FloatingPointError("nonfinite training loss")
             loss.backward()
+            if any(p.grad is not None and not torch.isfinite(p.grad).all() for p in model.parameters()):
+                raise FloatingPointError("nonfinite loss gradient before optimiser step")
 
             for name, p in model.named_parameters():
                 if p.grad is None:
@@ -129,6 +141,8 @@ def train_epochs(
                 if grad_mask is not None and name in grad_mask:
                     p.grad.mul_(grad_mask[name].to(p.grad.device))
 
+            if any(p.grad is not None and not torch.isfinite(p.grad).all() for p in model.parameters()):
+                raise FloatingPointError("nonfinite protected gradient before optimiser step")
             previous = {n:p.detach().clone() for n,p in model.named_parameters() if p.requires_grad} if update_scale is not None else {}
             optimizer.step()
             if update_scale is not None:
@@ -138,7 +152,8 @@ def train_epochs(
                             if not torch.isfinite(p).all():
                                 raise FloatingPointError("nonfinite optimiser update")
                             p.copy_(previous[name] + update_scale[name].to(p) * (p - previous[name]))
-            losses.append(float(loss.detach().item()))
+            losses.append(float(loss.detach().item()) * len(y))
+            examples += len(y)
 
         if epoch_callback is not None:
             modes = {module: module.training for module in model.modules()}
@@ -148,10 +163,12 @@ def train_epochs(
                 for module, training in modes.items():
                     module.training = training
 
+    if epochs > 0 and examples == 0:
+        raise ValueError("training requires at least one example")
     if any(not torch.isfinite(p).all() for p in model.parameters()):
         raise FloatingPointError("nonfinite model parameters")
     return TrainDiagnostics(
-        mean_loss=sum(losses) / max(len(losses), 1),
+        mean_loss=sum(losses) / max(examples, 1),
         protected_grad_mean=(sum(protected_grads) / len(protected_grads)) if protected_grads else None,
         unprotected_grad_mean=(sum(unprotected_grads) / len(unprotected_grads)) if unprotected_grads else None,
     )

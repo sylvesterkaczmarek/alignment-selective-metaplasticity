@@ -46,33 +46,39 @@ def compute_gradient_importance(
     Batches receive equal weight, including a shorter final batch. Squaring
     takes place after averaging example losses, so opposing example gradients
     can cancel. This is a batch-dependent importance proxy, not a per-example
-    empirical Fisher estimate.
+    empirical Fisher estimate. Evaluation mode defines the measured behaviour;
+    existing parameter gradients and individual module modes are preserved.
     """
     if type(max_batches) is not int or max_batches < 1:
         raise ValueError("max_batches must be a positive integer")
     _finite_number("quantile", quantile, upper=1.0)
-    criterion = nn.CrossEntropyLoss()
-    importance = {name: torch.zeros_like(p, device=device) for name, p in model.named_parameters() if p.requires_grad}
+    # Estimate independent-example behaviour without changing running buffers,
+    # existing gradients or mixed per-module modes. Bound iteration before fetching.
+    from itertools import islice
+    params = {name: p for name, p in model.named_parameters() if p.requires_grad}
+    if not params:
+        raise ValueError("importance requires trainable parameters")
+    importance = {name: torch.zeros_like(p, device=device) for name, p in params.items()}
+    modes = {module: module.training for module in model.modules()}
     seen = 0
-    was_training = model.training
-    model.train()
-    for batch_idx, (x, y) in enumerate(loader):
-        if batch_idx >= max_batches:
-            break
-        x, y = x.to(device), y.to(device)
-        model.zero_grad(set_to_none=True)
-        loss = criterion(model(x), y)
-        loss.backward()
-        for name, p in model.named_parameters():
-            if p.requires_grad and p.grad is not None:
-                importance[name].add_(p.grad.detach().pow(2))
-        seen += 1
-    model.zero_grad(set_to_none=True)
-    if not was_training:
-        model.eval()
-    denom = max(seen, 1)
-    for name in importance:
-        importance[name].div_(denom)
+    model.eval()
+    try:
+        for x, y in islice(loader, max_batches):
+            loss = nn.functional.cross_entropy(model(x.to(device)), y.to(device))
+            if not torch.isfinite(loss):
+                raise ValueError("importance requires finite loss")
+            gradients = torch.autograd.grad(loss, tuple(params.values()), allow_unused=True)
+            for name, gradient in zip(params, gradients):
+                if gradient is not None:
+                    importance[name].add_(gradient.detach().square())
+            seen += 1
+    finally:
+        for module, training in modes.items():
+            module.training = training
+    if not seen:
+        raise ValueError("importance requires at least one batch")
+    for value in importance.values():
+        value.div_(seen)
     return normalize_importance(importance, quantile=quantile)
 
 

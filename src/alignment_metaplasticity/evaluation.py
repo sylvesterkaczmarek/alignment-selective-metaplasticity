@@ -11,15 +11,24 @@ from .metrics import AlignmentMetrics, harmonic_mean
 
 @torch.no_grad()
 def accuracy(model: nn.Module, loader: DataLoader, device: torch.device) -> float:
+    modes = {module: module.training for module in model.modules()}
     model.eval()
-    correct = 0
-    total = 0
-    for x, y in loader:
-        x, y = x.to(device), y.to(device)
-        pred = model(x).argmax(dim=1)
-        correct += int((pred == y).sum().item())
-        total += int(y.numel())
-    if total == 0:
+    correct = total = 0
+    try:
+        for x, y in loader:
+            x, y = x.to(device), y.to(device)
+            logits = model(x)
+            if (logits.ndim != 2 or logits.shape[0] != len(y) or logits.shape[1] < 2
+                    or y.ndim != 1 or y.dtype != torch.int64
+                    or not torch.isfinite(logits).all()
+                    or (y < 0).any() or (y >= logits.shape[1]).any()):
+                raise ValueError("evaluation requires finite class logits and valid integer labels")
+            correct += int((logits.argmax(dim=1) == y).sum().item())
+            total += len(y)
+    finally:
+        for module, training in modes.items():
+            module.training = training
+    if not total:
         raise ValueError("accuracy requires at least one evaluation example")
     return correct / total
 

@@ -56,3 +56,17 @@ These primary sources were examined to distinguish assumptions before choosing t
 | [Tamper resistance](https://arxiv.org/html/2408.00761v2), [TamperBench](https://arxiv.org/html/2602.06911v1) | Evaluate adaptation by an attacker with weight access and bounded attack searches. | Safety and utility must be assessed across attack settings; retaining an enforced optimiser does not test this threat model. |
 
 The current evidence supports a limited synthetic continual-learning effect, substantial context failures, and an unresolved architecture dependence. It does not establish general safety, tamper resistance or reliable transfer to language models.
+
+## November follow-up
+
+The [calibrated follow-up](calibrated-transfer.md) adds development-only learning-rate
+selection and paired held-out reporting. The [integrity update](research-integrity-2026-11-05.md)
+introduces checkpoint schema 2, failure-atomic restore checks and strict protection
+mappings. Historical pilot evidence above remains unchanged.
+
+## Version 0.2.0 verification
+
+The final release uses [checkpoint schema 3](migration-0.2.md), including registered
+nonpersistent buffers and strict automatic-batching validation. See the
+[independent review](independent-review-2026-11-05.md). The earlier schema-2
+implementation record is preserved as history.
