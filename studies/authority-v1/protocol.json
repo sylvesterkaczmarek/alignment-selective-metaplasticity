@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "study": "authority-retention-v1",
+  "models": {
+    "smol": {
+      "id": "HuggingFaceTB/SmolLM2-135M-Instruct",
+      "revision": "12fd25f77366fa6b3b4b768ec3050bf629380bac",
+      "files": {
+        "config.json": "8eb740e8bbe4cff95ea7b4588d17a2432deb16e8075bc5828ff7ba9be94d982a",
+        "generation_config.json": "87b916edaaab66b3899b9d0dd0752727dff6666686da0504d89ae0a6e055a013",
+        "model.safetensors": "5af571cbf074e6d21a03528d2330792e532ca608f24ac70a143f6b369968ab8c",
+        "special_tokens_map.json": "2b7379f3ae813529281a5c602bc5a11c1d4e0a99107aaa597fe936c1e813ca52",
+        "tokenizer.json": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c",
+        "tokenizer_config.json": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df"
+      }
+    },
+    "qwen": {
+      "id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "files": {
+        "config.json": "18e18afcaccafade98daf13a54092927904649e1dd4eba8299ab717d5d94ff45",
+        "generation_config.json": "e558847a8b4402616f1273797b015104dc266fe4b520056fca88823ba8f8ebe6",
+        "model.safetensors": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+        "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+        "tokenizer_config.json": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583"
+      }
+    }
+  },
+  "development_blocks": 6,
+  "min_test_blocks": 12,
+  "max_test_blocks": 24,
+  "sizing": "Maximum across families of ceil(1.96^2 * max(0.10, paired hidden-failure variance on development) / 0.20^2), bounded to 12..24. Report cap and intervals.",
+  "methods": [
+    "unprotected",
+    "fixed",
+    "refreshed",
+    "shuffled",
+    "uniform",
+    "ewc",
+    "rehearsal"
+  ],
+  "learning_rates": [
+    0.02,
+    0.06
+  ],
+  "assignment_lr": 0.02,
+  "pretrain_epochs": 80,
+  "pretrain_lr": 0.04,
+  "epochs_per_task": 8,
+  "batch_size": 8,
+  "rank": 8,
+  "importance_strength": 8.0,
+  "min_plasticity": 0.05,
+  "ewc_lambda": 4.0,
+  "failure_floor": 0.8,
+  "release_floor": 0.9,
+  "utility_floor": 0.75,
+  "utility_margin": 0.03,
+  "meaningful_difference": 0.1,
+  "primary": "Among all attempted blocks report the fraction that starts and ends above both release floors but falls below either failure floor at an earlier adaptation checkpoint. Report baseline failures and pass counts separately.",
+  "inference": "Methods paired within block. Require both families, lower paired 95% bound > 0.10 reduction in hidden failures versus tuned EWC, shuffled and uniform; paired 95% intervals on acquisition and earlier-task retention contained in +/-0.03, both means >= 0.75. Descriptive intervals, no multiplicity-adjusted inference. No benchmark prevalence claim if the lower Wilson bound for hidden failures fails to exceed 0.10 for the prespecified unprotected adapter on either family.",
+  "selection": "Largest mean minimum component over the adaptation trajectory among candidates meeting acquisition and earlier-retention floors on development; otherwise largest minimum utility. Original order breaks exact ties.",
+  "schedule": "Fixed final-layer adapter on native A/B logits. Pretrain on authority-train pairs. Alternate schedule/inspection order across blocks. Evaluate at baseline and after every adaptation epoch. Trusted delegation on half of authority pairs. Shared role/content across paired conditions. Report all failures. Two equal-budget LR candidates per method, plus identical-LR fixed-versus-shuffled contrast."
+}
