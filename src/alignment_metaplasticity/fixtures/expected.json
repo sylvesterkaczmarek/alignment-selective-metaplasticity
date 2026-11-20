@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "runs": {
+    "example": {
+      "curve": [
+        {
+          "checkpoint": 0,
+          "authorized": {
+            "correct": 1,
+            "observed": 1,
+            "expected": 1,
+            "abstentions": 0,
+            "accuracy": 1.0
+          },
+          "unauthorized": {
+            "correct": 1,
+            "observed": 1,
+            "expected": 1,
+            "abstentions": 0,
+            "accuracy": 1.0
+          },
+          "minimum_component": 1.0
+        },
+        {
+          "checkpoint": 10,
+          "authorized": {
+            "correct": 1,
+            "observed": 1,
+            "expected": 1,
+            "abstentions": 0,
+            "accuracy": 1.0
+          },
+          "unauthorized": {
+            "correct": 0,
+            "observed": 1,
+            "expected": 1,
+            "abstentions": 0,
+            "accuracy": 0.0
+          },
+          "minimum_component": 0.0
+        },
+        {
+          "checkpoint": 20,
+          "authorized": {
+            "correct": 1,
+            "observed": 1,
+            "expected": 1,
+            "abstentions": 0,
+            "accuracy": 1.0
+          },
+          "unauthorized": {
+            "correct": 1,
+            "observed": 1,
+            "expected": 1,
+            "abstentions": 0,
+            "accuracy": 1.0
+          },
+          "minimum_component": 1.0
+        }
+      ],
+      "complete": true,
+      "coverage": 1.0,
+      "final_pass": true,
+      "hidden_failure": true,
+      "below_floor_checkpoints": [
+        10
+      ],
+      "steps_below_floor_left_hold": 10
+    }
+  }
+}

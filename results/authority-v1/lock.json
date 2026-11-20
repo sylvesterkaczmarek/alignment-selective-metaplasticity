@@ -1,0 +1,81 @@
+{
+  "blocks": 12,
+  "choices": {
+    "qwen": {
+      "ewc": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "fixed": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "refreshed": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "rehearsal": {
+        "feasible": true,
+        "lr": 0.06
+      },
+      "shuffled": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "uniform": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "unprotected": {
+        "feasible": false,
+        "lr": 0.02
+      }
+    },
+    "smol": {
+      "ewc": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "fixed": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "refreshed": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "rehearsal": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "shuffled": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "uniform": {
+        "feasible": false,
+        "lr": 0.02
+      },
+      "unprotected": {
+        "feasible": false,
+        "lr": 0.02
+      }
+    }
+  },
+  "corpus_preflight": {
+    "prompt_count": 2016,
+    "prompt_sha256": "f87de21b98d927f29b45d71ce836611177a2963ab3adf5f6c7b8f04619f89785",
+    "stream_count": 108
+  },
+  "development_sha256": "b1f243783cf0b98d1c981b4e0a716133ae8b206217ded31116b3ccb8f36a8102",
+  "protocol": "4832085a74502c01221d97dce7a68d21c717f2c74f1a05ab3557c518924b4331",
+  "runtime": {
+    "machine": "x86_64",
+    "numpy": "2.3.5",
+    "python": "3.12.14",
+    "threads": 1,
+    "torch": "2.15.0+cpu"
+  },
+  "source": "77a47b1fd0d2e5d67d366901e40c875d267f7ae3b789f7cdcc47264573744e55",
+  "uncapped_blocks": 10
+}

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "alignment-selective-metaplasticity"
-version = "0.2.0"
+version = "0.3.0"
 description = "Controlled experiments on alignment-selective metaplasticity under sequential capability updates."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -19,6 +19,14 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "ruff>=0.11,<1"]
+
+openweights = ["transformers==4.57.6", "safetensors>=0.4.3,<1"]
+
+[project.scripts]
+asm-score = "alignment_metaplasticity.authority:main"
+
+[tool.setuptools.package-data]
+alignment_metaplasticity = ["fixtures/*.json", "fixtures/*.jsonl"]
 
 [project.urls]
 Homepage = "https://www.sylvesterkaczmarek.com"

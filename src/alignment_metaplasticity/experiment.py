@@ -21,6 +21,7 @@ from .importance import (
 )
 from .model import SelectiveCorrigibilityNet
 from .repro import set_seed
+from .streams import dataset_streams
 from .tasks import BenchmarkSpec, make_alignment_tensors, make_capability_tensors, make_loader
 from .training import train_epochs
 
@@ -62,67 +63,53 @@ def _device(name: str) -> torch.device:
     return torch.device(name)
 
 
-def build_loaders(cfg: dict[str, Any], spec: BenchmarkSpec, seed: int, *, rule_seed: int = 0):
+def build_loaders(cfg: dict[str, Any], spec: BenchmarkSpec, seed: int, *, rule_seed: int = 0,
+                  namespace: str | None = "controlled-v2", overlapping: bool = False):
+    """Use a named schedule for new studies. None recreates the 0.2.0 offsets."""
     d = cfg["data"]
-    batch = d["batch_size"]
-    alignment_train = make_loader(
-        make_alignment_tensors(d["alignment_train_size"], spec, seed + 11, mode="mixed"),
-        batch,
-        True,
-        seed + 12,
-    )
-    alignment_eval = {
-        mode: make_loader(
-            make_alignment_tensors(d["alignment_eval_size"], spec, seed + offset, mode=mode),
-            batch,
-            False,
-            seed + offset + 1,
-        )
-        for mode, offset in (("authorized", 21), ("unauthorized", 31), ("neutral", 41))
-    }
-    capability_train = {
-        task: make_loader(
-            make_capability_tensors(
-                d["capability_train_size"], spec, task, seed + 100 * task, rule_seed=rule_seed + task
-            ),
-            batch,
-            True,
-            seed + 100 * task + 1,
-        )
-        for task in range(1, spec.num_capability_tasks + 1)
-    }
-    capability_eval = {
-        task: make_loader(
-            make_capability_tensors(
-                d["capability_eval_size"], spec, task, seed + 100 * task + 50, rule_seed=rule_seed + task
-            ),
-            batch,
-            False,
-            seed + 100 * task + 51,
-        )
-        for task in range(1, spec.num_capability_tasks + 1)
-    }
-    bypass_n = d["bypass_train_size"]
-    attack_x, attack_y = make_alignment_tensors(
-        bypass_n // 2, spec, seed + 701, mode="unauthorized", bypass_flag=1.0, bypass_target=True
-    )
-    preserve_x, preserve_y = make_alignment_tensors(
-        bypass_n - bypass_n // 2, spec, seed + 711, mode="mixed", bypass_flag=0.0, bypass_target=False
-    )
-    bypass_train = make_loader(
-        (torch.cat([attack_x, preserve_x], dim=0), torch.cat([attack_y, preserve_y], dim=0)),
-        batch,
-        True,
-        seed + 702,
-    )
-    bypass_eval = make_loader(
-        make_alignment_tensors(
-            d["alignment_eval_size"], spec, seed + 703, mode="unauthorized", bypass_flag=1.0, bypass_target=True
-        ),
-        batch,
-        False,
-        seed + 704,
-    )
+    streams = dataset_streams(namespace, seed, spec.num_capability_tasks) if namespace is not None else {}
+
+    def draw(purpose, kind, legacy_offset):
+        return streams.get(f"{purpose}/{kind}", seed + legacy_offset)
+
+    def alignment(purpose, size, offset, mode, **kwargs):
+        return make_alignment_tensors(size, spec, draw(purpose, "examples", offset), mode=mode, **kwargs)
+
+    def loader(tensors, purpose, offset, shuffle=False):
+        return make_loader(tensors, d["batch_size"], shuffle, draw(purpose, "loader", offset))
+
+    key = "alignment/train"
+    alignment_train = loader(alignment(key, d["alignment_train_size"], 11, "mixed"), key, 12, True)
+    alignment_eval = {}
+    for mode, offset in (("authorized", 21), ("unauthorized", 31), ("neutral", 41)):
+        key = f"alignment/{mode}"
+        alignment_eval[mode] = loader(alignment(key, d["alignment_eval_size"], offset, mode), key, offset + 1)
+
+    def capabilities(split, offset):
+        output = {}
+        for task in range(1, spec.num_capability_tasks + 1):
+            key = f"capability/{task}/{split}"
+            base = 100 * task + offset
+            x, y = make_capability_tensors(d[f"capability_{split}_size"], spec, task,
+                                          draw(key, "examples", base), rule_seed=rule_seed + task)
+            if overlapping:
+                # Shared inputs across objectives. Authority and proposal now also affect the new label.
+                context, _ = alignment(key, len(y), base, "mixed")
+                x[:, spec.proposal_idx:spec.bypass_idx] = context[:, spec.proposal_idx:spec.bypass_idx]
+                shared = (x[:, spec.proposal_idx] > 0) ^ x[:, spec.authorized_idx].bool()
+                y = torch.where(x[:, 0] > 0, y, shared.long())
+            output[task] = loader((x, y), key, base + 1, split == "train")
+        return output
+
+    capability_train, capability_eval = capabilities("train", 0), capabilities("eval", 50)
+    n = d["bypass_train_size"]
+    attack = alignment("challenge/attack", n // 2, 701, "unauthorized", bypass_flag=1., bypass_target=True)
+    preserve = alignment("challenge/preserve", n - n // 2, 711, "mixed")
+    bypass_train = loader(tuple(torch.cat(parts) for parts in zip(attack, preserve)),
+                          "challenge/attack", 702, True)
+    key = "challenge/eval"
+    bypass_eval = loader(alignment(key, d["alignment_eval_size"], 703, "unauthorized",
+                                   bypass_flag=1., bypass_target=True), key, 704)
     return alignment_train, alignment_eval, capability_train, capability_eval, bypass_train, bypass_eval
 
 
@@ -131,7 +118,7 @@ def prepare_seed(cfg: dict[str, Any], seed: int):
     device = _device(cfg["device"])
     m = cfg["model"]
     spec = BenchmarkSpec(signal_dim=m["signal_dim"], num_capability_tasks=m["num_capability_tasks"])
-    loaders = build_loaders(cfg, spec, seed)
+    loaders = build_loaders(cfg, spec, seed, namespace=None)
     model = SelectiveCorrigibilityNet(spec.input_dim, hidden_dim=m["hidden_dim"], depth=m["depth"]).to(device)
     train = cfg["training"]
     train_epochs(
@@ -306,3 +293,33 @@ def run_suite(
         "metadata": runtime_metadata(cfg["device"]),
         "runs": runs,
     }
+
+
+def preflight_cells(cfg, trials, namespace):
+    """Check effective RNG streams and realised Gaussian inputs before training."""
+    import numpy as np
+    spec = BenchmarkSpec(cfg["model"]["signal_dim"], cfg["model"]["num_capability_tasks"])
+    used_streams, used_rows = set(), set()
+    dataset_hashes = {}
+    for trial in trials:
+        sample = trial["sample_seed"]
+        streams = dataset_streams(namespace, sample, spec.num_capability_tasks).values()
+        for stream in streams:
+            if stream in used_streams:
+                raise ValueError("duplicate effective data stream in independent cells")
+            used_streams.add(stream)
+        align, evals, train, tests, challenge, challenge_eval = build_loaders(
+            cfg, spec, sample, rule_seed=trial["rule_seed"], namespace=namespace)
+        for name, loader in [("alignment/train",align), *evals.items(),
+                             *((f"train/{t}",v) for t,v in train.items()),
+                             *((f"eval/{t}",v) for t,v in tests.items()),
+                             ("challenge/train",challenge),("challenge/eval",challenge_eval)]:
+            x = loader.dataset.tensors[0]
+            signal = np.ascontiguousarray(x[:, :spec.signal_dim].numpy(), dtype="<f4")
+            keys = {row.tobytes() for row in signal}
+            if keys & used_rows:
+                raise ValueError(f"repeated nuisance input in {sample}/{name}")
+            used_rows.update(keys)
+            dataset_hashes[f"{sample}/{name}"] = hashlib.sha256(signal.tobytes()).hexdigest()
+    return {"namespace":namespace,"streams":len(used_streams),"unique_signals":len(used_rows),
+            "dataset_hashes":dataset_hashes}

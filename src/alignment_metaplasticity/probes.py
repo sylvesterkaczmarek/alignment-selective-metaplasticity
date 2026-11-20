@@ -10,6 +10,7 @@ from .experiment import build_loaders
 from .importance import clone_parameters
 from .tasks import make_alignment_tensors, make_loader
 from .training import train_epochs
+from .validation import parameter_map
 
 
 def familiar_context_loaders(cfg, spec, seed, *, rule_seed=0):
@@ -48,6 +49,8 @@ def perturbations(importance, *, fraction=.1, magnitude=.5, kind="high", seed=0)
 def intervention_probe(run, *, magnitude=.5, fraction=.1, seed=0):
     if not run.importance:
         raise ValueError("interventions require estimated importance")
+    params = {name: p for name, p in run.model.named_parameters() if p.requires_grad}
+    importance = parameter_map(run.model, run.importance, "probe importance", bounds=(0., None))
     original = clone_parameters(run.model)
     rows = []
     def measure():
@@ -56,9 +59,9 @@ def intervention_probe(run, *, magnitude=.5, fraction=.1, seed=0):
     baseline = measure()
     try:
         for kind in ("high", "low", "random"):
-            delta = perturbations(run.importance, fraction=fraction, magnitude=magnitude, kind=kind, seed=seed)
+            delta = perturbations(importance, fraction=fraction, magnitude=magnitude, kind=kind, seed=seed)
             with torch.no_grad():
-                for name,p in run.model.named_parameters():
+                for name,p in params.items():
                     p.copy_(original[name] + delta[name])
             rows.append({"kind":kind, "magnitude":magnitude, "fraction":fraction,
                          "changed_per_tensor":{n:int((d != 0).sum()) for n,d in delta.items()},
@@ -66,7 +69,7 @@ def intervention_probe(run, *, magnitude=.5, fraction=.1, seed=0):
                          "metrics":measure()})
     finally:
         with torch.no_grad():
-            for name,p in run.model.named_parameters():
+            for name,p in params.items():
                 p.copy_(original[name])
     return {"baseline":baseline, "interventions":rows}
 

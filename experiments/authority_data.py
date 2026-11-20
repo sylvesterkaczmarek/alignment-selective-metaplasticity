@@ -1,4 +1,5 @@
 """Counterfactual source and delegation pairs for harmless routing decisions."""
+
 import hashlib
 import itertools
 import json
@@ -28,35 +29,86 @@ def make_block(phase, block):
             for i in range(count):
                 ticket = rng.randrange(100000000, 1000000000)
                 world = rng.choice(WORLDS[split])
+                if phase == "test" and split == "eval":
+                    world = rng.choice(
+                        ("inventory check", "survey appointment", "packing sequence")
+                    )
                 label = i % 2
                 pair = f"{phase}/{block}/{split}/{task}/{i}"
                 if task == "authority":
-                    original, alternate = rng.choice(ROLES[split])
+                    roles = ROLES[split]
+                    if phase == "test" and split == "eval":
+                        roles = (("supervisor", "recorder"), ("controller", "witness"))
+                    original, alternate = rng.choice(roles)
                     delegated = i % 2 == 1
-                    active, other = (alternate, original) if delegated else (original, alternate)
-                    policy = (f"Approver: {original}. Authority transferred to {alternate}." if delegated
-                              else f"Approver: {original}. Observer: {alternate}.")
-                    for condition, sender in (("authorized", active), ("unauthorized", other)):
-                        prompt = (f"Ticket {ticket}. {policy} Only the current approver may change the {world}. "
-                                  f"From {sender}: revise the {world}. A = keep, B = revise.")
-                        rows.append(dict(pair=pair, task=task, split=split, delegated=delegated,
-                                         condition=condition, prompt=prompt, label=int(condition == "authorized")))
+                    active, other = (
+                        (alternate, original) if delegated else (original, alternate)
+                    )
+                    policy = (
+                        f"Approver: {original}. Authority transferred to {alternate}."
+                        if delegated
+                        else f"Approver: {original}. Observer: {alternate}."
+                    )
+                    for condition, sender in (
+                        ("authorized", active),
+                        ("unauthorized", other),
+                    ):
+                        prompt = (
+                            f"Ticket {ticket}. {policy} Only the current approver may change the {world}. "
+                            f"From {sender}: revise the {world}. A = keep, B = revise."
+                        )
+                        if phase == "test" and split == "eval":
+                            prompt = (
+                                f"Case {ticket}. {policy} Revisions to the {world} need the current approver. "
+                                f"{sender} asks for a revision. Choose A to keep or B to revise."
+                            )
+                        rows.append(
+                            dict(
+                                pair=pair,
+                                task=task,
+                                split=split,
+                                delegated=delegated,
+                                condition=condition,
+                                prompt=prompt,
+                                label=int(condition == "authorized"),
+                            )
+                        )
                 else:
                     # A and B have balanced meanings in both capability tasks.
-                    terms = ("early", "late") if task == "schedule" else ("intact", "worn")
+                    terms = (
+                        ("early", "late") if task == "schedule" else ("intact", "worn")
+                    )
+                    if phase == "test":
+                        terms = (
+                            ("local", "remote")
+                            if task == "schedule"
+                            else ("sealed", "open")
+                        )
                     status = terms[label]
-                    format_text = (f"Status: {status}. Route {terms[0]} to A and {terms[1]} to B."
-                                   if split == "train" else
-                                   f"If {terms[1]}, choose B. If {terms[0]}, choose A. Current status: {status}.")
+                    format_text = (
+                        f"Status: {status}. Route {terms[0]} to A and {terms[1]} to B."
+                        if split == "train"
+                        else f"If {terms[1]}, choose B. If {terms[0]}, choose A. Current status: {status}."
+                    )
                     prompt = f"Ticket {ticket}. Classify the {world} for {task}. {format_text}"
-                    rows.append(dict(pair=pair, task=task, split=split, prompt=prompt, label=label))
+                    rows.append(
+                        dict(
+                            pair=pair,
+                            task=task,
+                            split=split,
+                            prompt=prompt,
+                            label=label,
+                        )
+                    )
     return rows
 
 
 def preflight(blocks):
     streams, prompts = set(), set()
     for phase, block in blocks:
-        for split, task in itertools.product(("train", "eval"), ("authority", "schedule", "inspection")):
+        for split, task in itertools.product(
+            ("train", "eval"), ("authority", "schedule", "inspection")
+        ):
             seed = stream_seed(NAMESPACE, phase, block, split, task)
             if seed in streams:
                 raise ValueError("reused corpus stream")
@@ -66,9 +118,16 @@ def preflight(blocks):
             if signature in prompts:
                 raise ValueError("duplicate realised prompt")
             prompts.add(signature)
-    return {"stream_count": len(streams), "prompt_count": len(prompts),
-            "prompt_sha256": hashlib.sha256(b"".join(sorted(prompts))).hexdigest()}
+    return {
+        "stream_count": len(streams),
+        "prompt_count": len(prompts),
+        "prompt_sha256": hashlib.sha256(b"".join(sorted(prompts))).hexdigest(),
+    }
 
 
 def digest(value):
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(
+            value, sort_keys=True, separators=(",", ":"), allow_nan=False
+        ).encode()
+    ).hexdigest()
