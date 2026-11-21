@@ -205,6 +205,14 @@ Static freezing, EWC-style protection and metaplasticity all reach essentially p
 
 The checked evidence includes [all 12 runs](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/summary.json), [aggregate statistics](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/summary_summary.json), and the [five-strength ablation](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/plasticity_ablation.json). Source hashes link these files to the executed package. The reference workflow regenerates the JSON and figures from fixed seeds.
 
+## Controlled comparisons
+
+The separate [controlled-study runner](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/controlled-studies.md) adds paired controls, explicit alignment-data budgets and development-selected settings evaluated on untouched model/sample/task-rule cells. Its [recorded pilot](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/controlled-v1/test-summary.json) supports a selective-assignment effect, while finding little benefit from importance refresh in this task family. Historical reference results above remain unchanged.
+
+The [mechanism study](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/mechanism-studies.md) adds per-example and model Fisher estimates, matched weight interventions, longer task sequences and context challenges with training trajectories. Its [results](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/mechanisms-v1/summary.json) show failures in familiar and held-out contexts as well as the original novel-flag condition.
+
+The [transfer and restart guide](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/transfer-and-restart.md) covers a small transformer pilot, persistent SGD/AdamW protection and exact CPU epoch restart. The [recorded transfer results](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/transfer-v1/summary.json) do not establish consistent alignment preservation across architectures.
+
 ## Features
 
 - compact PyTorch implementation
@@ -447,11 +455,3 @@ Zenodo also provides an [all-versions DOI](https://doi.org/10.5281/zenodo.244094
 MIT. See [LICENSE](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/LICENSE).
 
 © **Sylvester Kaczmarek** · [https://www.sylvesterkaczmarek.com](https://www.sylvesterkaczmarek.com)
-
-## Controlled comparisons
-
-The separate [controlled-study runner](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/controlled-studies.md) adds paired controls, explicit alignment-data budgets and development-selected settings evaluated on untouched model/sample/task-rule cells. Its [recorded pilot](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/controlled-v1/test-summary.json) supports a selective-assignment effect, while finding little benefit from importance refresh in this task family. Historical reference results above remain unchanged.
-
-The [mechanism study](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/mechanism-studies.md) adds per-example and model Fisher estimates, matched weight interventions, longer task sequences and context challenges with training trajectories. Its [results](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/mechanisms-v1/summary.json) show failures in familiar and held-out contexts as well as the original novel-flag condition.
-
-The [transfer and restart guide](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/transfer-and-restart.md) covers a small transformer pilot, persistent SGD/AdamW protection and exact CPU epoch restart. The [recorded transfer results](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/transfer-v1/summary.json) do not establish consistent alignment preservation across architectures.
