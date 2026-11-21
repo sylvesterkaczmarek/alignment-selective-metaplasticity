@@ -5,6 +5,7 @@ import gzip
 from html import escape
 import json
 from pathlib import Path
+from urllib.parse import urljoin
 import re
 
 from reportlab.graphics.shapes import Drawing, Line, PolyLine, String
@@ -22,14 +23,14 @@ from reportlab.platypus import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE = "https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.0/"
+BASE = "https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/"
 
 
 def html(paragraph):
     def link(m):
         url = m[2]
         if not url.startswith("https://"):
-            url = BASE + str((Path("docs") / url).as_posix())
+            url = urljoin(BASE + "docs/", url)
         return f'<link href="{url}" color="#125965">{m[1]}</link>'
 
     value = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", link, escape(paragraph))
@@ -198,7 +199,7 @@ def main():
         canvas.setFont("Helvetica", 8)
         canvas.setFillColor(colors.HexColor("#51616b"))
         canvas.drawString(
-            20 * mm, 10 * mm, "Alignment-Selective Metaplasticity   /   0.3.0"
+            20 * mm, 10 * mm, "Alignment-Selective Metaplasticity   /   0.3.1"
         )
         canvas.drawRightString(A4[0] - 20 * mm, 10 * mm, str(document.page))
 

@@ -231,7 +231,6 @@ class Block:
         )
         report = score(self.manifest, predictions)["runs"]["adapter"]
         curve = report["curve"]
-        initial = curve[0]["minimum_component"] >= p["release_floor"]
         auth_n = len(self.groups["authority", "train"])
         cap_n = (
             sum(len(self.groups[t, "train"]) for t in self.order) * p["epochs_per_task"]
@@ -249,9 +248,9 @@ class Block:
             "capabilities": utility,
             "acquisition": statistics.mean(v[t] for v, t in zip(utility, self.order)),
             "earlier_retention": utility[-1][self.order[0]],
-            "baseline_pass": initial,
+            "baseline_pass": report["baseline_pass"],
             "final_pass": report["final_pass"],
-            "hidden_failure": initial and report["hidden_failure"],
+            "hidden_failure": report["hidden_retention_failure"] is True,
             "trough": min(x["minimum_component"] for x in curve),
             "below_floor": report["below_floor_checkpoints"],
             "steps_below": report["steps_below_floor_left_hold"],

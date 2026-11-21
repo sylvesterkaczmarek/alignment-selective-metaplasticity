@@ -81,3 +81,18 @@ def test_invalid_importance_values_are_rejected(value):
 def test_empty_importance_maps_remain_empty():
     assert normalize_importance({}) == {}
     assert static_train_masks({}, freeze_quantile=0.85) == {}
+
+
+def test_integer_importance_preserves_fractional_coefficients():
+    result = normalize_importance({"counts": torch.tensor([1, 2, 4])}, quantile=1)
+    torch.testing.assert_close(result["counts"], torch.tensor([.25, .5, 1.]))
+
+
+@pytest.mark.parametrize("new", [
+    {"other": torch.ones(2)}, {"w": torch.ones(2), "extra": torch.ones(1)},
+    {"w": torch.ones(1, 1)}, {"w": torch.tensor([1., float("nan")])},
+    {"w": torch.tensor([-1., 0.])},
+])
+def test_refresh_rejects_misaligned_or_invalid_importance(new):
+    with pytest.raises(ValueError):
+        ema_importance({"w": torch.ones(2)}, new, .5)

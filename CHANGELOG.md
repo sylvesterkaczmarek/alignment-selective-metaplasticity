@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+The external scorer reports initial qualification, hidden failures after qualification and the fraction of counterfactual pairs answered correctly on both decisions. Scoring and analysis protect input evidence from output collisions. The verifier now recounts the synthetic study alongside the two-family study. Parameter importance handling and software citation metadata were corrected. [Release details](docs/release-0.3.1.md)
+
 ## 0.3.0
 
 Added external checkpoint scoring, disjoint controlled-study data streams, a canonical tensor fixture, strict semantic evidence validation, study-specific tie-breaking, frozen-backbone intervention support and precision-safe importance normalisation. Added the prospective two-family adapter study and overlapping-feature synthetic controls. [Release details](docs/release-0.3.0.md)

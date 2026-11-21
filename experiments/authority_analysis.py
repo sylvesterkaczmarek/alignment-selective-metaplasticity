@@ -13,10 +13,32 @@ import statistics
 import numpy as np
 
 from alignment_metaplasticity.authority import score, strict_json
-from alignment_metaplasticity.io_utils import write_json
+from alignment_metaplasticity.io_utils import require_distinct_output, write_json
 from .authority_data import digest, make_block
 from .authority_features import PLAN
 from .authority_study import selection
+
+
+def check_evidence_digests(directory, names):
+    checks = strict_json((directory / "checksums.json").read_text())
+    if set(checks) != set(names):
+        raise ValueError("unexpected evidence manifest")
+    for name, expected_hash in checks.items():
+        path = directory / name
+        if (
+            path.is_symlink()
+            or hashlib.sha256(path.read_bytes()).hexdigest() != expected_hash
+        ):
+            raise ValueError(f"evidence digest mismatch for {name}")
+
+
+OPEN_WEIGHT_FILES = (
+    "development.jsonl.gz",
+    "test.jsonl.gz",
+    "lock.json",
+    "summary.json",
+    "resources.json",
+)
 
 
 def journal(path):
@@ -67,6 +89,7 @@ def predictions(plan, row):
 
 def validate(plan, rows, phase, count, choices=None):
     identities = {}
+    baselines = {}
     expected = set()
     for family in plan["models"]:
         for method in plan["methods"]:
@@ -97,9 +120,13 @@ def validate(plan, rows, phase, count, choices=None):
             raise ValueError("corpus differs from protocol")
         res = row["result"]
         manifest, records = predictions(plan, row)
+        baseline = res["trace"][0]
+        if baseline != baselines.setdefault((family, b), baseline):
+            raise ValueError(
+                "paired methods disagree on their shared baseline predictions"
+            )
         stats = score(manifest, records)["runs"][manifest["runs"][0]]
         curve = stats["curve"]
-        base = curve[0]["minimum_component"] >= plan["release_floor"]
         order = ("schedule", "inspection") if b % 2 == 0 else ("inspection", "schedule")
         caps = res["capabilities"]
         if len(caps) != 2 or any(
@@ -111,9 +138,9 @@ def validate(plan, rows, phase, count, choices=None):
         recomputed = dict(
             acquisition=statistics.mean(c[t] for c, t in zip(caps, order)),
             earlier_retention=caps[-1][order[0]],
-            baseline_pass=base,
+            baseline_pass=stats["baseline_pass"],
             final_pass=stats["final_pass"],
-            hidden_failure=base and stats["hidden_failure"],
+            hidden_failure=stats["hidden_retention_failure"] is True,
             trough=min(p["minimum_component"] for p in curve),
             below_floor=stats["below_floor_checkpoints"],
             steps_below=stats["steps_below_floor_left_hold"],
@@ -252,13 +279,39 @@ def main():
     parser.add_argument("--export-dir", type=Path)
     args = parser.parse_args()
 
-    def get(name):
-        path = args.directory / (name + ".jsonl")
-        return journal(path if path.exists() else path.with_suffix(".jsonl.gz"))
+    if bool(args.export) != bool(args.export_dir):
+        parser.error("supply --export and --export-dir together")
+    frozen_package = (args.directory / "checksums.json").exists()
+    if args.out:
+        protected = {
+            "development.jsonl",
+            "test.jsonl",
+            *OPEN_WEIGHT_FILES,
+            "checksums.json",
+        }
+        if not frozen_package:
+            protected.remove("summary.json")
+        paths = [args.directory / name for name in protected]
+        if args.export_dir:
+            paths.extend(
+                args.export_dir / name
+                for name in ("manifest.json", "predictions.jsonl")
+            )
+        require_distinct_output(args.out, PLAN, *paths)
+    if frozen_package:
+        check_evidence_digests(args.directory, OPEN_WEIGHT_FILES)
+
+    def journal_path(name):
+        plain = args.directory / (name + ".jsonl")
+        compressed = plain.with_suffix(".jsonl.gz")
+        if plain.exists() and compressed.exists():
+            raise ValueError(f"ambiguous journal: both {plain} and {compressed} exist")
+        return plain if plain.exists() else compressed
 
     p = json.loads(PLAN.read_text())
     frozen = strict_json((args.directory / "lock.json").read_text())
-    dev = get("development")
+    raw_dev = journal_path("development")
+    dev = journal(raw_dev)
     validate(p, dev, "development", p["development_blocks"])
     chosen = selection(p, dev)
     if (
@@ -266,27 +319,27 @@ def main():
         or digest(p) != frozen["protocol"]
     ):
         raise ValueError("lock differs from development selection")
-    raw_dev = args.directory / "development.jsonl"
-    if raw_dev.exists():
-        raw_sha = hashlib.sha256(raw_dev.read_bytes()).hexdigest()
-    else:
-        raw_sha = hashlib.sha256(
-            gzip.decompress(raw_dev.with_suffix(".jsonl.gz").read_bytes())
-        ).hexdigest()
+    data = raw_dev.read_bytes()
+    raw_sha = hashlib.sha256(
+        gzip.decompress(data) if raw_dev.suffix == ".gz" else data
+    ).hexdigest()
     if raw_sha != frozen["development_sha256"]:
         raise ValueError("development journal digest differs from frozen lock")
-    test = get("test")
+    test = journal(journal_path("test"))
     result = analyse(p, frozen, test)
     if args.export:
         family, b, method, lr = args.export
-        if args.export_dir is None:
-            parser.error("--export requires --export-dir")
         row = next(
-            r
-            for r in test
-            if (r["family"], r["block"], r["method"], r["lr"])
-            == (family, int(b), method, float(lr))
+            (
+                r
+                for r in test
+                if (r["family"], r["block"], r["method"], r["lr"])
+                == (family, int(b), method, float(lr))
+            ),
+            None,
         )
+        if row is None or row["status"] != "completed":
+            parser.error("requested trial has no completed prediction trajectory")
         man, pred = predictions(p, row)
         args.export_dir.mkdir(parents=True, exist_ok=False)
         write_json(args.export_dir / "manifest.json", man)

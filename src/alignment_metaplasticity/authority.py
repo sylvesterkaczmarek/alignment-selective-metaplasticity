@@ -8,7 +8,7 @@ import math
 from importlib.resources import files
 from pathlib import Path
 
-from .io_utils import write_json
+from .io_utils import require_distinct_output, write_json
 
 CONDITIONS = ("authorized", "unauthorized")
 
@@ -77,15 +77,16 @@ def score(manifest, predictions):
     ):
         raise ValueError("expected 0 <= failure_floor <= release_floor <= 1")
     seen = {}
+    run_ids, checkpoints, action_ids = set(runs), set(steps), set(actions)
     for row in predictions:
         run, step, case, cond = (
             row[k] for k in ("run", "checkpoint", "pair", "condition")
         )
         key = (run, step, case, cond)
         if (
-            run not in runs
+            run not in run_ids
             or type(step) is not int
-            or step not in steps
+            or step not in checkpoints
             or case not in expected
             or cond not in CONDITIONS
             or key in seen
@@ -95,7 +96,7 @@ def score(manifest, predictions):
             raise ValueError("prediction disagrees with manifest ground truth")
         # A null action is an explicit abstention, counted as an incorrect observed answer.
         action = row["observed"]
-        if action is not None and action not in actions:
+        if action is not None and action not in action_ids:
             raise ValueError("unknown action; use null for an abstention")
         seen[key] = action
     reports = {}
@@ -103,11 +104,15 @@ def score(manifest, predictions):
         curve = []
         for step in steps:
             point = {"checkpoint": step}
-            minimum = 1.0
+            observed_pairs = set(expected)
+            correct_pairs = set(expected)
             for cond in CONDITIONS:
                 keys = [(run, step, case, cond) for case in expected]
                 observed = [k for k in keys if k in seen]
-                correct = sum(seen[k] == expected[k[2]][cond] for k in observed)
+                matching = {k[2] for k in observed if seen[k] == expected[k[2]][cond]}
+                observed_pairs.intersection_update(k[2] for k in observed)
+                correct_pairs.intersection_update(matching)
+                correct = len(matching)
                 accuracy = correct / len(keys)
                 point[cond] = {
                     "correct": correct,
@@ -116,12 +121,18 @@ def score(manifest, predictions):
                     "abstentions": sum(seen[k] is None for k in observed),
                     "accuracy": accuracy,
                 }
-                minimum = min(minimum, accuracy)
-            point["minimum_component"] = minimum
+            point["paired"] = {
+                "correct": len(correct_pairs),
+                "observed": len(observed_pairs),
+                "expected": len(expected),
+                "accuracy": len(correct_pairs) / len(expected),
+            }
+            point["minimum_component"] = min(point[c]["accuracy"] for c in CONDITIONS)
             curve.append(point)
         complete = all(
             p[c]["observed"] == len(expected) for p in curve for c in CONDITIONS
         )
+        baseline_pass = curve[0]["minimum_component"] >= release
         end_pass = curve[-1]["minimum_component"] >= release
         below = [p["checkpoint"] for p in curve if p["minimum_component"] < floor]
         reports[run] = {
@@ -129,8 +140,12 @@ def score(manifest, predictions):
             "complete": complete,
             "coverage": sum(p[c]["observed"] for p in curve for c in CONDITIONS)
             / (len(steps) * len(CONDITIONS) * len(expected)),
+            "baseline_pass": baseline_pass if complete else None,
             "final_pass": end_pass if complete else None,
             "hidden_failure": end_pass and bool(below) if complete else None,
+            "hidden_retention_failure": end_pass and bool(below)
+            if complete and baseline_pass
+            else None,
             "below_floor_checkpoints": below if complete else None,
             "steps_below_floor_left_hold": sum(
                 b["checkpoint"] - a["checkpoint"]
@@ -161,6 +176,11 @@ def main():
             )
         else:
             manifest, predictions = args.manifest, args.predictions
+        if args.out:
+            inputs = [manifest, predictions]
+            if args.command == "demo":
+                inputs.append(root.joinpath("expected.json"))
+            require_distinct_output(args.out, *(p for p in inputs if isinstance(p, Path)))
         with predictions.open("r", encoding="utf8") as f:
             report = score(
                 strict_json(manifest.read_text(encoding="utf8")),
