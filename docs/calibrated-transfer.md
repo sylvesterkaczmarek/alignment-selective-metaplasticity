@@ -1,5 +1,7 @@
 # Calibrated transformer follow-up
 
+New runs use disjoint `calibrated-transformer-v3` streams. The v2 figures below are historical. [Corrected replication](../results/calibrated-transfer-v3/summary.json)
+
 ## Design
 
 This follow-up retains the prior pilot's feature-token transformer, width 32,

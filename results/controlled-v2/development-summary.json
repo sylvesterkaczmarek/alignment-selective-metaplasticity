@@ -1,0 +1,2238 @@
+[
+  {
+    "group": "fixed/fine_tune",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9745,
+        "n": 2,
+        "sd": 0.0054211519890968955
+      },
+      "alignment": {
+        "mean": 0.520498363304564,
+        "n": 2,
+        "sd": 0.020486130977415463
+      },
+      "authorized_acceptance": {
+        "mean": 0.5743333333333334,
+        "n": 2,
+        "sd": 0.021213203435596444
+      },
+      "retention": {
+        "mean": 0.5966666666666667,
+        "n": 2,
+        "sd": 0.09805214032453463
+      },
+      "seconds": {
+        "mean": 1.3173327420008718,
+        "n": 2,
+        "sd": 0.11502918535583218
+      },
+      "unauthorized_resistance": {
+        "mean": 0.47800000000000004,
+        "n": 2,
+        "sd": 0.049026070162267316
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.01,
+      "method": "fine_tune",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/fine_tune",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9726666666666666,
+        "n": 2,
+        "sd": 0.004714045207910347
+      },
+      "alignment": {
+        "mean": 0.47754030707092193,
+        "n": 2,
+        "sd": 0.027416697958520826
+      },
+      "authorized_acceptance": {
+        "mean": 0.5486666666666666,
+        "n": 2,
+        "sd": 0.016970562748477157
+      },
+      "retention": {
+        "mean": 0.5954999999999999,
+        "n": 2,
+        "sd": 0.10158767423046729
+      },
+      "seconds": {
+        "mean": 1.0686953530021128,
+        "n": 2,
+        "sd": 0.06527772923121462
+      },
+      "unauthorized_resistance": {
+        "mean": 0.425,
+        "n": 2,
+        "sd": 0.0532687108493866
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.02,
+      "method": "fine_tune",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/fine_tune",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9728333333333334,
+        "n": 2,
+        "sd": 0.0035355339059327407
+      },
+      "alignment": {
+        "mean": 0.4573145154334815,
+        "n": 2,
+        "sd": 0.04221264498237215
+      },
+      "authorized_acceptance": {
+        "mean": 0.5183333333333333,
+        "n": 2,
+        "sd": 0.021213203435596444
+      },
+      "retention": {
+        "mean": 0.5974999999999999,
+        "n": 2,
+        "sd": 0.09828784258493004
+      },
+      "seconds": {
+        "mean": 1.113367580997874,
+        "n": 2,
+        "sd": 0.0065567791518826015
+      },
+      "unauthorized_resistance": {
+        "mean": 0.41433333333333333,
+        "n": 2,
+        "sd": 0.08155298209684844
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "fine_tune",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/fine_tune",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9741666666666666,
+        "n": 2,
+        "sd": 0.003535533905932662
+      },
+      "alignment": {
+        "mean": 0.4722398148623223,
+        "n": 2,
+        "sd": 0.021313214713653935
+      },
+      "authorized_acceptance": {
+        "mean": 0.475,
+        "n": 2,
+        "sd": 0.012727922061357828
+      },
+      "retention": {
+        "mean": 0.5966666666666667,
+        "n": 2,
+        "sd": 0.09145247703346013
+      },
+      "seconds": {
+        "mean": 1.2848412015046051,
+        "n": 2,
+        "sd": 0.05722033160827449
+      },
+      "unauthorized_resistance": {
+        "mean": 0.4696666666666667,
+        "n": 2,
+        "sd": 0.029698484809834984
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.05,
+      "method": "fine_tune",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/static_freeze",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9726666666666666,
+        "n": 2,
+        "sd": 0.006128258770283443
+      },
+      "alignment": {
+        "mean": 0.8092624540392208,
+        "n": 2,
+        "sd": 0.099626589284236
+      },
+      "authorized_acceptance": {
+        "mean": 0.7956666666666667,
+        "n": 2,
+        "sd": 0.09663792676216144
+      },
+      "retention": {
+        "mean": 0.5971666666666666,
+        "n": 2,
+        "sd": 0.09875924710572109
+      },
+      "seconds": {
+        "mean": 1.459407612495852,
+        "n": 2,
+        "sd": 0.12955456225022943
+      },
+      "unauthorized_resistance": {
+        "mean": 0.8233333333333334,
+        "n": 2,
+        "sd": 0.10276618553244489
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.5,
+      "lr": 0.015,
+      "method": "static_freeze",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/static_freeze",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9723333333333333,
+        "n": 2,
+        "sd": 0.007071067811865403
+      },
+      "alignment": {
+        "mean": 0.6177974481044779,
+        "n": 2,
+        "sd": 0.0331192255178235
+      },
+      "authorized_acceptance": {
+        "mean": 0.6539999999999999,
+        "n": 2,
+        "sd": 0.006599663291074424
+      },
+      "retention": {
+        "mean": 0.5976666666666667,
+        "n": 2,
+        "sd": 0.09522371319978844
+      },
+      "seconds": {
+        "mean": 1.1794502070006274,
+        "n": 2,
+        "sd": 0.01991573037602463
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5863333333333334,
+        "n": 2,
+        "sd": 0.05421151989096864
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "static_freeze",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/static_freeze",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.972,
+        "n": 2,
+        "sd": 0.004242640687119289
+      },
+      "alignment": {
+        "mean": 0.7017238354357901,
+        "n": 2,
+        "sd": 0.05718722428268479
+      },
+      "authorized_acceptance": {
+        "mean": 0.6886666666666666,
+        "n": 2,
+        "sd": 0.0
+      },
+      "retention": {
+        "mean": 0.5978333333333332,
+        "n": 2,
+        "sd": 0.10205907875125834
+      },
+      "seconds": {
+        "mean": 1.2637734489981085,
+        "n": 2,
+        "sd": 0.06409690050315604
+      },
+      "unauthorized_resistance": {
+        "mean": 0.7203333333333333,
+        "n": 2,
+        "sd": 0.119265343760131
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.5,
+      "lr": 0.03,
+      "method": "static_freeze",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/static_freeze",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9721666666666666,
+        "n": 2,
+        "sd": 0.002592724864350546
+      },
+      "alignment": {
+        "mean": 0.5480958330121497,
+        "n": 2,
+        "sd": 0.010276657889856308
+      },
+      "authorized_acceptance": {
+        "mean": 0.573,
+        "n": 2,
+        "sd": 0.006128258770283443
+      },
+      "retention": {
+        "mean": 0.5988333333333333,
+        "n": 2,
+        "sd": 0.0959308199809749
+      },
+      "seconds": {
+        "mean": 1.4156317519991717,
+        "n": 2,
+        "sd": 0.035380872678971366
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5256666666666667,
+        "n": 2,
+        "sd": 0.02404163056034256
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "static_freeze",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/ewc",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9523333333333333,
+        "n": 2,
+        "sd": 0.000942809041582038
+      },
+      "alignment": {
+        "mean": 0.83567056296458,
+        "n": 2,
+        "sd": 0.06046913409911545
+      },
+      "authorized_acceptance": {
+        "mean": 0.8156666666666667,
+        "n": 2,
+        "sd": 0.043840620433565985
+      },
+      "retention": {
+        "mean": 0.5948333333333333,
+        "n": 2,
+        "sd": 0.09215958381464676
+      },
+      "seconds": {
+        "mean": 1.2453557769986219,
+        "n": 2,
+        "sd": 0.03378753907459325
+      },
+      "unauthorized_resistance": {
+        "mean": 0.857,
+        "n": 2,
+        "sd": 0.07872455497210226
+      }
+    },
+    "setting": {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "ewc",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/ewc",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9324999999999999,
+        "n": 2,
+        "sd": 0.022391714737573974
+      },
+      "alignment": {
+        "mean": 0.9959977724278801,
+        "n": 2,
+        "sd": 0.0028259091961114354
+      },
+      "authorized_acceptance": {
+        "mean": 0.9953333333333334,
+        "n": 2,
+        "sd": 0.000942809041582038
+      },
+      "retention": {
+        "mean": 0.5931666666666666,
+        "n": 2,
+        "sd": 0.10347329231363143
+      },
+      "seconds": {
+        "mean": 1.2811313704987697,
+        "n": 2,
+        "sd": 0.10946922383392654
+      },
+      "unauthorized_resistance": {
+        "mean": 0.9966666666666666,
+        "n": 2,
+        "sd": 0.004714045207910347
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "ewc",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/ewc",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9521666666666666,
+        "n": 2,
+        "sd": 0.004478342947514779
+      },
+      "alignment": {
+        "mean": 0.7377373157557847,
+        "n": 2,
+        "sd": 0.052734704594222206
+      },
+      "authorized_acceptance": {
+        "mean": 0.692,
+        "n": 2,
+        "sd": 0.015084944665313
+      },
+      "retention": {
+        "mean": 0.5894999999999999,
+        "n": 2,
+        "sd": 0.09215958381464667
+      },
+      "seconds": {
+        "mean": 1.2184418124998047,
+        "n": 2,
+        "sd": 0.10493748253396346
+      },
+      "unauthorized_resistance": {
+        "mean": 0.7923333333333333,
+        "n": 2,
+        "sd": 0.1013519719700718
+      }
+    },
+    "setting": {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "ewc",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/ewc",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9205000000000001,
+        "n": 2,
+        "sd": 0.013906433363335474
+      },
+      "alignment": {
+        "mean": 0.9886439649354406,
+        "n": 2,
+        "sd": 3.146935101705896e-05
+      },
+      "authorized_acceptance": {
+        "mean": 0.9856666666666667,
+        "n": 2,
+        "sd": 0.005185449728701327
+      },
+      "retention": {
+        "mean": 0.5966666666666667,
+        "n": 2,
+        "sd": 0.09239528607504224
+      },
+      "seconds": {
+        "mean": 1.268791645001329,
+        "n": 2,
+        "sd": 0.022191375359678567
+      },
+      "unauthorized_resistance": {
+        "mean": 0.9916666666666667,
+        "n": 2,
+        "sd": 0.005185449728701327
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "ewc",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/metaplastic",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9723333333333333,
+        "n": 2,
+        "sd": 0.008956685895029714
+      },
+      "alignment": {
+        "mean": 0.7606925206828159,
+        "n": 2,
+        "sd": 0.042493938152378105
+      },
+      "authorized_acceptance": {
+        "mean": 0.7556666666666667,
+        "n": 2,
+        "sd": 0.029698484809834943
+      },
+      "retention": {
+        "mean": 0.597,
+        "n": 2,
+        "sd": 0.09899494936611658
+      },
+      "seconds": {
+        "mean": 1.3265260174994182,
+        "n": 2,
+        "sd": 0.013594807396212348
+      },
+      "unauthorized_resistance": {
+        "mean": 0.766,
+        "n": 2,
+        "sd": 0.055625733453341736
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "metaplastic",
+      "protocol": "fixed",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "fixed/metaplastic",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9711666666666666,
+        "n": 2,
+        "sd": 0.008720983634634067
+      },
+      "alignment": {
+        "mean": 0.8724904857385021,
+        "n": 2,
+        "sd": 0.04559184806009524
+      },
+      "authorized_acceptance": {
+        "mean": 0.8899999999999999,
+        "n": 2,
+        "sd": 0.04336921591277493
+      },
+      "retention": {
+        "mean": 0.6016666666666667,
+        "n": 2,
+        "sd": 0.0999377584076987
+      },
+      "seconds": {
+        "mean": 1.3627603189997899,
+        "n": 2,
+        "sd": 0.01871736399033299
+      },
+      "unauthorized_resistance": {
+        "mean": 0.8556666666666666,
+        "n": 2,
+        "sd": 0.04761185659989422
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "metaplastic",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/metaplastic",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9731666666666665,
+        "n": 2,
+        "sd": 0.004949747468305837
+      },
+      "alignment": {
+        "mean": 0.6336444781199373,
+        "n": 2,
+        "sd": 0.017945723101150265
+      },
+      "authorized_acceptance": {
+        "mean": 0.649,
+        "n": 2,
+        "sd": 0.017441967269268135
+      },
+      "retention": {
+        "mean": 0.6001666666666666,
+        "n": 2,
+        "sd": 0.09498801093939278
+      },
+      "seconds": {
+        "mean": 1.5429448569993838,
+        "n": 2,
+        "sd": 0.2756688794195465
+      },
+      "unauthorized_resistance": {
+        "mean": 0.619,
+        "n": 2,
+        "sd": 0.01838477631085025
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "metaplastic",
+      "protocol": "fixed",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "fixed/metaplastic",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9721666666666666,
+        "n": 2,
+        "sd": 0.006363961030678855
+      },
+      "alignment": {
+        "mean": 0.7865892399188432,
+        "n": 2,
+        "sd": 0.04773263766628435
+      },
+      "authorized_acceptance": {
+        "mean": 0.8136666666666666,
+        "n": 2,
+        "sd": 0.05798275605729695
+      },
+      "retention": {
+        "mean": 0.6076666666666667,
+        "n": 2,
+        "sd": 0.0971093312829525
+      },
+      "seconds": {
+        "mean": 1.848481532997539,
+        "n": 2,
+        "sd": 0.3250143501864452
+      },
+      "unauthorized_resistance": {
+        "mean": 0.7613333333333333,
+        "n": 2,
+        "sd": 0.03865517070486458
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "metaplastic",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/shuffled",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.972,
+        "n": 2,
+        "sd": 0.005656854249492385
+      },
+      "alignment": {
+        "mean": 0.5766356324167723,
+        "n": 2,
+        "sd": 0.010907284959466764
+      },
+      "authorized_acceptance": {
+        "mean": 0.6503333333333333,
+        "n": 2,
+        "sd": 0.04101219330881979
+      },
+      "retention": {
+        "mean": 0.5953333333333334,
+        "n": 2,
+        "sd": 0.0971093312829525
+      },
+      "seconds": {
+        "mean": 1.7136994219981716,
+        "n": 2,
+        "sd": 0.0758403474914859
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5186666666666666,
+        "n": 2,
+        "sd": 0.008485281374238499
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "shuffled",
+      "protocol": "fixed",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "fixed/shuffled",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9684999999999999,
+        "n": 2,
+        "sd": 0.003535533905932819
+      },
+      "alignment": {
+        "mean": 0.6319642275725952,
+        "n": 2,
+        "sd": 0.020187092771243916
+      },
+      "authorized_acceptance": {
+        "mean": 0.673,
+        "n": 2,
+        "sd": 0.025927248643506793
+      },
+      "retention": {
+        "mean": 0.5958333333333334,
+        "n": 2,
+        "sd": 0.09593081998097498
+      },
+      "seconds": {
+        "mean": 1.4107004620018415,
+        "n": 2,
+        "sd": 0.11909005858629336
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5956666666666667,
+        "n": 2,
+        "sd": 0.01555634918610406
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "shuffled",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/shuffled",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9751666666666667,
+        "n": 2,
+        "sd": 0.006363961030678934
+      },
+      "alignment": {
+        "mean": 0.5146009611695596,
+        "n": 2,
+        "sd": 0.010656681936076308
+      },
+      "authorized_acceptance": {
+        "mean": 0.581,
+        "n": 2,
+        "sd": 0.010842303978193713
+      },
+      "retention": {
+        "mean": 0.5954999999999999,
+        "n": 2,
+        "sd": 0.09781643806413906
+      },
+      "seconds": {
+        "mean": 1.6609741844986274,
+        "n": 2,
+        "sd": 0.045112470064362996
+      },
+      "unauthorized_resistance": {
+        "mean": 0.4623333333333334,
+        "n": 2,
+        "sd": 0.024041630560342597
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "shuffled",
+      "protocol": "fixed",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "fixed/shuffled",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9689999999999999,
+        "n": 2,
+        "sd": 0.004714045207910347
+      },
+      "alignment": {
+        "mean": 0.5511914634141364,
+        "n": 2,
+        "sd": 0.009628724778938013
+      },
+      "authorized_acceptance": {
+        "mean": 0.5906666666666667,
+        "n": 2,
+        "sd": 0.012256517540566886
+      },
+      "retention": {
+        "mean": 0.5960000000000001,
+        "n": 2,
+        "sd": 0.09239528607504216
+      },
+      "seconds": {
+        "mean": 1.8380185719979636,
+        "n": 2,
+        "sd": 0.06444459197435709
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5166666666666666,
+        "n": 2,
+        "sd": 0.00754247233265654
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "shuffled",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/uniform",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9751666666666666,
+        "n": 2,
+        "sd": 0.0054211519890968955
+      },
+      "alignment": {
+        "mean": 0.6000104766249124,
+        "n": 2,
+        "sd": 0.0013638930229505606
+      },
+      "authorized_acceptance": {
+        "mean": 0.6783333333333333,
+        "n": 2,
+        "sd": 0.021213203435596444
+      },
+      "retention": {
+        "mean": 0.5985,
+        "n": 2,
+        "sd": 0.0959308199809749
+      },
+      "seconds": {
+        "mean": 1.3598677769987262,
+        "n": 2,
+        "sd": 0.05607328349183445
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5383333333333333,
+        "n": 2,
+        "sd": 0.01555634918610406
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "uniform",
+      "protocol": "fixed",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "fixed/uniform",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.974,
+        "n": 2,
+        "sd": 0.006128258770283522
+      },
+      "alignment": {
+        "mean": 0.6560484953920642,
+        "n": 2,
+        "sd": 0.007276090859604653
+      },
+      "authorized_acceptance": {
+        "mean": 0.7276666666666667,
+        "n": 2,
+        "sd": 0.0532687108493866
+      },
+      "retention": {
+        "mean": 0.5978333333333332,
+        "n": 2,
+        "sd": 0.09828784258493004
+      },
+      "seconds": {
+        "mean": 1.299241158496443,
+        "n": 2,
+        "sd": 0.057130022755427036
+      },
+      "unauthorized_resistance": {
+        "mean": 0.599,
+        "n": 2,
+        "sd": 0.024041630560342638
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "uniform",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "fixed/uniform",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9753333333333333,
+        "n": 2,
+        "sd": 0.005656854249492385
+      },
+      "alignment": {
+        "mean": 0.5302081522858708,
+        "n": 2,
+        "sd": 0.0029331836849192097
+      },
+      "authorized_acceptance": {
+        "mean": 0.5966666666666667,
+        "n": 2,
+        "sd": 0.013199326582148847
+      },
+      "retention": {
+        "mean": 0.5985,
+        "n": 2,
+        "sd": 0.09875924710572118
+      },
+      "seconds": {
+        "mean": 1.314147316497838,
+        "n": 2,
+        "sd": 0.19240071530535904
+      },
+      "unauthorized_resistance": {
+        "mean": 0.4773333333333334,
+        "n": 2,
+        "sd": 0.013199326582148885
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "uniform",
+      "protocol": "fixed",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "fixed/uniform",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9756666666666667,
+        "n": 2,
+        "sd": 0.005656854249492385
+      },
+      "alignment": {
+        "mean": 0.5684204794114731,
+        "n": 2,
+        "sd": 0.012259577249300067
+      },
+      "authorized_acceptance": {
+        "mean": 0.6436666666666666,
+        "n": 2,
+        "sd": 0.021213203435596364
+      },
+      "retention": {
+        "mean": 0.5995,
+        "n": 2,
+        "sd": 0.09781643806413913
+      },
+      "seconds": {
+        "mean": 1.3012911830010125,
+        "n": 2,
+        "sd": 0.018630887655581952
+      },
+      "unauthorized_resistance": {
+        "mean": 0.51,
+        "n": 2,
+        "sd": 0.0329983164553722
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "uniform",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/fine_tune",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9745,
+        "n": 2,
+        "sd": 0.0054211519890968955
+      },
+      "alignment": {
+        "mean": 0.520498363304564,
+        "n": 2,
+        "sd": 0.020486130977415463
+      },
+      "authorized_acceptance": {
+        "mean": 0.5743333333333334,
+        "n": 2,
+        "sd": 0.021213203435596444
+      },
+      "retention": {
+        "mean": 0.5966666666666667,
+        "n": 2,
+        "sd": 0.09805214032453463
+      },
+      "seconds": {
+        "mean": 1.388776574000076,
+        "n": 2,
+        "sd": 0.14736814123953207
+      },
+      "unauthorized_resistance": {
+        "mean": 0.47800000000000004,
+        "n": 2,
+        "sd": 0.049026070162267316
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.01,
+      "method": "fine_tune",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/fine_tune",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9726666666666666,
+        "n": 2,
+        "sd": 0.004714045207910347
+      },
+      "alignment": {
+        "mean": 0.47754030707092193,
+        "n": 2,
+        "sd": 0.027416697958520826
+      },
+      "authorized_acceptance": {
+        "mean": 0.5486666666666666,
+        "n": 2,
+        "sd": 0.016970562748477157
+      },
+      "retention": {
+        "mean": 0.5954999999999999,
+        "n": 2,
+        "sd": 0.10158767423046729
+      },
+      "seconds": {
+        "mean": 1.0090215729978809,
+        "n": 2,
+        "sd": 0.04646339827668379
+      },
+      "unauthorized_resistance": {
+        "mean": 0.425,
+        "n": 2,
+        "sd": 0.0532687108493866
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.02,
+      "method": "fine_tune",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/fine_tune",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9728333333333334,
+        "n": 2,
+        "sd": 0.0035355339059327407
+      },
+      "alignment": {
+        "mean": 0.4573145154334815,
+        "n": 2,
+        "sd": 0.04221264498237215
+      },
+      "authorized_acceptance": {
+        "mean": 0.5183333333333333,
+        "n": 2,
+        "sd": 0.021213203435596444
+      },
+      "retention": {
+        "mean": 0.5974999999999999,
+        "n": 2,
+        "sd": 0.09828784258493004
+      },
+      "seconds": {
+        "mean": 1.0555302029970335,
+        "n": 2,
+        "sd": 0.11939378216363794
+      },
+      "unauthorized_resistance": {
+        "mean": 0.41433333333333333,
+        "n": 2,
+        "sd": 0.08155298209684844
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "fine_tune",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/fine_tune",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9741666666666666,
+        "n": 2,
+        "sd": 0.003535533905932662
+      },
+      "alignment": {
+        "mean": 0.4722398148623223,
+        "n": 2,
+        "sd": 0.021313214713653935
+      },
+      "authorized_acceptance": {
+        "mean": 0.475,
+        "n": 2,
+        "sd": 0.012727922061357828
+      },
+      "retention": {
+        "mean": 0.5966666666666667,
+        "n": 2,
+        "sd": 0.09145247703346013
+      },
+      "seconds": {
+        "mean": 1.121482014998037,
+        "n": 2,
+        "sd": 0.08702206319675752
+      },
+      "unauthorized_resistance": {
+        "mean": 0.4696666666666667,
+        "n": 2,
+        "sd": 0.029698484809834984
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.05,
+      "method": "fine_tune",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/static_freeze",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9678333333333333,
+        "n": 2,
+        "sd": 0.003535533905932819
+      },
+      "alignment": {
+        "mean": 0.6564210912668962,
+        "n": 2,
+        "sd": 0.05668404419581754
+      },
+      "authorized_acceptance": {
+        "mean": 0.7669999999999999,
+        "n": 2,
+        "sd": 0.010842303978193713
+      },
+      "retention": {
+        "mean": 0.6058333333333333,
+        "n": 2,
+        "sd": 0.09923065162651223
+      },
+      "seconds": {
+        "mean": 1.3245352349986206,
+        "n": 2,
+        "sd": 0.06204451458403974
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5756666666666668,
+        "n": 2,
+        "sd": 0.08061017305526641
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.5,
+      "lr": 0.015,
+      "method": "static_freeze",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/static_freeze",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9731666666666665,
+        "n": 2,
+        "sd": 0.004949747468305837
+      },
+      "alignment": {
+        "mean": 0.6013207644873007,
+        "n": 2,
+        "sd": 0.0063996293526115315
+      },
+      "authorized_acceptance": {
+        "mean": 0.6456666666666666,
+        "n": 2,
+        "sd": 0.02404163056034256
+      },
+      "retention": {
+        "mean": 0.5953333333333334,
+        "n": 2,
+        "sd": 0.09663792676216153
+      },
+      "seconds": {
+        "mean": 1.4480735270008154,
+        "n": 2,
+        "sd": 0.28196703285770885
+      },
+      "unauthorized_resistance": {
+        "mean": 0.563,
+        "n": 2,
+        "sd": 0.007071067811865403
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "static_freeze",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/static_freeze",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9656666666666667,
+        "n": 2,
+        "sd": 0.00424264068711921
+      },
+      "alignment": {
+        "mean": 0.548428348170591,
+        "n": 2,
+        "sd": 0.00016029139990869949
+      },
+      "authorized_acceptance": {
+        "mean": 0.6253333333333333,
+        "n": 2,
+        "sd": 0.04336921591277493
+      },
+      "retention": {
+        "mean": 0.592,
+        "n": 2,
+        "sd": 0.10229478101165392
+      },
+      "seconds": {
+        "mean": 1.1264925920004316,
+        "n": 2,
+        "sd": 0.03957641864203607
+      },
+      "unauthorized_resistance": {
+        "mean": 0.49,
+        "n": 2,
+        "sd": 0.02639865316429781
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.5,
+      "lr": 0.03,
+      "method": "static_freeze",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/static_freeze",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9696666666666667,
+        "n": 2,
+        "sd": 0.0018856180831641545
+      },
+      "alignment": {
+        "mean": 0.5361511988541741,
+        "n": 2,
+        "sd": 0.010960077236384367
+      },
+      "authorized_acceptance": {
+        "mean": 0.5623333333333334,
+        "n": 2,
+        "sd": 0.01555634918610406
+      },
+      "retention": {
+        "mean": 0.5978333333333334,
+        "n": 2,
+        "sd": 0.09498801093939287
+      },
+      "seconds": {
+        "mean": 1.24876017600036,
+        "n": 2,
+        "sd": 0.12745317595331399
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5133333333333333,
+        "n": 2,
+        "sd": 0.0329983164553722
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "static_freeze",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/ewc",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.946,
+        "n": 2,
+        "sd": 0.0023570226039551345
+      },
+      "alignment": {
+        "mean": 0.9243426214368673,
+        "n": 2,
+        "sd": 0.01861362748495801
+      },
+      "authorized_acceptance": {
+        "mean": 0.9323333333333333,
+        "n": 2,
+        "sd": 0.009899494936611674
+      },
+      "retention": {
+        "mean": 0.5895,
+        "n": 2,
+        "sd": 0.09121677477306463
+      },
+      "seconds": {
+        "mean": 1.3697917544996017,
+        "n": 2,
+        "sd": 0.08968494743074557
+      },
+      "unauthorized_resistance": {
+        "mean": 0.9173333333333333,
+        "n": 2,
+        "sd": 0.04619764303752104
+      }
+    },
+    "setting": {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "ewc",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/ewc",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.8993333333333333,
+        "n": 2,
+        "sd": 0.008485281374238735
+      },
+      "alignment": {
+        "mean": 0.9998332777587531,
+        "n": 2,
+        "sd": 0.00023578085401354128
+      },
+      "authorized_acceptance": {
+        "mean": 1.0,
+        "n": 2,
+        "sd": 0.0
+      },
+      "retention": {
+        "mean": 0.5781666666666667,
+        "n": 2,
+        "sd": 0.09970205614730314
+      },
+      "seconds": {
+        "mean": 1.3840694060017995,
+        "n": 2,
+        "sd": 0.19083589436812592
+      },
+      "unauthorized_resistance": {
+        "mean": 0.9996666666666667,
+        "n": 2,
+        "sd": 0.00047140452079105826
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "ewc",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/ewc",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9450000000000001,
+        "n": 2,
+        "sd": 0.0037712361663282306
+      },
+      "alignment": {
+        "mean": 0.8589697315876144,
+        "n": 2,
+        "sd": 0.020910133202942875
+      },
+      "authorized_acceptance": {
+        "mean": 0.872,
+        "n": 2,
+        "sd": 0.04242640687119289
+      },
+      "retention": {
+        "mean": 0.5871666666666666,
+        "n": 2,
+        "sd": 0.09828784258493012
+      },
+      "seconds": {
+        "mean": 1.51779419849845,
+        "n": 2,
+        "sd": 0.05736589236592122
+      },
+      "unauthorized_resistance": {
+        "mean": 0.8506666666666667,
+        "n": 2,
+        "sd": 0.08108157757605747
+      }
+    },
+    "setting": {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "ewc",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/ewc",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.907,
+        "n": 2,
+        "sd": 0.032998316455372274
+      },
+      "alignment": {
+        "mean": 0.9999999999995,
+        "n": 2,
+        "sd": 0.0
+      },
+      "authorized_acceptance": {
+        "mean": 1.0,
+        "n": 2,
+        "sd": 0.0
+      },
+      "retention": {
+        "mean": 0.6003333333333334,
+        "n": 2,
+        "sd": 0.060339778661252085
+      },
+      "seconds": {
+        "mean": 1.3522344100019836,
+        "n": 2,
+        "sd": 0.11718190972463835
+      },
+      "unauthorized_resistance": {
+        "mean": 1.0,
+        "n": 2,
+        "sd": 0.0
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "ewc",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/metaplastic",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9716666666666666,
+        "n": 2,
+        "sd": 0.008485281374238578
+      },
+      "alignment": {
+        "mean": 0.749213065332945,
+        "n": 2,
+        "sd": 0.04470134883142455
+      },
+      "authorized_acceptance": {
+        "mean": 0.8466666666666667,
+        "n": 2,
+        "sd": 0.0367695526217005
+      },
+      "retention": {
+        "mean": 0.6005,
+        "n": 2,
+        "sd": 0.10158767423046737
+      },
+      "seconds": {
+        "mean": 1.5324881945016386,
+        "n": 2,
+        "sd": 0.1965229767274756
+      },
+      "unauthorized_resistance": {
+        "mean": 0.677,
+        "n": 2,
+        "sd": 0.0956951177205795
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "metaplastic",
+      "protocol": "periodic",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "periodic/metaplastic",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9714999999999999,
+        "n": 2,
+        "sd": 0.008249579113843088
+      },
+      "alignment": {
+        "mean": 0.8705438370741205,
+        "n": 2,
+        "sd": 0.03915223666109681
+      },
+      "authorized_acceptance": {
+        "mean": 0.8943333333333333,
+        "n": 2,
+        "sd": 0.043840620433565985
+      },
+      "retention": {
+        "mean": 0.6023333333333334,
+        "n": 2,
+        "sd": 0.09899494936611666
+      },
+      "seconds": {
+        "mean": 1.5664103615017666,
+        "n": 2,
+        "sd": 0.0877673190987216
+      },
+      "unauthorized_resistance": {
+        "mean": 0.8480000000000001,
+        "n": 2,
+        "sd": 0.03488393453853635
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "metaplastic",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/metaplastic",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9716666666666666,
+        "n": 2,
+        "sd": 0.0032998316455371724
+      },
+      "alignment": {
+        "mean": 0.5876988523047213,
+        "n": 2,
+        "sd": 0.06946761759059251
+      },
+      "authorized_acceptance": {
+        "mean": 0.724,
+        "n": 2,
+        "sd": 0.016970562748477157
+      },
+      "retention": {
+        "mean": 0.6021666666666667,
+        "n": 2,
+        "sd": 0.10111626970967623
+      },
+      "seconds": {
+        "mean": 1.4773217430010845,
+        "n": 2,
+        "sd": 0.10601014443137693
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5003333333333333,
+        "n": 2,
+        "sd": 0.10700882621956415
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "metaplastic",
+      "protocol": "periodic",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "periodic/metaplastic",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9723333333333333,
+        "n": 2,
+        "sd": 0.006128258770283365
+      },
+      "alignment": {
+        "mean": 0.7847651475415651,
+        "n": 2,
+        "sd": 0.040312237554471116
+      },
+      "authorized_acceptance": {
+        "mean": 0.825,
+        "n": 2,
+        "sd": 0.06269680126520721
+      },
+      "retention": {
+        "mean": 0.6085,
+        "n": 2,
+        "sd": 0.09640222450176604
+      },
+      "seconds": {
+        "mean": 1.3825288070001989,
+        "n": 2,
+        "sd": 0.06750869354947978
+      },
+      "unauthorized_resistance": {
+        "mean": 0.7486666666666666,
+        "n": 2,
+        "sd": 0.021684607956387502
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "metaplastic",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/shuffled",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9706666666666666,
+        "n": 2,
+        "sd": 0.0037712361663282306
+      },
+      "alignment": {
+        "mean": 0.5750778863965416,
+        "n": 2,
+        "sd": 0.0038182230075801907
+      },
+      "authorized_acceptance": {
+        "mean": 0.6473333333333333,
+        "n": 2,
+        "sd": 0.0037712361663282306
+      },
+      "retention": {
+        "mean": 0.5953333333333333,
+        "n": 2,
+        "sd": 0.09380949963741526
+      },
+      "seconds": {
+        "mean": 1.588276077498449,
+        "n": 2,
+        "sd": 0.052473492668179265
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5173333333333334,
+        "n": 2,
+        "sd": 0.0037712361663282306
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "shuffled",
+      "protocol": "periodic",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "periodic/shuffled",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9671666666666667,
+        "n": 2,
+        "sd": 0.001178511301977528
+      },
+      "alignment": {
+        "mean": 0.635488358958787,
+        "n": 2,
+        "sd": 0.012801036011238467
+      },
+      "authorized_acceptance": {
+        "mean": 0.6759999999999999,
+        "n": 2,
+        "sd": 0.02357022603955158
+      },
+      "retention": {
+        "mean": 0.5946666666666667,
+        "n": 2,
+        "sd": 0.09333809511662428
+      },
+      "seconds": {
+        "mean": 1.4831835854965902,
+        "n": 2,
+        "sd": 0.12698362098554686
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5996666666666667,
+        "n": 2,
+        "sd": 0.004242640687119289
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "shuffled",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/shuffled",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9751666666666666,
+        "n": 2,
+        "sd": 0.0054211519890968955
+      },
+      "alignment": {
+        "mean": 0.5176109061105659,
+        "n": 2,
+        "sd": 0.0034182222684295397
+      },
+      "authorized_acceptance": {
+        "mean": 0.575,
+        "n": 2,
+        "sd": 0.0014142135623730963
+      },
+      "retention": {
+        "mean": 0.5954999999999999,
+        "n": 2,
+        "sd": 0.09781643806413906
+      },
+      "seconds": {
+        "mean": 1.507926429501822,
+        "n": 2,
+        "sd": 0.004840750494440465
+      },
+      "unauthorized_resistance": {
+        "mean": 0.4706666666666667,
+        "n": 2,
+        "sd": 0.006599663291074424
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "shuffled",
+      "protocol": "periodic",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "periodic/shuffled",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9664999999999999,
+        "n": 2,
+        "sd": 0.0016499158227686647
+      },
+      "alignment": {
+        "mean": 0.5601041992922531,
+        "n": 2,
+        "sd": 0.009993344206169093
+      },
+      "authorized_acceptance": {
+        "mean": 0.6016666666666666,
+        "n": 2,
+        "sd": 0.01932758535243229
+      },
+      "retention": {
+        "mean": 0.595,
+        "n": 2,
+        "sd": 0.09192388155425125
+      },
+      "seconds": {
+        "mean": 1.466672340498917,
+        "n": 2,
+        "sd": 0.013078963103459563
+      },
+      "unauthorized_resistance": {
+        "mean": 0.524,
+        "n": 2,
+        "sd": 0.0028284271247461927
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "shuffled",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/uniform",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9755,
+        "n": 2,
+        "sd": 0.005892556509887953
+      },
+      "alignment": {
+        "mean": 0.6062641945614022,
+        "n": 2,
+        "sd": 0.00055892243350756
+      },
+      "authorized_acceptance": {
+        "mean": 0.6833333333333333,
+        "n": 2,
+        "sd": 0.014142135623730963
+      },
+      "retention": {
+        "mean": 0.5986666666666667,
+        "n": 2,
+        "sd": 0.09616652224137039
+      },
+      "seconds": {
+        "mean": 1.3487215514978743,
+        "n": 2,
+        "sd": 0.11002739129533735
+      },
+      "unauthorized_resistance": {
+        "mean": 0.545,
+        "n": 2,
+        "sd": 0.009899494936611674
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "uniform",
+      "protocol": "periodic",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "periodic/uniform",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9736666666666667,
+        "n": 2,
+        "sd": 0.006599663291074502
+      },
+      "alignment": {
+        "mean": 0.6636184948704857,
+        "n": 2,
+        "sd": 0.012320959899534628
+      },
+      "authorized_acceptance": {
+        "mean": 0.7286666666666667,
+        "n": 2,
+        "sd": 0.05374011537017766
+      },
+      "retention": {
+        "mean": 0.5979999999999999,
+        "n": 2,
+        "sd": 0.09805214032453455
+      },
+      "seconds": {
+        "mean": 1.3382920750009362,
+        "n": 2,
+        "sd": 0.0024901698752797835
+      },
+      "unauthorized_resistance": {
+        "mean": 0.6106666666666667,
+        "n": 2,
+        "sd": 0.016970562748477157
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "uniform",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/uniform",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9753333333333334,
+        "n": 2,
+        "sd": 0.006128258770283443
+      },
+      "alignment": {
+        "mean": 0.5360505936625968,
+        "n": 2,
+        "sd": 0.0032297283148360672
+      },
+      "authorized_acceptance": {
+        "mean": 0.5993333333333333,
+        "n": 2,
+        "sd": 0.008485281374238499
+      },
+      "retention": {
+        "mean": 0.5986666666666667,
+        "n": 2,
+        "sd": 0.0985235448453256
+      },
+      "seconds": {
+        "mean": 1.3978737264988013,
+        "n": 2,
+        "sd": 0.032538660514141934
+      },
+      "unauthorized_resistance": {
+        "mean": 0.485,
+        "n": 2,
+        "sd": 0.010842303978193713
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "uniform",
+      "protocol": "periodic",
+      "strength": 20.0
+    }
+  },
+  {
+    "group": "periodic/uniform",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.975,
+        "n": 2,
+        "sd": 0.005656854249492385
+      },
+      "alignment": {
+        "mean": 0.574858950490334,
+        "n": 2,
+        "sd": 0.012576185099175278
+      },
+      "authorized_acceptance": {
+        "mean": 0.649,
+        "n": 2,
+        "sd": 0.025927248643506713
+      },
+      "retention": {
+        "mean": 0.5983333333333334,
+        "n": 2,
+        "sd": 0.09805214032453463
+      },
+      "seconds": {
+        "mean": 1.405650663000415,
+        "n": 2,
+        "sd": 0.03377089661561097
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5173333333333333,
+        "n": 2,
+        "sd": 0.036769552621700466
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "uniform",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/rehearsal",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9601666666666667,
+        "n": 2,
+        "sd": 0.008720983634634067
+      },
+      "alignment": {
+        "mean": 0.592685024976277,
+        "n": 2,
+        "sd": 0.01742950306546399
+      },
+      "authorized_acceptance": {
+        "mean": 0.6066666666666667,
+        "n": 2,
+        "sd": 0.017913371790059193
+      },
+      "retention": {
+        "mean": 0.5925,
+        "n": 2,
+        "sd": 0.09923065162651207
+      },
+      "seconds": {
+        "mean": 1.1241830449980625,
+        "n": 2,
+        "sd": 0.05441668080007833
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5793333333333334,
+        "n": 2,
+        "sd": 0.016970562748477157
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.01,
+      "method": "rehearsal",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/rehearsal",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9449999999999998,
+        "n": 2,
+        "sd": 0.017913371790059193
+      },
+      "alignment": {
+        "mean": 0.5473234330914044,
+        "n": 2,
+        "sd": 0.01783779478955315
+      },
+      "authorized_acceptance": {
+        "mean": 0.508,
+        "n": 2,
+        "sd": 0.035826743580118385
+      },
+      "retention": {
+        "mean": 0.5851666666666666,
+        "n": 2,
+        "sd": 0.09875924710572109
+      },
+      "seconds": {
+        "mean": 1.1610367430002952,
+        "n": 2,
+        "sd": 0.12284238153519142
+      },
+      "unauthorized_resistance": {
+        "mean": 0.5943333333333334,
+        "n": 2,
+        "sd": 0.007071067811865481
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.02,
+      "method": "rehearsal",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/rehearsal",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.9256666666666666,
+        "n": 2,
+        "sd": 0.0367695526217005
+      },
+      "alignment": {
+        "mean": 0.49032921018789133,
+        "n": 2,
+        "sd": 0.01539683908510497
+      },
+      "authorized_acceptance": {
+        "mean": 0.403,
+        "n": 2,
+        "sd": 0.033469720976163256
+      },
+      "retention": {
+        "mean": 0.5820000000000001,
+        "n": 2,
+        "sd": 0.09428090415820639
+      },
+      "seconds": {
+        "mean": 1.1816316274998826,
+        "n": 2,
+        "sd": 0.024667977973033196
+      },
+      "unauthorized_resistance": {
+        "mean": 0.6293333333333333,
+        "n": 2,
+        "sd": 0.03111269837220812
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "rehearsal",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  },
+  {
+    "group": "periodic/rehearsal",
+    "metrics": {
+      "acquisition": {
+        "mean": 0.79,
+        "n": 2,
+        "sd": 0.05279730632859554
+      },
+      "alignment": {
+        "mean": 0.487641596886379,
+        "n": 2,
+        "sd": 0.030721115358309174
+      },
+      "authorized_acceptance": {
+        "mean": 0.4103333333333333,
+        "n": 2,
+        "sd": 0.11549410759380276
+      },
+      "retention": {
+        "mean": 0.5776666666666667,
+        "n": 2,
+        "sd": 0.10842303978193728
+      },
+      "seconds": {
+        "mean": 1.1276411635008117,
+        "n": 2,
+        "sd": 0.07849274674510423
+      },
+      "unauthorized_resistance": {
+        "mean": 0.664,
+        "n": 2,
+        "sd": 0.19233304448274094
+      }
+    },
+    "setting": {
+      "ewc_lambda": 18.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.05,
+      "method": "rehearsal",
+      "protocol": "periodic",
+      "strength": 200.0
+    }
+  }
+]

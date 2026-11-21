@@ -59,7 +59,7 @@ jobs:
           cp verified/dist/* release-assets/
           cp verified/proof/distribution.json release-assets/
           cp "docs/release-$VERSION.md" release-assets/RELEASE_NOTES.md
-          cp docs/independent-review-2026-11-05.md release-assets/INDEPENDENT_REVIEW.md
+          cp docs/authority-retention.pdf release-assets/authority-retention.pdf
           git archive --format=zip --output=release-assets/source.zip "$GITHUB_SHA"
           printf '%s\n' "$GITHUB_SHA" > release-assets/COMMIT.txt
           (cd release-assets && sha256sum * > SHA256SUMS.txt)

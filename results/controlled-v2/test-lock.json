@@ -1,0 +1,40 @@
+{
+  "selection_sha256": "fa74417d16352932e31a75f71d891d5a6417609608d19743bb9d988f68d6ae4c",
+  "plan_sha256": "68f68f2f637d155a76bf3108eedfb941515ac4ccc33449071e0bfb8344206ed4",
+  "metadata": {
+    "python": "3.12.14",
+    "platform": "Linux",
+    "machine": "x86_64",
+    "torch": "2.15.0+cpu",
+    "numpy": "2.3.5",
+    "device": "cpu",
+    "cuda_runtime": null,
+    "torch_num_threads": 1,
+    "torch_num_interop_threads": 9,
+    "deterministic_algorithms": true,
+    "deterministic_warn_only": true,
+    "source_files_sha256": {
+      "__init__.py": "e56f1462fa7fe40ba9cb134a53eb08204c1fb0b97c81e7b1d42afc7ddb209378",
+      "authority.py": "4d1c356078daa0ea7b7fd0caf0d767e43b24e01e39b35e9b346d9bc6b8a517d1",
+      "checkpoint.py": "dab02d4efcaf1b45265ece98fd9ac23faa6144c460fb8129cc63841e4388290c",
+      "config.py": "0f4dd359a2606fe2302f331f09fdf069b02ab8642a6407275407ca46f5529ad6",
+      "evaluation.py": "05e1d562a833f440aa2c66537f5f67d338c6fb97ac102a3550fbab7eda7473ef",
+      "experiment.py": "df59e7c9db9dd8c4d2fd05a26c5d41ab544c153434f6dad6e666288c76c0dc6f",
+      "importance.py": "aca1ba189603e7383b26fa7b70093216e48798d8a35c0aaf8c12f62e8076757c",
+      "io_utils.py": "4df2f86a4110f65803c4a8b0a8cee5a7c0ff0698599fe4b7d0ebb503126cb08a",
+      "metrics.py": "6a5f3fdf75e3ba843c4ed70e67c92b16195ae4093a5abd1f4def6a3e6b31153a",
+      "model.py": "1c56d9ba4c110ee7bb62984f5cc7d8a0220128f70aa2d533d7dbaf4006689b21",
+      "plotting.py": "5716b3c10ddab81999a9f431c17efc4752ce758c7b01d7d07d041763879cc584",
+      "probes.py": "50ab1eb1c6242e10eaf95a8c3a2b7320a0fef473d48b5a1d7b98bbd6e7b94532",
+      "repro.py": "890eef5d40c2260a192eb80c832b5a122997532c8ce1bc8ced4311b01b7f3c4e",
+      "research_integrity.py": "c65e8d18cbb939d0e75fa56a671073a9655f6f30e58ab5564ce769e1a3cce4f3",
+      "streams.py": "d3b0f72853aac62d3f1718c0418e538232a2f33298fdd97b22dc49020debf809",
+      "study.py": "33aabfc6cffc56a42170382cabdcb31e617c1875bf084e607c0de33ba224ecaf",
+      "summary.py": "c733eb9c5e0d5d7ad9419b74a78967b5dfdd3523328d439add6232b55c8a0571",
+      "tasks.py": "ac0219bb5030480e3ea1c2630d91d451c84fdde3e4f23d4fbc89a8dbee1b389a",
+      "training.py": "a57508726d8583354b1c6926d94886d33b7c9c4b47c1eeba2fcc3babe593f60d",
+      "validation.py": "3a6e2b13232aafd05e4e8e9aca019590bd20e7dccfdb9cf892f2bbbaaff0b9bf"
+    },
+    "study_driver_sha256": "fa83d9451ba122c073319333891a26d11667f009950866d1b99c67c4962972ea"
+  }
+}

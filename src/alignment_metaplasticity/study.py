@@ -18,6 +18,7 @@ from .importance import (clone_parameters, compute_gradient_importance, compute_
                          plasticity_from_importance, static_train_masks)
 from .model import SelectiveCorrigibilityNet
 from .repro import set_seed
+from .streams import stream_seed
 from .tasks import BenchmarkSpec, make_loader
 from .training import train_epochs
 
@@ -165,9 +166,9 @@ class StudyRun:
     def probe_loader(self, step):
         x, y = self.loaders[0].dataset.tensors
         n = min(len(y), self.cfg["importance"]["max_batches"] * self.cfg["data"]["batch_size"])
-        g = torch.Generator().manual_seed(self.trial.sample_seed + 40000 + step)
+        g = torch.Generator().manual_seed(stream_seed("study-probe", self.trial.sample_seed, step, "subset"))
         idx = torch.randperm(len(y), generator=g)[:n]
-        return make_loader((x[idx], y[idx]), self.cfg["data"]["batch_size"], False, self.trial.sample_seed + 50000 + step)
+        return make_loader((x[idx], y[idx]), self.cfg["data"]["batch_size"], False, stream_seed("study-probe", self.trial.sample_seed, step, "loader"))
 
     def estimate(self, step):
         loader = self.counted(self.probe_loader(step), "importance")
@@ -188,7 +189,7 @@ class StudyRun:
             return {"ewc_anchor": self.anchor, "ewc_importance": self.importance, "ewc_lambda": s.ewc_lambda}
         if s.method in ("metaplastic", "shuffled", "uniform"):
             p = plasticity_from_importance(self.importance, s.strength, self.cfg["metaplastic"]["min_plasticity"])
-            return {"grad_scale": transform_plasticity(p, s.method, self.trial.model_seed + 60000)}
+            return {"grad_scale": transform_plasticity(p, s.method, stream_seed("study-shuffle", self.trial.model_seed))}
         return {}
 
     def run(self):

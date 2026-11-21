@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+Added external checkpoint scoring, disjoint controlled-study data streams, a canonical tensor fixture, strict semantic evidence validation, study-specific tie-breaking, frozen-backbone intervention support and precision-safe importance normalisation. Added the prospective two-family adapter study and overlapping-feature synthetic controls. [Release details](docs/release-0.3.0.md)
+
 ## 0.2.0
 
 5 November 2026. Independently reviewed research-integrity release.

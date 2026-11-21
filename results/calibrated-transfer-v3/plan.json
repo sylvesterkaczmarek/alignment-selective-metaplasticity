@@ -1,0 +1,331 @@
+{
+  "bootstrap_resamples": 5000,
+  "bootstrap_seed": 2605,
+  "config": {
+    "data": {
+      "alignment_eval_size": 512,
+      "alignment_train_size": 1200,
+      "batch_size": 128,
+      "bypass_train_size": 900,
+      "capability_eval_size": 384,
+      "capability_train_size": 1200
+    },
+    "device": "cpu",
+    "ewc": {
+      "lambda": 18.0
+    },
+    "importance": {
+      "max_batches": 8,
+      "quantile": 0.95
+    },
+    "metaplastic": {
+      "ema_decay": 0.8,
+      "min_plasticity": 0.05,
+      "strength": 200.0
+    },
+    "model": {
+      "depth": 1,
+      "hidden_dim": 32,
+      "num_capability_tasks": 3,
+      "signal_dim": 8
+    },
+    "seed": 7,
+    "static": {
+      "freeze_quantile": 0.85
+    },
+    "training": {
+      "alignment_epochs": 60,
+      "bypass_epochs": 12,
+      "capability_epochs": 14,
+      "lr": 0.03,
+      "weight_decay": 0.0001
+    }
+  },
+  "data_preflight": {
+    "dataset_hashes": {
+      "6503/alignment/train": "2d7ecaecb6291a49a5fd9303007453adac97e3a66308131f4d34ae2e6219956e",
+      "6503/authorized": "5bbb1f2cb3deb08e7511bb050ad1a4a0d97511fea0bad5f7b06f004bcdc07e0c",
+      "6503/challenge/eval": "e4c8e3ca41cc8156999cf80c22c5c5e7ee25a084198ea27f9838d6ae2d783029",
+      "6503/challenge/train": "fb6cf31966588531e8862c1937e04836c419f7c15d590c9623b2cf85bf935482",
+      "6503/eval/1": "bd93509ad6694213385854c90546ffcb7dc4c3b12eaf9402cd91c3694d625acf",
+      "6503/eval/2": "b3f5f856042ac1235769dbcf5c4f4bd92e6e6315dcee910c7d7e3de4465c063b",
+      "6503/eval/3": "3d539d26b57b5efbc07e16c65560339dda797706aa6c4af6fd6fcf45c3aecb5b",
+      "6503/neutral": "bc1fe846d670e17dbbd1e3ab4233c8156dd217f3d089f97abe08c89f97e86f49",
+      "6503/train/1": "f75aa5f2c7acfa87b8022921057449f692684d24eb30bcc865af7f4eb1f45f73",
+      "6503/train/2": "701cc5dcdf619610e65cd725e6d7b8a13e8b5e1a254217e2596857378a9a7111",
+      "6503/train/3": "536884bad0268ee9d6265123fac55f867d631f546a89007c4816accd18253780",
+      "6503/unauthorized": "823710b4a4263804390c4b43612065243daa45066524f8efdefb57cb78cd970f",
+      "6509/alignment/train": "21cd2eca152b8a7a6577a1aaa4f16349d94854ee4594b1bbbf4c676daa4c4d43",
+      "6509/authorized": "b32f3d24d0f8d24fcc1fb1683595b49ab544371cba08ef5a44a5047dde0a7d47",
+      "6509/challenge/eval": "7a563da2a349b31775b7790d0b3f6928ba52ac5c7d729172b3caeef80247c6dc",
+      "6509/challenge/train": "2078b22b3fbb317dbf8d5bbbe906537703967dd1bca6095ac034c55a5bd986ae",
+      "6509/eval/1": "20a96ea8b848a04e97c916c2835078a2872f3173713bbdef592ff016a063d91e",
+      "6509/eval/2": "acf9817e9ed7f80b1bb2786726882a8907999f0f4d759fcbb9c78f6a299b38b0",
+      "6509/eval/3": "4e6e9f4abfa83ba7f6da49cb81659a93c97317b25e8b045bd910f4c18b636970",
+      "6509/neutral": "141168aa4c67c731ab49d30ce4870ba2046d75a4926ca85940de9c9beb9a212a",
+      "6509/train/1": "7e88b0501c296afe85a58a1b77390c5a90fcb08fec2a7ef4da315967196db8e6",
+      "6509/train/2": "39695879dedd67e3baf632c921d7fb8c54c23bbb4a9d88e75cb73ea2839fd583",
+      "6509/train/3": "410afdaaacd6a4417c4edbb24fdbd38b9696d00ed45efae58735573a096352e4",
+      "6509/unauthorized": "4aeb4a81c4cc958ab50b4ce3fcb9fa113af3231ae1275e37c4b8c462ab22eb1a",
+      "7601/alignment/train": "8b001c799a18419cf821a26e95126ec4fcd643d940e1fed69e16a1846e909b7c",
+      "7601/authorized": "d43a591e48cb28f1a3491a6b229d9a4b271fa6af5abf673ced1ca3a4e1f807c9",
+      "7601/challenge/eval": "d024aa3e8b8a7bee88c9988778dc9c431baee91548b92814a647e096eb1cf02e",
+      "7601/challenge/train": "ae51b179de9d5eb11a58a847183e996380b645d4ce28b95ff26391b349a3d3a9",
+      "7601/eval/1": "8f782e844b0ba0a205cd318e68a4f67d0b481db87479933f32cc0e7eb541e9b3",
+      "7601/eval/2": "d4a091d23f52dde94a0f8c08d80fc7f9cc44252a831b662b2d77daa860fbd6fd",
+      "7601/eval/3": "0f84753d3863fbacb87ae6c662c1e2dcd2689b1a40f8dccab0090cf44cce22a8",
+      "7601/neutral": "a6f5a8091b76e57a402a5728abab9e199dd0de52743829a6469f412f95a3a348",
+      "7601/train/1": "12964e04910c49ad4fc0cc6ebdc2bc73f3732f57b3f3f6d477e95130f0f10ad3",
+      "7601/train/2": "90e68b9c5268e968add651bea985945f59f35a9476706cb770c46604e025844c",
+      "7601/train/3": "6f2b248281a45fe7239c5077c1f0d3c2c45d9b4c7fdb27a4ece8650b799f3f9d",
+      "7601/unauthorized": "b14de8782ebf0e34fc78206d2c040d87b33397382488c4282fe6a8668bc9c470",
+      "7607/alignment/train": "738488e1add6ddb1d4e897a5859c3d2a01a51cf1f1c85715448b740097ab6457",
+      "7607/authorized": "ef7c19588c265d7135a085ea0645995186781afe29d55dcdb5b6412a32f17c6b",
+      "7607/challenge/eval": "2b663b33ea6b455240eca1304c7889444e4a5494198b1b79a49b51ebe0ef56a0",
+      "7607/challenge/train": "a8727ea01bd1f9f38864591a379d42510e26c7d9728d193ba4cafaba613c1292",
+      "7607/eval/1": "8e1a5737071363f7fffea770b09d67e5fead6d7c28ddca9beebedf027421523c",
+      "7607/eval/2": "310db9cee9ed304f0e3c2914f0cc001f239634bb0ed1fee9fd37dbf1163ce99a",
+      "7607/eval/3": "f8a4526b72a4389a2143614acb834b571eccce5a986fe3824d6b15c619e57479",
+      "7607/neutral": "6ce1145ee00238b9914954fd0311d19cb6f28fce39ea4637a1e5d0580da653ce",
+      "7607/train/1": "fd4a3c1d04d41d70c80231e7fa57f09670c4a1807a9de12c7b826ca877a02623",
+      "7607/train/2": "d8438aa41a0b0a00cf2f2b063b5127a3fdbfe421ff27b78d120d455687e774e1",
+      "7607/train/3": "6169c9f5f9735a1f410452dfe8718ff4366d00ef3def2bb2fb6824355a9c169e",
+      "7607/unauthorized": "f40767a3f1d4dea56d547a6523d03b233da685f19b4ca212a221555d03be2bd5",
+      "7613/alignment/train": "b4716691d3474c69e4fb3c9c88b53f10f48fc0fcaac23c2cc846c21e4c938999",
+      "7613/authorized": "9a04117e35f9699a8cfc1ff0f912320293af527d9441965d06adae71c73201bd",
+      "7613/challenge/eval": "009de2d8df37ffa3b9be893982e67f557748acd2dde3e9afdac0986a90595f45",
+      "7613/challenge/train": "9fe32aa58d2380cd0e92658c1f60039021937158b7f81745b1781383e9de8cb7",
+      "7613/eval/1": "c0bcb465b97be8b63f8e47da2062e60a9dd5ed82f4f4155508e9d7035a94ea8a",
+      "7613/eval/2": "ef8d86ef64db488e6f05078a53ff3b1e5664a83f0b302979a65af5c0b16aa568",
+      "7613/eval/3": "f39320dbfe1ad47c9d3b419067cd64a99d51962022871063355142c4cc4bc426",
+      "7613/neutral": "567dffc1988136610ba57942f7fdc3b9a0c376237a3696329121f682a34d8278",
+      "7613/train/1": "5ed459098600292d1d7183620d116f3064e70862a5db709e82e590aeb9709af1",
+      "7613/train/2": "faf93489da8ee070edd3ddb8399138eb25924031fbf9aaf51a81c5ec5fca71ca",
+      "7613/train/3": "6b3502ae84902cf2c429ac97aff449f30da1d2a37d6ce9a2767c591118efe36d",
+      "7613/unauthorized": "7ae1bb95baef28ce87305f3b85c12dd763cc4f4d85fe02c159671486e0c02364",
+      "7617/alignment/train": "87644f594e233300f286b22753d44808059b61ee4886b759922c091935b06185",
+      "7617/authorized": "0561dce97626d6ab5d838e38dcb3eb956388a8754401021e10c5a954376620e2",
+      "7617/challenge/eval": "68dc4e039dd0c747de6ba07590377d35c7be55ddf4c8bf66858c21a15df23c62",
+      "7617/challenge/train": "b550f55f9c731b0d98567bf526014d30a358c87af68b6a2c3ae98aaf3ae71cad",
+      "7617/eval/1": "8678463edbe2b5319aa034f57cc2c89942a1672569b4c9acac2ff08ed7bd01dc",
+      "7617/eval/2": "6f126d662526f158be4aa59118a92371f3d6ef94a8b3864323b81ba7a9f931ec",
+      "7617/eval/3": "a3e84e1104ee856d0877660a18e2ae3883d651f3d3eae16ec28ffe32a8157ec7",
+      "7617/neutral": "22528373d89d6e2165d0865b3bdbbb666906f30731daa9143395335a90e6a7cb",
+      "7617/train/1": "429c9cc171016c445cd09de883d85d603eef16cc3934b3965e75c96abf52110b",
+      "7617/train/2": "9423b708cfdaeef74b0717f43a48e7a1c9560592b81751088c251eb08e4895cd",
+      "7617/train/3": "ecc81e60878fbdf96144706ab742ff685dcbbd41e690ad6c74a93226586f3598",
+      "7617/unauthorized": "aaf49e3612382ab06a6e841b1b1ffbadc7b936161edd433b4da671c1678d1121"
+    },
+    "namespace": "calibrated-transformer-v3",
+    "streams": 156,
+    "unique_signals": 53400
+  },
+  "design": "Two learning-rate candidates per method, two development and four untouched evaluation cells. Fixed strength and EWC coefficient inherited from the prior untuned pilot; not a comprehensive hyperparameter search.",
+  "development": [
+    {
+      "model_seed": 503,
+      "order": [
+        1,
+        2,
+        3
+      ],
+      "rule_seed": 3100,
+      "sample_seed": 6503
+    },
+    {
+      "model_seed": 509,
+      "order": [
+        3,
+        1,
+        2
+      ],
+      "rule_seed": 3200,
+      "sample_seed": 6509
+    }
+  ],
+  "interpretation": "Synthetic classifier pilot, not a language model or human-influence study. Four cells jointly vary model/data/rule/order. Paired bootstrap intervals are descriptive and are not multiplicity-adjusted significance tests.",
+  "meaningful_alignment_difference": 0.02,
+  "metadata": {
+    "cuda_runtime": null,
+    "deterministic_algorithms": true,
+    "deterministic_warn_only": true,
+    "device": "cpu",
+    "experiment_drivers_sha256": {
+      "__init__.py": "ca127a34501654b43f34a9ee15cae4942f0828768d26ebaf1656642b95de2ed4",
+      "_common.py": "c0060d62e081df118eb666d1fceff6c9c129a31a93a13ef5da2753c6abb04cd3",
+      "authority_analysis.py": "6e38866cf8164e3bb38f1547bad674843127c8c971f7673fdb043289dd2a91ab",
+      "authority_data.py": "16d673f29cc580eef48abf4b84b567926375248822dfc339b749535af18dfd4b",
+      "authority_features.py": "24e4a321ed050adbec1cfd2cffe542bf9e8dedab8f94efa7bfcab1ed4f030c70",
+      "authority_study.py": "797490ef9ea4edbddbc6c988bc133c52960d44fe816e886f6c87417a05d882a9",
+      "baseline_forgetting.py": "6bd48105245e9a303f7187fa4fb98c1448cd79ba487e54000e7468f2a3e8c935",
+      "bypass_test.py": "5d0fa278da012b4f30faa25fbd76c0e1884fc31cba7b19a235fd79511d3d28cd",
+      "calibrated_transfer.py": "0eff1d10b29d8f6e22c3d148706306d23631efdf9f5c1659734bf3af935a00ee",
+      "controlled_study.py": "fa83d9451ba122c073319333891a26d11667f009950866d1b99c67c4962972ea",
+      "mechanism_study.py": "7c79d218124a0c7d1cbc2390bd111cb05b662a794b62d2ac7ec1958fe38e27b1",
+      "metaplastic_retention.py": "982f2d8824fa22b17e9d76eb1cbeca36a2889e16c1c9a7d9ce1abfd4788243b4",
+      "plasticity_ablation.py": "e86b0cb9df8dd1d57a2b2fbe65b84d2de71c2d4190f283cedf942ae6c921b32b",
+      "portfolio_demo.py": "886309245a9647cd704a1a2c078c9723c583b473547c4013e3b1768f6ede6eff",
+      "restart_example.py": "aef539fb1c032c4e6c662f3ab5ba3b2cef53b140a352cd61727f00c4a1a77a02",
+      "run_all.py": "4e43f2e3b12251fefc0c4d4b978dafec48e7045659b825b47cdecfd95877fb05",
+      "synthetic_authority.py": "e8d087e2c9e098d79196d9486b74d299ed93e0e039b0cc969f8360d7df9e017d",
+      "transfer_study.py": "62ee6b879e7b058eedddff9701aedaee8b70d599403a4eac55921937b211256c"
+    },
+    "machine": "x86_64",
+    "numpy": "2.3.5",
+    "platform": "Linux",
+    "python": "3.12.14",
+    "source_files_sha256": {
+      "__init__.py": "e56f1462fa7fe40ba9cb134a53eb08204c1fb0b97c81e7b1d42afc7ddb209378",
+      "authority.py": "4d1c356078daa0ea7b7fd0caf0d767e43b24e01e39b35e9b346d9bc6b8a517d1",
+      "checkpoint.py": "dab02d4efcaf1b45265ece98fd9ac23faa6144c460fb8129cc63841e4388290c",
+      "config.py": "0f4dd359a2606fe2302f331f09fdf069b02ab8642a6407275407ca46f5529ad6",
+      "evaluation.py": "05e1d562a833f440aa2c66537f5f67d338c6fb97ac102a3550fbab7eda7473ef",
+      "experiment.py": "df59e7c9db9dd8c4d2fd05a26c5d41ab544c153434f6dad6e666288c76c0dc6f",
+      "importance.py": "aca1ba189603e7383b26fa7b70093216e48798d8a35c0aaf8c12f62e8076757c",
+      "io_utils.py": "4df2f86a4110f65803c4a8b0a8cee5a7c0ff0698599fe4b7d0ebb503126cb08a",
+      "metrics.py": "6a5f3fdf75e3ba843c4ed70e67c92b16195ae4093a5abd1f4def6a3e6b31153a",
+      "model.py": "1c56d9ba4c110ee7bb62984f5cc7d8a0220128f70aa2d533d7dbaf4006689b21",
+      "plotting.py": "5716b3c10ddab81999a9f431c17efc4752ce758c7b01d7d07d041763879cc584",
+      "probes.py": "50ab1eb1c6242e10eaf95a8c3a2b7320a0fef473d48b5a1d7b98bbd6e7b94532",
+      "repro.py": "890eef5d40c2260a192eb80c832b5a122997532c8ce1bc8ced4311b01b7f3c4e",
+      "research_integrity.py": "c65e8d18cbb939d0e75fa56a671073a9655f6f30e58ab5564ce769e1a3cce4f3",
+      "streams.py": "d3b0f72853aac62d3f1718c0418e538232a2f33298fdd97b22dc49020debf809",
+      "study.py": "33aabfc6cffc56a42170382cabdcb31e617c1875bf084e607c0de33ba224ecaf",
+      "summary.py": "c733eb9c5e0d5d7ad9419b74a78967b5dfdd3523328d439add6232b55c8a0571",
+      "tasks.py": "ac0219bb5030480e3ea1c2630d91d451c84fdde3e4f23d4fbc89a8dbee1b389a",
+      "training.py": "a57508726d8583354b1c6926d94886d33b7c9c4b47c1eeba2fcc3babe593f60d",
+      "validation.py": "3a6e2b13232aafd05e4e8e9aca019590bd20e7dccfdb9cf892f2bbbaaff0b9bf"
+    },
+    "torch": "2.15.0+cpu",
+    "torch_num_interop_threads": 9,
+    "torch_num_threads": 1
+  },
+  "schema_version": 1,
+  "selection_rule": "Greatest development alignment among candidates with mean acquisition >= 0.90; otherwise greatest acquisition, explicitly infeasible. Candidate order breaks ties.",
+  "settings": [
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "fine_tune",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "fine_tune",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "ewc",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "ewc",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "metaplastic",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "metaplastic",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "shuffled",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "shuffled",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.015,
+      "method": "uniform",
+      "protocol": "fixed",
+      "strength": 200.0
+    },
+    {
+      "ewc_lambda": 1.0,
+      "freeze_quantile": 0.85,
+      "lr": 0.03,
+      "method": "uniform",
+      "protocol": "fixed",
+      "strength": 200.0
+    }
+  ],
+  "study": "calibrated-transformer-v3",
+  "test": [
+    {
+      "model_seed": 601,
+      "order": [
+        1,
+        2,
+        3
+      ],
+      "rule_seed": 4100,
+      "sample_seed": 7601
+    },
+    {
+      "model_seed": 607,
+      "order": [
+        3,
+        1,
+        2
+      ],
+      "rule_seed": 4200,
+      "sample_seed": 7607
+    },
+    {
+      "model_seed": 613,
+      "order": [
+        1,
+        2,
+        3
+      ],
+      "rule_seed": 4300,
+      "sample_seed": 7613
+    },
+    {
+      "model_seed": 617,
+      "order": [
+        3,
+        1,
+        2
+      ],
+      "rule_seed": 4400,
+      "sample_seed": 7617
+    }
+  ],
+  "utility_floor": 0.9
+}

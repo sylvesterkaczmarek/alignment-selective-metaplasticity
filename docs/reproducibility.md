@@ -30,7 +30,7 @@ The default three-seed suite is CPU-sized and is intended to finish on a normal 
 
 ## Clean-checkout verification
 
-The GitHub Actions workflow installs CPU PyTorch, runs tests on Python 3.10 through 3.13, and executes all four methods including bypass on seed 73. This seed also exercises the historical train/evaluation rule mismatch. A separate job builds source and wheel distributions, validates metadata, and checks an installed wheel's source and tests.
+The GitHub Actions workflow runs the test suite on Linux with Python 3.10 through 3.14 and on macOS with Python 3.13. The Linux demonstration trains all four reference methods on seed 7. A separate job builds source and wheel distributions, validates metadata, and checks an installed wheel's source and tests.
 
 ## Scope of determinism
 

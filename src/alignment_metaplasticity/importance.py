@@ -87,10 +87,14 @@ def normalize_importance(importance: Mapping[str, torch.Tensor], quantile: float
     _validate_values(importance)
     if not importance:
         return {}
-    flat = torch.cat([v.detach().flatten().float().cpu() for v in importance.values()])
-    scale = torch.quantile(flat, quantile).item() if flat.numel() else 1.0
-    scale = max(scale, 1e-12)
-    return {name: (value / scale).clamp_(0.0, 1.0) for name, value in importance.items()}
+    dtype = torch.float64 if any(v.dtype == torch.float64 for v in importance.values()) else torch.float32
+    flat = torch.cat([v.detach().flatten().to(device="cpu", dtype=dtype) for v in importance.values()])
+    scale = max(torch.quantile(flat, quantile).item(), 1e-12) if flat.numel() else 1.
+    # Clip before division to avoid overflow, including when the percentile is zero.
+    result = {name: value.to(dtype).clamp(max=scale).div(scale).to(value.dtype)
+              for name, value in importance.items()}
+    _validate_values(result)
+    return result
 
 
 def ema_importance(old: Mapping[str, torch.Tensor], new: Mapping[str, torch.Tensor], decay: float) -> TensorMap:

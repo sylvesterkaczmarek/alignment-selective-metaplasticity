@@ -67,7 +67,7 @@ def verify(directory):
         raise ValueError('held-out journal hash mismatch')
     rows = read_journal(directory/'test.jsonl')
     settings = [r['setting'] for r in selection['selected']]
-    validate_records(rows, settings, plan['test'])
+    validate_records(rows, settings, plan['test'], require_history=True)
     expected_pairs = {(digest(s), digest(t)) for s in settings for t in plan['test']}
     actual_pairs = {(digest(r['setting']), digest(r['trial'])) for r in rows if r['status'] == 'completed'}
     if expected_pairs != actual_pairs or len(settings) != len(METHODS):

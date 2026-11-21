@@ -1,0 +1,579 @@
+{
+  "development_journal_sha256": "1d4d115690e033b1a7b88e00228296a1f22bbb3537cc43fac56c57dfcd991f0f",
+  "invalid_candidates": [],
+  "plan_sha256": "68f68f2f637d155a76bf3108eedfb941515ac4ccc33449071e0bfb8344206ed4",
+  "selected": [
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9523333333333333,
+          "n": 2,
+          "sd": 0.000942809041582038
+        },
+        "alignment": {
+          "mean": 0.83567056296458,
+          "n": 2,
+          "sd": 0.06046913409911545
+        },
+        "authorized_acceptance": {
+          "mean": 0.8156666666666667,
+          "n": 2,
+          "sd": 0.043840620433565985
+        },
+        "retention": {
+          "mean": 0.5948333333333333,
+          "n": 2,
+          "sd": 0.09215958381464676
+        },
+        "seconds": {
+          "mean": 1.2453557769986219,
+          "n": 2,
+          "sd": 0.03378753907459325
+        },
+        "unauthorized_resistance": {
+          "mean": 0.857,
+          "n": 2,
+          "sd": 0.07872455497210226
+        }
+      },
+      "group": "fixed/ewc",
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "ewc",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9745,
+          "n": 2,
+          "sd": 0.0054211519890968955
+        },
+        "alignment": {
+          "mean": 0.520498363304564,
+          "n": 2,
+          "sd": 0.020486130977415463
+        },
+        "authorized_acceptance": {
+          "mean": 0.5743333333333334,
+          "n": 2,
+          "sd": 0.021213203435596444
+        },
+        "retention": {
+          "mean": 0.5966666666666667,
+          "n": 2,
+          "sd": 0.09805214032453463
+        },
+        "seconds": {
+          "mean": 1.3173327420008718,
+          "n": 2,
+          "sd": 0.11502918535583218
+        },
+        "unauthorized_resistance": {
+          "mean": 0.47800000000000004,
+          "n": 2,
+          "sd": 0.049026070162267316
+        }
+      },
+      "group": "fixed/fine_tune",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.01,
+        "method": "fine_tune",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9711666666666666,
+          "n": 2,
+          "sd": 0.008720983634634067
+        },
+        "alignment": {
+          "mean": 0.8724904857385021,
+          "n": 2,
+          "sd": 0.04559184806009524
+        },
+        "authorized_acceptance": {
+          "mean": 0.8899999999999999,
+          "n": 2,
+          "sd": 0.04336921591277493
+        },
+        "retention": {
+          "mean": 0.6016666666666667,
+          "n": 2,
+          "sd": 0.0999377584076987
+        },
+        "seconds": {
+          "mean": 1.3627603189997899,
+          "n": 2,
+          "sd": 0.01871736399033299
+        },
+        "unauthorized_resistance": {
+          "mean": 0.8556666666666666,
+          "n": 2,
+          "sd": 0.04761185659989422
+        }
+      },
+      "group": "fixed/metaplastic",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "metaplastic",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9684999999999999,
+          "n": 2,
+          "sd": 0.003535533905932819
+        },
+        "alignment": {
+          "mean": 0.6319642275725952,
+          "n": 2,
+          "sd": 0.020187092771243916
+        },
+        "authorized_acceptance": {
+          "mean": 0.673,
+          "n": 2,
+          "sd": 0.025927248643506793
+        },
+        "retention": {
+          "mean": 0.5958333333333334,
+          "n": 2,
+          "sd": 0.09593081998097498
+        },
+        "seconds": {
+          "mean": 1.4107004620018415,
+          "n": 2,
+          "sd": 0.11909005858629336
+        },
+        "unauthorized_resistance": {
+          "mean": 0.5956666666666667,
+          "n": 2,
+          "sd": 0.01555634918610406
+        }
+      },
+      "group": "fixed/shuffled",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "shuffled",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9726666666666666,
+          "n": 2,
+          "sd": 0.006128258770283443
+        },
+        "alignment": {
+          "mean": 0.8092624540392208,
+          "n": 2,
+          "sd": 0.099626589284236
+        },
+        "authorized_acceptance": {
+          "mean": 0.7956666666666667,
+          "n": 2,
+          "sd": 0.09663792676216144
+        },
+        "retention": {
+          "mean": 0.5971666666666666,
+          "n": 2,
+          "sd": 0.09875924710572109
+        },
+        "seconds": {
+          "mean": 1.459407612495852,
+          "n": 2,
+          "sd": 0.12955456225022943
+        },
+        "unauthorized_resistance": {
+          "mean": 0.8233333333333334,
+          "n": 2,
+          "sd": 0.10276618553244489
+        }
+      },
+      "group": "fixed/static_freeze",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.5,
+        "lr": 0.015,
+        "method": "static_freeze",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.974,
+          "n": 2,
+          "sd": 0.006128258770283522
+        },
+        "alignment": {
+          "mean": 0.6560484953920642,
+          "n": 2,
+          "sd": 0.007276090859604653
+        },
+        "authorized_acceptance": {
+          "mean": 0.7276666666666667,
+          "n": 2,
+          "sd": 0.0532687108493866
+        },
+        "retention": {
+          "mean": 0.5978333333333332,
+          "n": 2,
+          "sd": 0.09828784258493004
+        },
+        "seconds": {
+          "mean": 1.299241158496443,
+          "n": 2,
+          "sd": 0.057130022755427036
+        },
+        "unauthorized_resistance": {
+          "mean": 0.599,
+          "n": 2,
+          "sd": 0.024041630560342638
+        }
+      },
+      "group": "fixed/uniform",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "uniform",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.946,
+          "n": 2,
+          "sd": 0.0023570226039551345
+        },
+        "alignment": {
+          "mean": 0.9243426214368673,
+          "n": 2,
+          "sd": 0.01861362748495801
+        },
+        "authorized_acceptance": {
+          "mean": 0.9323333333333333,
+          "n": 2,
+          "sd": 0.009899494936611674
+        },
+        "retention": {
+          "mean": 0.5895,
+          "n": 2,
+          "sd": 0.09121677477306463
+        },
+        "seconds": {
+          "mean": 1.3697917544996017,
+          "n": 2,
+          "sd": 0.08968494743074557
+        },
+        "unauthorized_resistance": {
+          "mean": 0.9173333333333333,
+          "n": 2,
+          "sd": 0.04619764303752104
+        }
+      },
+      "group": "periodic/ewc",
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "ewc",
+        "protocol": "periodic",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": false
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9745,
+          "n": 2,
+          "sd": 0.0054211519890968955
+        },
+        "alignment": {
+          "mean": 0.520498363304564,
+          "n": 2,
+          "sd": 0.020486130977415463
+        },
+        "authorized_acceptance": {
+          "mean": 0.5743333333333334,
+          "n": 2,
+          "sd": 0.021213203435596444
+        },
+        "retention": {
+          "mean": 0.5966666666666667,
+          "n": 2,
+          "sd": 0.09805214032453463
+        },
+        "seconds": {
+          "mean": 1.388776574000076,
+          "n": 2,
+          "sd": 0.14736814123953207
+        },
+        "unauthorized_resistance": {
+          "mean": 0.47800000000000004,
+          "n": 2,
+          "sd": 0.049026070162267316
+        }
+      },
+      "group": "periodic/fine_tune",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.01,
+        "method": "fine_tune",
+        "protocol": "periodic",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9714999999999999,
+          "n": 2,
+          "sd": 0.008249579113843088
+        },
+        "alignment": {
+          "mean": 0.8705438370741205,
+          "n": 2,
+          "sd": 0.03915223666109681
+        },
+        "authorized_acceptance": {
+          "mean": 0.8943333333333333,
+          "n": 2,
+          "sd": 0.043840620433565985
+        },
+        "retention": {
+          "mean": 0.6023333333333334,
+          "n": 2,
+          "sd": 0.09899494936611666
+        },
+        "seconds": {
+          "mean": 1.5664103615017666,
+          "n": 2,
+          "sd": 0.0877673190987216
+        },
+        "unauthorized_resistance": {
+          "mean": 0.8480000000000001,
+          "n": 2,
+          "sd": 0.03488393453853635
+        }
+      },
+      "group": "periodic/metaplastic",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "metaplastic",
+        "protocol": "periodic",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9601666666666667,
+          "n": 2,
+          "sd": 0.008720983634634067
+        },
+        "alignment": {
+          "mean": 0.592685024976277,
+          "n": 2,
+          "sd": 0.01742950306546399
+        },
+        "authorized_acceptance": {
+          "mean": 0.6066666666666667,
+          "n": 2,
+          "sd": 0.017913371790059193
+        },
+        "retention": {
+          "mean": 0.5925,
+          "n": 2,
+          "sd": 0.09923065162651207
+        },
+        "seconds": {
+          "mean": 1.1241830449980625,
+          "n": 2,
+          "sd": 0.05441668080007833
+        },
+        "unauthorized_resistance": {
+          "mean": 0.5793333333333334,
+          "n": 2,
+          "sd": 0.016970562748477157
+        }
+      },
+      "group": "periodic/rehearsal",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.01,
+        "method": "rehearsal",
+        "protocol": "periodic",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9671666666666667,
+          "n": 2,
+          "sd": 0.001178511301977528
+        },
+        "alignment": {
+          "mean": 0.635488358958787,
+          "n": 2,
+          "sd": 0.012801036011238467
+        },
+        "authorized_acceptance": {
+          "mean": 0.6759999999999999,
+          "n": 2,
+          "sd": 0.02357022603955158
+        },
+        "retention": {
+          "mean": 0.5946666666666667,
+          "n": 2,
+          "sd": 0.09333809511662428
+        },
+        "seconds": {
+          "mean": 1.4831835854965902,
+          "n": 2,
+          "sd": 0.12698362098554686
+        },
+        "unauthorized_resistance": {
+          "mean": 0.5996666666666667,
+          "n": 2,
+          "sd": 0.004242640687119289
+        }
+      },
+      "group": "periodic/shuffled",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "shuffled",
+        "protocol": "periodic",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9678333333333333,
+          "n": 2,
+          "sd": 0.003535533905932819
+        },
+        "alignment": {
+          "mean": 0.6564210912668962,
+          "n": 2,
+          "sd": 0.05668404419581754
+        },
+        "authorized_acceptance": {
+          "mean": 0.7669999999999999,
+          "n": 2,
+          "sd": 0.010842303978193713
+        },
+        "retention": {
+          "mean": 0.6058333333333333,
+          "n": 2,
+          "sd": 0.09923065162651223
+        },
+        "seconds": {
+          "mean": 1.3245352349986206,
+          "n": 2,
+          "sd": 0.06204451458403974
+        },
+        "unauthorized_resistance": {
+          "mean": 0.5756666666666668,
+          "n": 2,
+          "sd": 0.08061017305526641
+        }
+      },
+      "group": "periodic/static_freeze",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.5,
+        "lr": 0.015,
+        "method": "static_freeze",
+        "protocol": "periodic",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9736666666666667,
+          "n": 2,
+          "sd": 0.006599663291074502
+        },
+        "alignment": {
+          "mean": 0.6636184948704857,
+          "n": 2,
+          "sd": 0.012320959899534628
+        },
+        "authorized_acceptance": {
+          "mean": 0.7286666666666667,
+          "n": 2,
+          "sd": 0.05374011537017766
+        },
+        "retention": {
+          "mean": 0.5979999999999999,
+          "n": 2,
+          "sd": 0.09805214032453455
+        },
+        "seconds": {
+          "mean": 1.3382920750009362,
+          "n": 2,
+          "sd": 0.0024901698752797835
+        },
+        "unauthorized_resistance": {
+          "mean": 0.6106666666666667,
+          "n": 2,
+          "sd": 0.016970562748477157
+        }
+      },
+      "group": "periodic/uniform",
+      "setting": {
+        "ewc_lambda": 18.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "uniform",
+        "protocol": "periodic",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    }
+  ]
+}

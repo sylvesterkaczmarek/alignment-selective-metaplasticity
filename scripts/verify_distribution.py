@@ -38,9 +38,9 @@ def main():
         metadata = tomllib.loads((project/'pyproject.toml').read_text())['project']
         package = project/'src/alignment_metaplasticity'
         reference = {'alignment_metaplasticity/'+p.relative_to(package).as_posix(): p.read_bytes()
-                     for p in package.rglob('*.py')}
+                     for p in package.rglob('*') if p.is_file() and (p.suffix == '.py' or p.parent.name == 'fixtures')}
         with zipfile.ZipFile(wheel) as archive:
-            actual = {n: archive.read(n) for n in archive.namelist() if n.startswith('alignment_metaplasticity/') and n.endswith('.py')}
+            actual = {n: archive.read(n) for n in archive.namelist() if n.startswith('alignment_metaplasticity/') and (n.endswith('.py') or '/fixtures/' in n) and not n.endswith('/')}
             candidates = [n for n in archive.namelist() if n.endswith('.dist-info/METADATA')]
             if len(candidates) != 1: raise ValueError('ambiguous wheel metadata')
             identity = BytesParser().parsebytes(archive.read(candidates[0]))
@@ -51,6 +51,10 @@ def main():
         python = environment/('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
         def run(arguments):
             subprocess.run([str(python), *arguments], cwd=project, env=env, check=True, timeout=300)
+        # The scorer uses only the standard library. Exercise this path before installing PyTorch.
+        run(['-m', 'pip', 'install', '--no-deps', str(wheel)])
+        cli = python.parent / ('asm-score.exe' if os.name == 'nt' else 'asm-score')
+        subprocess.run([str(cli), 'demo', '--out', str(root/'demo-score.json')], cwd=root, env=env, check=True)
         if sys.platform == 'linux':
             run(['-m', 'pip', 'install', 'torch>=2.6,<3', '--index-url', 'https://download.pytorch.org/whl/cpu'])
         run(['-m', 'pip', 'install', str(wheel), 'pytest>=8,<10'])

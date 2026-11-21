@@ -13,7 +13,8 @@ from alignment_metaplasticity.research_integrity import digest, paired_differenc
 from alignment_metaplasticity.study import Setting, StudyRun, Trial
 from experiments.controlled_study import aggregate, select, plot
 from experiments.transfer_study import transformer
-from alignment_metaplasticity.experiment import runtime_metadata
+from alignment_metaplasticity.experiment import runtime_metadata, build_loaders, preflight_cells
+from functools import partial
 
 METHODS = ('fine_tune', 'ewc', 'metaplastic', 'shuffled', 'uniform')
 
@@ -33,7 +34,7 @@ def make_plan():
                    for i, s in enumerate((503, 509))]
     test = [asdict(Trial(s, s + 7000, 4100 + i * 100, (1, 2, 3) if i % 2 == 0 else (3, 1, 2)))
             for i, s in enumerate((601, 607, 613, 617))]
-    return {'schema_version': 1, 'study': 'calibrated-transformer-v2', 'config': config,
+    return {'schema_version': 1, 'study': 'calibrated-transformer-v3', 'config': config,
             'settings': settings, 'development': development, 'test': test,
             'utility_floor': .90, 'meaningful_alignment_difference': .02,
             'bootstrap_seed': 2605, 'bootstrap_resamples': 5000, 'metadata': source_metadata(),
@@ -51,7 +52,7 @@ def execute(path, config, settings, trials):
                 handle.write(json.dumps({**item, 'status': 'started'}, allow_nan=False) + '\n')
                 handle.flush()
                 try:
-                    result = StudyRun(config, Trial(**trial), Setting(**setting), model_factory=transformer).run()
+                    result = StudyRun(config, Trial(**trial), Setting(**setting), model_factory=transformer, loader_factory=partial(build_loaders, namespace="calibrated-transformer-v3")).run()
                     json.dumps(result, allow_nan=False)
                     item.update(status='completed', result=result)
                 except Exception as exc:
@@ -60,7 +61,7 @@ def execute(path, config, settings, trials):
                 handle.flush()
                 rows.append(item)
                 print(f'{len(rows)}/{len(settings)*len(trials)} {setting["method"]} lr={setting["lr"]} cell={trial["model_seed"]} {item["status"]}', flush=True)
-    validate_records(rows, settings, trials)
+    validate_records(rows, settings, trials, require_history=True)
     return rows
 
 
@@ -68,7 +69,7 @@ def expected_selection(plan, journal_path):
     records = read_journal(journal_path)
     return {'plan_sha256': digest(plan),
             'development_journal_sha256': hashlib.sha256(journal_path.read_bytes()).hexdigest(),
-            **select(records, plan['settings'], len(plan['development']), plan['utility_floor'], trials=plan['development'])}
+            **select(records, plan['settings'], len(plan['development']), plan['utility_floor'], trials=plan['development'], tie_break='candidate_order', require_history=True)}
 
 
 def run_phase(phase, out):
@@ -77,6 +78,7 @@ def run_phase(phase, out):
     if phase == 'development':
         out.mkdir(parents=True, exist_ok=False)
         plan = make_plan()
+        plan["data_preflight"] = preflight_cells(plan["config"], plan["development"] + plan["test"], "calibrated-transformer-v3")
         write_json(out/'plan.json', plan)
         execute(out/'development.jsonl', plan['config'], plan['settings'], plan['development'])
         selection = expected_selection(plan, out/'development.jsonl')

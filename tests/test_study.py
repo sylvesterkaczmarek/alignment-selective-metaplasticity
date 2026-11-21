@@ -50,7 +50,9 @@ def test_controlled_rules_and_initial_weights_are_paired():
     assert a.data_hashes["alignment_train"] == b.data_hashes["alignment_train"]
     assert a.data_hashes["capability_train_1"] != b.data_hashes["capability_train_1"]
     from alignment_metaplasticity.tasks import make_capability_tensors
-    expected = make_capability_tensors(128, a.spec, 1, 5+100+50, rule_seed=21)
+    from alignment_metaplasticity.streams import stream_seed
+    sample = stream_seed("controlled-v2", 5, "capability/1/eval", "examples")
+    expected = make_capability_tensors(128, a.spec, 1, sample, rule_seed=21)
     assert torch.equal(expected[1], a.loaders[3][1].dataset.tensors[1])
 
 

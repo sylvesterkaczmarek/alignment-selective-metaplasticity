@@ -1,0 +1,227 @@
+{
+  "development_journal_sha256": "3dc134932033852643defb28cc67c17f3b3cf6a12e131c7fad446835fc8eb0a8",
+  "invalid_candidates": [],
+  "plan_sha256": "a36ed261304338cda7da03c329c33f9c8ff7d0449d2a7284b45447cdbdea6588",
+  "selected": [
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9435763888888888,
+          "n": 2,
+          "sd": 0.019641855032959663
+        },
+        "alignment": {
+          "mean": 0.8171685935611541,
+          "n": 2,
+          "sd": 0.12253117985485751
+        },
+        "authorized_acceptance": {
+          "mean": 0.8251953125,
+          "n": 2,
+          "sd": 0.19473057841270155
+        },
+        "retention": {
+          "mean": 0.7335069444444445,
+          "n": 2,
+          "sd": 0.04419417382415922
+        },
+        "seconds": {
+          "mean": 10.384376979502122,
+          "n": 2,
+          "sd": 0.5247243802098295
+        },
+        "unauthorized_resistance": {
+          "mean": 0.8154296875,
+          "n": 2,
+          "sd": 0.0510995134841841
+        }
+      },
+      "group": "fixed/ewc",
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.03,
+        "method": "ewc",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9505208333333333,
+          "n": 2,
+          "sd": 0.004910463758239896
+        },
+        "alignment": {
+          "mean": 0.49414638853435044,
+          "n": 2,
+          "sd": 0.001595835263421726
+        },
+        "authorized_acceptance": {
+          "mean": 0.5556640625,
+          "n": 2,
+          "sd": 0.13948786113250253
+        },
+        "retention": {
+          "mean": 0.7287326388888888,
+          "n": 2,
+          "sd": 0.05708414118953904
+        },
+        "seconds": {
+          "mean": 10.090787110500969,
+          "n": 2,
+          "sd": 0.23255979701619078
+        },
+        "unauthorized_resistance": {
+          "mean": 0.466796875,
+          "n": 2,
+          "sd": 0.0966747552403483
+        }
+      },
+      "group": "fixed/fine_tune",
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "fine_tune",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.950954861111111,
+          "n": 2,
+          "sd": 0.03989751803569933
+        },
+        "alignment": {
+          "mean": 0.7553196186538307,
+          "n": 2,
+          "sd": 0.28404134006366655
+        },
+        "authorized_acceptance": {
+          "mean": 0.6533203125,
+          "n": 2,
+          "sd": 0.37150727370933845
+        },
+        "retention": {
+          "mean": 0.7612847222222223,
+          "n": 2,
+          "sd": 0.01595900721427978
+        },
+        "seconds": {
+          "mean": 9.97137419000137,
+          "n": 2,
+          "sd": 0.30411487730382614
+        },
+        "unauthorized_resistance": {
+          "mean": 0.9775390625,
+          "n": 2,
+          "sd": 0.03176456243611444
+        }
+      },
+      "group": "fixed/metaplastic",
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "metaplastic",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.9440104166666666,
+          "n": 2,
+          "sd": 0.04112513397525935
+        },
+        "alignment": {
+          "mean": 0.6374354388261626,
+          "n": 2,
+          "sd": 0.2597462228133183
+        },
+        "authorized_acceptance": {
+          "mean": 0.63671875,
+          "n": 2,
+          "sd": 0.4585145534256519
+        },
+        "retention": {
+          "mean": 0.7486979166666667,
+          "n": 2,
+          "sd": 0.036214670217019525
+        },
+        "seconds": {
+          "mean": 9.160811030498735,
+          "n": 2,
+          "sd": 0.18537071908658384
+        },
+        "unauthorized_resistance": {
+          "mean": 0.7724609375,
+          "n": 2,
+          "sd": 0.07872087212428361
+        }
+      },
+      "group": "fixed/shuffled",
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "shuffled",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    },
+    {
+      "development": {
+        "acquisition": {
+          "mean": 0.95703125,
+          "n": 2,
+          "sd": 0.012889967365379824
+        },
+        "alignment": {
+          "mean": 0.4347365206824404,
+          "n": 2,
+          "sd": 0.11677438070107236
+        },
+        "authorized_acceptance": {
+          "mean": 0.654296875,
+          "n": 2,
+          "sd": 0.2651650429449553
+        },
+        "retention": {
+          "mean": 0.7443576388888888,
+          "n": 2,
+          "sd": 0.04112513397525926
+        },
+        "seconds": {
+          "mean": 9.037631494495145,
+          "n": 2,
+          "sd": 0.5549366261775528
+        },
+        "unauthorized_resistance": {
+          "mean": 0.4013671875,
+          "n": 2,
+          "sd": 0.25273543155691053
+        }
+      },
+      "group": "fixed/uniform",
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.03,
+        "method": "uniform",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true
+    }
+  ]
+}

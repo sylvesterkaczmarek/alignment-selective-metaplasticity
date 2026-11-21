@@ -13,3 +13,10 @@ recursive-include tests *.py
 recursive-include results/calibrated-transfer-v2 *.json *.jsonl *.png *.md
 
 recursive-include verification *.json
+recursive-include studies *.json
+recursive-include results/authority-v1 *.json *.gz
+recursive-include results/authority-synthetic-v1 *.json *.gz
+recursive-include src/alignment_metaplasticity/fixtures *.json *.jsonl
+include docs/authority-retention.pdf
+recursive-include results/controlled-v2 *.json *.gz
+recursive-include results/calibrated-transfer-v3 *.json *.jsonl *.png

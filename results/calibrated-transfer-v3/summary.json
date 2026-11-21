@@ -1,0 +1,664 @@
+{
+  "comparisons": [
+    {
+      "complete": true,
+      "development": {
+        "acquisition": {
+          "mean": 0.9435763888888888,
+          "n": 2,
+          "sd": 0.019641855032959663
+        },
+        "alignment": {
+          "mean": 0.8171685935611541,
+          "n": 2,
+          "sd": 0.12253117985485751
+        },
+        "authorized_acceptance": {
+          "mean": 0.8251953125,
+          "n": 2,
+          "sd": 0.19473057841270155
+        },
+        "retention": {
+          "mean": 0.7335069444444445,
+          "n": 2,
+          "sd": 0.04419417382415922
+        },
+        "seconds": {
+          "mean": 10.384376979502122,
+          "n": 2,
+          "sd": 0.5247243802098295
+        },
+        "unauthorized_resistance": {
+          "mean": 0.8154296875,
+          "n": 2,
+          "sd": 0.0510995134841841
+        }
+      },
+      "group": "fixed/ewc",
+      "metrics": {
+        "acquisition": {
+          "mean": 0.8878038194444444,
+          "n": 4,
+          "sd": 0.024412535317461084
+        },
+        "alignment": {
+          "mean": 0.5261947990751846,
+          "n": 4,
+          "sd": 0.18628011186397447
+        },
+        "authorized_acceptance": {
+          "mean": 0.84716796875,
+          "n": 4,
+          "sd": 0.06794657729218342
+        },
+        "retention": {
+          "mean": 0.6872829861111112,
+          "n": 4,
+          "sd": 0.08668792666718173
+        },
+        "seconds": {
+          "mean": 9.058716108000226,
+          "n": 4,
+          "sd": 0.40524389189705545
+        },
+        "unauthorized_resistance": {
+          "mean": 0.4140625,
+          "n": 4,
+          "sd": 0.22001355678519183
+        }
+      },
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.03,
+        "method": "ewc",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true,
+      "utility_feasible_on_test": false
+    },
+    {
+      "complete": true,
+      "development": {
+        "acquisition": {
+          "mean": 0.9505208333333333,
+          "n": 2,
+          "sd": 0.004910463758239896
+        },
+        "alignment": {
+          "mean": 0.49414638853435044,
+          "n": 2,
+          "sd": 0.001595835263421726
+        },
+        "authorized_acceptance": {
+          "mean": 0.5556640625,
+          "n": 2,
+          "sd": 0.13948786113250253
+        },
+        "retention": {
+          "mean": 0.7287326388888888,
+          "n": 2,
+          "sd": 0.05708414118953904
+        },
+        "seconds": {
+          "mean": 10.090787110500969,
+          "n": 2,
+          "sd": 0.23255979701619078
+        },
+        "unauthorized_resistance": {
+          "mean": 0.466796875,
+          "n": 2,
+          "sd": 0.0966747552403483
+        }
+      },
+      "group": "fixed/fine_tune",
+      "metrics": {
+        "acquisition": {
+          "mean": 0.8782552083333333,
+          "n": 4,
+          "sd": 0.03979429624778831
+        },
+        "alignment": {
+          "mean": 0.4868015810621771,
+          "n": 4,
+          "sd": 0.018002407139296864
+        },
+        "authorized_acceptance": {
+          "mean": 0.53759765625,
+          "n": 4,
+          "sd": 0.050665307344639914
+        },
+        "retention": {
+          "mean": 0.7345920138888888,
+          "n": 4,
+          "sd": 0.07133344789651837
+        },
+        "seconds": {
+          "mean": 8.695313309501216,
+          "n": 4,
+          "sd": 0.22099435284305577
+        },
+        "unauthorized_resistance": {
+          "mean": 0.4501953125,
+          "n": 4,
+          "sd": 0.04710501292684826
+        }
+      },
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "fine_tune",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true,
+      "utility_feasible_on_test": false
+    },
+    {
+      "complete": true,
+      "development": {
+        "acquisition": {
+          "mean": 0.950954861111111,
+          "n": 2,
+          "sd": 0.03989751803569933
+        },
+        "alignment": {
+          "mean": 0.7553196186538307,
+          "n": 2,
+          "sd": 0.28404134006366655
+        },
+        "authorized_acceptance": {
+          "mean": 0.6533203125,
+          "n": 2,
+          "sd": 0.37150727370933845
+        },
+        "retention": {
+          "mean": 0.7612847222222223,
+          "n": 2,
+          "sd": 0.01595900721427978
+        },
+        "seconds": {
+          "mean": 9.97137419000137,
+          "n": 2,
+          "sd": 0.30411487730382614
+        },
+        "unauthorized_resistance": {
+          "mean": 0.9775390625,
+          "n": 2,
+          "sd": 0.03176456243611444
+        }
+      },
+      "group": "fixed/metaplastic",
+      "metrics": {
+        "acquisition": {
+          "mean": 0.9375,
+          "n": 4,
+          "sd": 0.02039468771609501
+        },
+        "alignment": {
+          "mean": 0.42934310470719916,
+          "n": 4,
+          "sd": 0.38561691228761297
+        },
+        "authorized_acceptance": {
+          "mean": 0.76416015625,
+          "n": 4,
+          "sd": 0.43410775359085885
+        },
+        "retention": {
+          "mean": 0.7150607638888888,
+          "n": 4,
+          "sd": 0.07183869954118224
+        },
+        "seconds": {
+          "mean": 9.29549966175,
+          "n": 4,
+          "sd": 0.2565972570495119
+        },
+        "unauthorized_resistance": {
+          "mean": 0.5595703125,
+          "n": 4,
+          "sd": 0.4342047707694889
+        }
+      },
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "metaplastic",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true,
+      "utility_feasible_on_test": true
+    },
+    {
+      "complete": true,
+      "development": {
+        "acquisition": {
+          "mean": 0.9440104166666666,
+          "n": 2,
+          "sd": 0.04112513397525935
+        },
+        "alignment": {
+          "mean": 0.6374354388261626,
+          "n": 2,
+          "sd": 0.2597462228133183
+        },
+        "authorized_acceptance": {
+          "mean": 0.63671875,
+          "n": 2,
+          "sd": 0.4585145534256519
+        },
+        "retention": {
+          "mean": 0.7486979166666667,
+          "n": 2,
+          "sd": 0.036214670217019525
+        },
+        "seconds": {
+          "mean": 9.160811030498735,
+          "n": 2,
+          "sd": 0.18537071908658384
+        },
+        "unauthorized_resistance": {
+          "mean": 0.7724609375,
+          "n": 2,
+          "sd": 0.07872087212428361
+        }
+      },
+      "group": "fixed/shuffled",
+      "metrics": {
+        "acquisition": {
+          "mean": 0.853515625,
+          "n": 4,
+          "sd": 0.09226842578214714
+        },
+        "alignment": {
+          "mean": 0.33315102074419667,
+          "n": 4,
+          "sd": 0.19573528367273255
+        },
+        "authorized_acceptance": {
+          "mean": 0.544921875,
+          "n": 4,
+          "sd": 0.1624110834458094
+        },
+        "retention": {
+          "mean": 0.7322048611111112,
+          "n": 4,
+          "sd": 0.06582547946490772
+        },
+        "seconds": {
+          "mean": 9.118616376998034,
+          "n": 4,
+          "sd": 0.08006562850608097
+        },
+        "unauthorized_resistance": {
+          "mean": 0.3544921875,
+          "n": 4,
+          "sd": 0.2978179412376744
+        }
+      },
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.015,
+        "method": "shuffled",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true,
+      "utility_feasible_on_test": false
+    },
+    {
+      "complete": true,
+      "development": {
+        "acquisition": {
+          "mean": 0.95703125,
+          "n": 2,
+          "sd": 0.012889967365379824
+        },
+        "alignment": {
+          "mean": 0.4347365206824404,
+          "n": 2,
+          "sd": 0.11677438070107236
+        },
+        "authorized_acceptance": {
+          "mean": 0.654296875,
+          "n": 2,
+          "sd": 0.2651650429449553
+        },
+        "retention": {
+          "mean": 0.7443576388888888,
+          "n": 2,
+          "sd": 0.04112513397525926
+        },
+        "seconds": {
+          "mean": 9.037631494495145,
+          "n": 2,
+          "sd": 0.5549366261775528
+        },
+        "unauthorized_resistance": {
+          "mean": 0.4013671875,
+          "n": 2,
+          "sd": 0.25273543155691053
+        }
+      },
+      "group": "fixed/uniform",
+      "metrics": {
+        "acquisition": {
+          "mean": 0.8285590277777778,
+          "n": 4,
+          "sd": 0.03956721264489865
+        },
+        "alignment": {
+          "mean": 0.3514695709643847,
+          "n": 4,
+          "sd": 0.19609052188080175
+        },
+        "authorized_acceptance": {
+          "mean": 0.6435546875,
+          "n": 4,
+          "sd": 0.24925374868539882
+        },
+        "retention": {
+          "mean": 0.7337239583333334,
+          "n": 4,
+          "sd": 0.07672804222178493
+        },
+        "seconds": {
+          "mean": 9.423958339499222,
+          "n": 4,
+          "sd": 0.19803019204343777
+        },
+        "unauthorized_resistance": {
+          "mean": 0.3349609375,
+          "n": 4,
+          "sd": 0.23827858178150904
+        }
+      },
+      "setting": {
+        "ewc_lambda": 1.0,
+        "freeze_quantile": 0.85,
+        "lr": 0.03,
+        "method": "uniform",
+        "protocol": "fixed",
+        "strength": 200.0
+      },
+      "utility_feasible_on_development": true,
+      "utility_feasible_on_test": false
+    }
+  ],
+  "interpretation": "Synthetic classifier pilot, not a language model or human-influence study. Four cells jointly vary model/data/rule/order. Paired bootstrap intervals are descriptive and are not multiplicity-adjusted significance tests.",
+  "paired": [
+    {
+      "bootstrap_percentile_95": [
+        -0.36053086234009313,
+        0.24561390963013735
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        -0.2725709394063381,
+        0.39382747972298204,
+        0.0974003395372926,
+        -0.44849078527384817
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": -0.0574584763549779,
+      "metric": "selective_corrigibility",
+      "n_cells": 4,
+      "positive_cells": 2,
+      "resamples": 5000,
+      "right": "fine_tune",
+      "sd_difference": 0.3771913331415062
+    },
+    {
+      "bootstrap_percentile_95": [
+        0.03776041666666674,
+        0.08940972222222235
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        0.03559027777777779,
+        0.05555555555555558,
+        0.03993055555555569,
+        0.1059027777777779
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": 0.05924479166666674,
+      "metric": "acquisition",
+      "n_cells": 4,
+      "positive_cells": 4,
+      "resamples": 5000,
+      "right": "fine_tune",
+      "sd_difference": 0.03226532646099398
+    },
+    {
+      "bootstrap_percentile_95": [
+        -0.04166666666666677,
+        -5.551115123125783e-17
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        0.00520833333333337,
+        -0.02430555555555558,
+        -0.005208333333333481,
+        -0.05381944444444453
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": -0.019531250000000056,
+      "metric": "retention",
+      "n_cells": 4,
+      "positive_cells": 1,
+      "resamples": 5000,
+      "right": "fine_tune",
+      "sd_difference": 0.025920823013843942
+    },
+    {
+      "bootstrap_percentile_95": [
+        -0.41220543768892115,
+        0.21850204895295017
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        -0.5173153433167952,
+        0.25462668280056977,
+        0.18237741510533056,
+        -0.307095532061047
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": -0.09685169436798546,
+      "metric": "selective_corrigibility",
+      "n_cells": 4,
+      "positive_cells": 2,
+      "resamples": 5000,
+      "right": "ewc",
+      "sd_difference": 0.37527682962916703
+    },
+    {
+      "bootstrap_percentile_95": [
+        0.024305555555555552,
+        0.07834201388888884
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        0.0581597222222221,
+        0.08506944444444442,
+        0.04253472222222221,
+        0.01302083333333337
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": 0.049696180555555525,
+      "metric": "acquisition",
+      "n_cells": 4,
+      "positive_cells": 4,
+      "resamples": 5000,
+      "right": "ewc",
+      "sd_difference": 0.030106848141394672
+    },
+    {
+      "bootstrap_percentile_95": [
+        0.010199652777777651,
+        0.05447048611111113
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        0.06684027777777779,
+        0.01736111111111116,
+        0.01996527777777768,
+        0.006944444444444309
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": 0.027777777777777735,
+      "metric": "retention",
+      "n_cells": 4,
+      "positive_cells": 4,
+      "resamples": 5000,
+      "right": "ewc",
+      "sd_difference": 0.026642377175734085
+    },
+    {
+      "bootstrap_percentile_95": [
+        -0.123660603415432,
+        0.32102199994329106
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        -0.22671108254276484,
+        0.4290497076724779,
+        0.18549083396656652,
+        -0.0030611232442695133
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": 0.09619208396300252,
+      "metric": "selective_corrigibility",
+      "n_cells": 4,
+      "positive_cells": 2,
+      "resamples": 5000,
+      "right": "shuffled",
+      "sd_difference": 0.27861928534238184
+    },
+    {
+      "bootstrap_percentile_95": [
+        0.005642361111111105,
+        0.1623263888888889
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        0.03125,
+        0.1440972222222221,
+        -0.01996527777777779,
+        0.1805555555555557
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": 0.083984375,
+      "metric": "acquisition",
+      "n_cells": 4,
+      "positive_cells": 3,
+      "resamples": 5000,
+      "right": "shuffled",
+      "sd_difference": 0.09403189518157681
+    },
+    {
+      "bootstrap_percentile_95": [
+        -0.0362413194444445,
+        0.0015190972222221544
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        -0.00694444444444442,
+        0.004340277777777679,
+        -0.019965277777778012,
+        -0.04600694444444453
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": -0.01714409722222232,
+      "metric": "retention",
+      "n_cells": 4,
+      "positive_cells": 1,
+      "resamples": 5000,
+      "right": "shuffled",
+      "sd_difference": 0.021653593200115336
+    },
+    {
+      "bootstrap_percentile_95": [
+        -0.3015093582699969,
+        0.45725642575562586
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        -0.25343867129418635,
+        0.4108347422063574,
+        0.5036781093048943,
+        -0.34958004524580744
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": 0.07787353374281449,
+      "metric": "selective_corrigibility",
+      "n_cells": 4,
+      "positive_cells": 2,
+      "resamples": 5000,
+      "right": "uniform",
+      "sd_difference": 0.44145858330001453
+    },
+    {
+      "bootstrap_percentile_95": [
+        0.057508680555555525,
+        0.13606770833333334
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        0.03211805555555547,
+        0.1371527777777778,
+        0.1336805555555557,
+        0.1328125
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": 0.10894097222222224,
+      "metric": "acquisition",
+      "n_cells": 4,
+      "positive_cells": 4,
+      "resamples": 5000,
+      "right": "uniform",
+      "sd_difference": 0.051249596160458565
+    },
+    {
+      "bootstrap_percentile_95": [
+        -0.03949652777777796,
+        0.0021701388888888395
+      ],
+      "bootstrap_seed": 2605,
+      "differences": [
+        0.00694444444444442,
+        -0.0026041666666667407,
+        -0.03211805555555569,
+        -0.04687500000000022
+      ],
+      "interpretation": "Descriptive paired-cell percentile bootstrap; few jointly varied cells, no population or multiplicity-adjusted significance claim.",
+      "left": "metaplastic",
+      "mean_difference": -0.01866319444444456,
+      "metric": "retention",
+      "n_cells": 4,
+      "positive_cells": 1,
+      "resamples": 5000,
+      "right": "uniform",
+      "sd_difference": 0.025103670401324125
+    }
+  ],
+  "plan_sha256": "a36ed261304338cda7da03c329c33f9c8ff7d0449d2a7284b45447cdbdea6588",
+  "selection_sha256": "537a2824db172d9ac7bb3c0e1a80056cf7296cf2ea68cf3afb5bf01644bfed65",
+  "test_journal_sha256": "64792a737fb79e8422852f87280f736d9d406c33ff211fe9940b92321963d984"
+}

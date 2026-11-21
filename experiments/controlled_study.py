@@ -12,7 +12,8 @@ from alignment_metaplasticity.research_integrity import validate_records, read_j
 from alignment_metaplasticity.repro import set_seed
 
 from alignment_metaplasticity.config import load_config
-from alignment_metaplasticity.experiment import runtime_metadata
+from alignment_metaplasticity.experiment import runtime_metadata, build_loaders, preflight_cells
+from functools import partial
 from alignment_metaplasticity.io_utils import write_json
 from alignment_metaplasticity.study import Setting, StudyRun, Trial, STUDY_METHODS
 
@@ -54,14 +55,16 @@ def aggregate(results):
             for k, v in metrics.items()}
 
 
-def select(records, settings, repetitions, utility_floor, *, trials=None):
+def select(records, settings, repetitions, utility_floor, *, trials=None, tie_break="acquisition", require_history=False):
+    if tie_break not in ("acquisition", "candidate_order"):
+        raise ValueError("unknown selection tie-break")
     if type(repetitions) is not int or repetitions < 1:
         raise ValueError("repetitions must be a positive integer")
     if type(utility_floor) not in (int, float) or not 0 <= utility_floor <= 1:
         raise ValueError("utility_floor must be a finite probability")
     if trials is not None and len(trials) != repetitions:
         raise ValueError("repetition count differs from planned cells")
-    validate_records(records, settings, trials)
+    validate_records(records, settings, trials, require_history=require_history)
     eligible, invalid = {}, []
     for setting in settings:
         matches = [r for r in records if r["setting"] == setting]
@@ -76,7 +79,7 @@ def select(records, settings, repetitions, utility_floor, *, trials=None):
         feasible = [o for o in options if o["development"]["acquisition"]["mean"] >= utility_floor]
         # An infeasible fallback is retained for diagnosis and explicitly flagged.
         chosen = max(feasible or options, key=lambda o: (o["development"]["alignment" if feasible else "acquisition"]["mean"],
-                                                        o["development"]["acquisition"]["mean"]))
+                                                        o["development"]["acquisition"]["mean"] if tie_break == "acquisition" else 0))
         selected.append({"group": group, "utility_feasible_on_development": bool(feasible), **chosen})
     return {"selected": selected, "invalid_candidates": invalid}
 
@@ -90,7 +93,7 @@ def execute(path, cfg, settings, trials):
                 f.write(json.dumps({**item, "status": "started"}) + "\n")
                 f.flush()
                 try:
-                    result = StudyRun(cfg, Trial(**trial), Setting(**setting)).run()
+                    result = StudyRun(cfg, Trial(**trial), Setting(**setting), loader_factory=partial(build_loaders, namespace="controlled-v2")).run()
                     # Reject NaN/inf before a run becomes eligible for selection.
                     json.dumps(result, allow_nan=False)
                     item.update(status="completed", result=result)
@@ -145,9 +148,11 @@ def main():
                 "utility_floor": .95, "meaningful_alignment_difference": .02,
                 "interpretation": "bounded pilot; six independent model/sample/rule cells; uncertainty is across cells",
                 "metadata": metadata()}
+        plan["study"] = "controlled-v2"
+        plan["data_preflight"] = preflight_cells(cfg, plan["development"] + plan["test"], "controlled-v2")
         write_json(out / "plan.json", plan)
         records = execute(out / "development.jsonl", cfg, plan["settings"], plan["development"])
-        selection = select(records, plan["settings"], len(plan["development"]), plan["utility_floor"], trials=plan["development"])
+        selection = select(records, plan["settings"], len(plan["development"]), plan["utility_floor"], trials=plan["development"], require_history=True)
         write_json(out / "selection.json", {"plan_sha256": digest(plan),
                    "development_journal_sha256": hashlib.sha256((out / "development.jsonl").read_bytes()).hexdigest(), **selection})
         rows = []
@@ -170,7 +175,7 @@ def main():
         records = read_journal(development_path)
         expected = {"plan_sha256": digest(plan),
                     "development_journal_sha256": hashlib.sha256(development_path.read_bytes()).hexdigest(),
-                    **select(records, plan["settings"], len(plan["development"]), plan["utility_floor"], trials=plan["development"])}
+                    **select(records, plan["settings"], len(plan["development"]), plan["utility_floor"], trials=plan["development"], require_history=True)}
         if digest(selection) != digest(expected):
             raise ValueError("selection differs from the recorded development evidence")
         if len(selection["selected"]) != len({(s["method"], s["protocol"]) for s in plan["settings"]}):
