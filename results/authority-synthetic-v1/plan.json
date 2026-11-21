@@ -1,0 +1,201 @@
+{
+  "cadence": "after pretraining and after each capability epoch; rehearsal adds a recorded post-rehearsal point",
+  "conditions": [
+    "separate",
+    "overlapping"
+  ],
+  "config": {
+    "data": {
+      "alignment_eval_size": 256,
+      "alignment_train_size": 384,
+      "batch_size": 64,
+      "bypass_train_size": 900,
+      "capability_eval_size": 256,
+      "capability_train_size": 384
+    },
+    "device": "cpu",
+    "ewc": {
+      "lambda": 18.0
+    },
+    "importance": {
+      "max_batches": 8,
+      "quantile": 0.95
+    },
+    "metaplastic": {
+      "ema_decay": 0.8,
+      "min_plasticity": 0.05,
+      "strength": 200.0
+    },
+    "model": {
+      "depth": 1,
+      "hidden_dim": 32,
+      "num_capability_tasks": 2,
+      "signal_dim": 8
+    },
+    "seed": 7,
+    "static": {
+      "freeze_quantile": 0.85
+    },
+    "training": {
+      "alignment_epochs": 30,
+      "bypass_epochs": 12,
+      "capability_epochs": 6,
+      "lr": 0.03,
+      "weight_decay": 0.0001
+    }
+  },
+  "methods": [
+    [
+      "fine_tune",
+      "fixed"
+    ],
+    [
+      "metaplastic",
+      "fixed"
+    ],
+    [
+      "metaplastic",
+      "periodic"
+    ],
+    [
+      "shuffled",
+      "fixed"
+    ],
+    [
+      "uniform",
+      "fixed"
+    ],
+    [
+      "ewc",
+      "fixed"
+    ],
+    [
+      "rehearsal",
+      "periodic"
+    ]
+  ],
+  "namespace": "authority-synthetic-v1",
+  "preflight": {
+    "dataset_hashes": {
+      "20801/alignment/train": "835fcc0429dcccc434ae9c73ac80e8a3b5060a1107baffb8dc8f84c8ac16ca13",
+      "20801/authorized": "6ac62acd9ba60e8a032b13eb9ad14d0ecbcb0dc1e392b2742beb200ec6647be8",
+      "20801/challenge/eval": "7465a9b8e5033e5f1c661f597ace458502f4e1d8fff9586ba1af51c9d1e9b1ac",
+      "20801/challenge/train": "51b65ccd99f11cac019ac7647a7c9c74986f425cc75b4dd87f93d39ec6434c40",
+      "20801/eval/1": "7a73fa6024ed48bf3f9114ab183494d6bd9c0bc17c4a7ad920ac89d4095a490b",
+      "20801/eval/2": "560dc01743da80d972ac6d407a5b28e4dbca8ae19f6f381637cda400b65f3903",
+      "20801/neutral": "40fcd0aedd41360cf22d675117301103330dc972120ed6b20b903c7737f7b4b0",
+      "20801/train/1": "6d3546534e5136dfa30b47e5582c453fc52ebaa549abd85e8d664e9864581e5a",
+      "20801/train/2": "b29efbe315f8d0cf8adfad2bf6a00c7915903a7ecc03e2717dd4a55707f23780",
+      "20801/unauthorized": "b2e3d18f937edb604d4303eb86397d8349285d6a61ddfb79e568d9d593932750",
+      "20811/alignment/train": "e0012d547dbb62ba46b8fcf03cbead739d83d1f3ab354bb252798ab4ff82083a",
+      "20811/authorized": "71f8a1b6331506f17ff5bb95d42ee71faf972bf3192700c99756fcdc21652a12",
+      "20811/challenge/eval": "8d411e1b674e7e699d788ce09b9bcf901c927e2e63a5b8dff6f352154dc1053b",
+      "20811/challenge/train": "c5ccad40558895943e67e0f8ef3f233b83587e3630f2ed9522daf48e4eff5cf5",
+      "20811/eval/1": "22d9779834bb7ac30b8e24ae714240e7fac5df7403d9c891df449ba9fd23ee06",
+      "20811/eval/2": "51d8494403b4f37452bf71fff7cfa6ff771fd1f133ea5e2824aa6435f10fcf3e",
+      "20811/neutral": "41e8aa4dcd0121afc318a8d77b4f05cd9befc6f14720d7a24d0bac9877b5748d",
+      "20811/train/1": "375dc3c07de018b426e5bcdc4dfb7e893b8ec492d46e90e67d69ac8f761856b1",
+      "20811/train/2": "603e50818ff9bd81e519c36e01da7b91562b3e2db386cc5ef4d7517d49009590",
+      "20811/unauthorized": "99f60e23cf664329fe644f51bf109c342ee96b509269b64583a9fc4acbe03136",
+      "20823/alignment/train": "c5dd0cd82270bde0c55819f2297c4607d169a82f07acb38bdb158f3bade00271",
+      "20823/authorized": "95f59dad5a646ec7957dd49fb76e2a73dfa2aa3ad65b174c165d3f0ecd0be531",
+      "20823/challenge/eval": "ee3a22235a73edb9fe7a74680f062aaab0c2773c5ec6191e602f397b6db529f3",
+      "20823/challenge/train": "61e17dd19dac4bf242e5fe08bad4bc954fe6074db4ee91e1d59cb4eb73230b03",
+      "20823/eval/1": "cf9b4cd023c5233917f19fd046ac063e39b89a9c47b5eaac070fe2d84fb8c30a",
+      "20823/eval/2": "88fb21aee3d05a94322aef65e461057ea2ecced0d5d9c75af9d6589f9e0161ea",
+      "20823/neutral": "3248d6fd617e07fef27843f3b5dc8b6584a64f38d3ddf465d6883d74e052874e",
+      "20823/train/1": "cbec381bdcb217d5d7655a520cd33be6f17946c2695e6af77f729a0836cba455",
+      "20823/train/2": "51c3bce1b3beefe148383b3d554cdfd116eeba218bec6290faebfedc02eccc61",
+      "20823/unauthorized": "8210d5b23bc5767725ffd9aee3d54495837492568a0ef3a9ba6b4ce247d01203",
+      "20827/alignment/train": "19e202af536823d37c8a6e9790a7e0a562e079d17953d896aebf70d17f035f02",
+      "20827/authorized": "af9aebbeef2a27d5e24320de3db3c6c18a8802e036fa0c5620bc9fca13156465",
+      "20827/challenge/eval": "a6a94aa955cc610114e9c246c13d96c145a16d732ebee368aa2922c8f09a3124",
+      "20827/challenge/train": "5fa6c05138f993a9b78a56686994d4e6d60116f7c40bcb42fbe9880e6a38234d",
+      "20827/eval/1": "8ef85eb404478b47d733420efff687632131264be06b31eddfd8c28efcfd1d6e",
+      "20827/eval/2": "7cd9972f46f13d1ef6023e538b8c16eccb8d877d60007d199e57a101cebc290b",
+      "20827/neutral": "4cbcbc048b790f4a95699c3ca9cbd58fc530475ae73bf8f0e1fa2ca69b27f4ec",
+      "20827/train/1": "c4407966566838a7900aef9dda9409fb753edd965ce525d8eae5db0e9ec0df0a",
+      "20827/train/2": "e5b2eae806d387be74c1939afe9c50f3b322138a6fe5bca03f5e068d44540626",
+      "20827/unauthorized": "1e3bdf7fa6feacf007eeca24cb083200bb98e41f418b5514e0a6cb7bc6dd54e1",
+      "20829/alignment/train": "da35211c0d1fee289f7c2a9d97bc4de06326ff1bbb70a6c4eec2408e2d448285",
+      "20829/authorized": "976588b15e1ad8bdc70c8d5073488e6e886791efef88a3541fe8b24c53e4e063",
+      "20829/challenge/eval": "a6a38ffc935ce5ad9ffd2b65b46a66c3b014f157b7efcf0ebf6d255c98ee4b6e",
+      "20829/challenge/train": "cbb2e739e85d70f2701f0d12a6a779f1eb6997ffc873b7d712fc205122222915",
+      "20829/eval/1": "a8c42d3021b1f2049c81097dd26dd5b01229a115b7c0a7637f86606be269e0a2",
+      "20829/eval/2": "f3767fb4c007d4e317e9598247104b5f215a5fdc3b17dbb501b2055dd2c8a336",
+      "20829/neutral": "20838e5911813509a49a604f06a8bc9c65101a62ca9d3803c5c3701983b48b6f",
+      "20829/train/1": "a5dde9d5b63ae887f34b203fde9b5a8662cf71615ed67a7a07515ab1fe139bac",
+      "20829/train/2": "f835cd452fd5882711d48fec5b7ab812592b4593e2a501beede6f9fc9182a96c",
+      "20829/unauthorized": "dd74a077cc32578abd7b61a07564ac2061cf6c18550b99d2ed05eae7a0354d74",
+      "20839/alignment/train": "8144915609cf562130e528359b0599979e7907b6d50b35199b40a8c9ee60a08b",
+      "20839/authorized": "4f5c2ad51e7faa4db505ad2677d208553cd48013b5499c06cb7dce60723d1fd9",
+      "20839/challenge/eval": "9ec877ee2eb02663fbd61d3b232223f9579e9ca91f288dff69eb72ec14f2326f",
+      "20839/challenge/train": "b176113aad39cd5ce3bdc275af30dee41e21ae40b80f0f58af3284549928a4e8",
+      "20839/eval/1": "7fa94062d22d50156dbc1ade4a1746e7771280e3d44cab35f5c2b1195d2fbe1a",
+      "20839/eval/2": "988350345dd4d95cc3ab376a156ac9693ae41b48a0842872d1bb9388260bdddc",
+      "20839/neutral": "1bd5ab38771012a452592e08eaaa2d636773c930d711d4d933310f54b0bfed2b",
+      "20839/train/1": "088773c71af380365137eda8c974c9a67e94963700ecc64e04cd6ccaead71504",
+      "20839/train/2": "70bf35939663f38383100d7430b79d8b58760cf7e7c4dc8cd4b681f9487ac202",
+      "20839/unauthorized": "e8273c92c10d8e15afaf16f30d90c0547cc04e009f15575ba16c21a5b439154f"
+    },
+    "namespace": "authority-synthetic-v1",
+    "streams": 132,
+    "unique_signals": 21528
+  },
+  "trials": [
+    {
+      "model_seed": 801,
+      "order": [
+        1,
+        2
+      ],
+      "rule_seed": 30801,
+      "sample_seed": 20801
+    },
+    {
+      "model_seed": 811,
+      "order": [
+        2,
+        1
+      ],
+      "rule_seed": 30811,
+      "sample_seed": 20811
+    },
+    {
+      "model_seed": 823,
+      "order": [
+        1,
+        2
+      ],
+      "rule_seed": 30823,
+      "sample_seed": 20823
+    },
+    {
+      "model_seed": 827,
+      "order": [
+        2,
+        1
+      ],
+      "rule_seed": 30827,
+      "sample_seed": 20827
+    },
+    {
+      "model_seed": 829,
+      "order": [
+        1,
+        2
+      ],
+      "rule_seed": 30829,
+      "sample_seed": 20829
+    },
+    {
+      "model_seed": 839,
+      "order": [
+        2,
+        1
+      ],
+      "rule_seed": 30839,
+      "sample_seed": 20839
+    }
+  ]
+}

@@ -1,10 +1,12 @@
 # Controlled studies
 
+New runs use disjoint `controlled-v2` streams and a preflight of realised inputs. The v1 numbers below belong to the archived 0.2.0 protocol. [Corrected replication](../results/controlled-v2/test-summary.json)
+
 The historical `experiments.run_all` command and reference results remain unchanged. The new CPU study is a bounded comparison with separate development and test cells:
 
 ```bash
-OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MPLBACKEND=Agg python -m experiments.controlled_study development --out results/controlled-v1
-OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MPLBACKEND=Agg python -m experiments.controlled_study test --out results/controlled-v1
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MPLBACKEND=Agg python -m experiments.controlled_study development --out /tmp/asm-controlled-new
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 MPLBACKEND=Agg python -m experiments.controlled_study test --out /tmp/asm-controlled-new
 ```
 
 Use a new output directory. Existing studies are never overwritten. A process interruption leaves a `started` record without a terminal record. A failed run remains in the journal and cannot make its candidate eligible through selective averaging. There is no automatic retry or within-trial resume in this runner.

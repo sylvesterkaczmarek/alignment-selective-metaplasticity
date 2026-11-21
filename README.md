@@ -7,27 +7,29 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## Version 0.2.0
+## Authority retention across model updates
 
-This release strengthens experiment integrity and CPU checkpoint recovery.
-A separate review added 48 checks, reproduced the recorded transformer study,
-and corrected remaining checkpoint, dtype and evidence-validation defects.
-The complete suite contains 258 tests. See the [independent review](docs/independent-review-2026-11-05.md),
-[release notes](docs/release-0.2.0.md), and [migration guide](docs/migration-0.2.md).
+Does a model keep accepting authorised corrections and resisting unauthorised ones as it learns another task? Version 0.3.0 adds a checkpoint scorer and a prospective study using frozen SmolLM2 and Qwen instruction models with trainable output adapters.
 
-The [GitHub release](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/tag/v0.2.0)
-provides the verified wheel, source distribution, exact source archive and checksums.
-The Python import remains `alignment_metaplasticity`. Package-index publication is
-not configured; use the GitHub assets or the source checkout documented below.
+**In twelve held-out blocks per family, neither adapter met the initial authority threshold.** The study could not establish a retention advantage. In a separate 84-run synthetic control, four runs passed the initial and final authority checks and failed at an intermediate checkpoint.
 
-A new [development-calibrated transformer follow-up](docs/calibrated-transfer.md)
-uses equal two-candidate search budgets, two development cells and four untouched
-held-out cells. Selective metaplasticity has mean alignment **0.683 ± 0.462** and
-acquisition **0.942 ± 0.014**; EWC has alignment **0.892 ± 0.034** and acquisition
-**0.878 ± 0.067**. These small-sample results remain variable and do not establish
-reliable architectural transfer or a matched-utility advantage. All cell outcomes,
-component metrics, failed-attempt handling and paired uncertainty are inspectable.
-The previous reference, controlled, mechanism and transfer evidence is unchanged.
+| Start here | Resource |
+| --- | --- |
+| Read the findings, methods and limitations | [Paper (PDF)](docs/authority-retention.pdf) · [Methods and reproduction](docs/authority-study.md) |
+| Evaluate your own predictions | [Scorer contract and worked example](docs/authority-scoring.md) |
+| Inspect or recompute each result | [Predeclared protocol](studies/authority-v1/protocol.json) and [per-run decisions](results/authority-v1) |
+| Reproduce the earlier synthetic benchmark | [Historical 0.2.0 evidence](docs/release-0.2.0.md) |
+
+From a source checkout, install the package and verify the bundled example:
+
+```bash
+python -m pip install .
+asm-score demo
+```
+
+The scorer takes records from any trainer. It reports per-checkpoint authorised acceptance, unauthorised resistance, coverage and whether a passing endpoint masked an earlier failure. [0.3.0 release notes](docs/release-0.3.0.md)
+
+## Historical reference experiment
 
 A one-seed demonstration trains the four reference methods and their context
 challenge, without a model download or external service:

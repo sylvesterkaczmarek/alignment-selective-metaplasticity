@@ -1,5 +1,7 @@
 # Independent verification
 
+This document covers the 0.2.0 release candidate. See the [0.3.0 release verification](release-0.3.0.md) for the authority benchmark.
+
 ## Reviewed candidate
 
 Reviewed source 2393c326f822be6b0cc5fc90221d384d5b8d3937, version 0.2.0rc1,

@@ -1,0 +1,62 @@
+[
+  {
+    "family": "qwen",
+    "phase": "adapter",
+    "threads": 1,
+    "elapsed_seconds": 1.589262936002342,
+    "system": "Linux",
+    "lifetime_peak_rss_bytes": 340828160,
+    "mean_normalise_seconds": 0.0004187448599259369,
+    "adapter_parameters": 7192,
+    "importance_bytes": 28768,
+    "training_cost": {
+      "pretrain_examples": 2560,
+      "capability_examples": 256,
+      "rehearsal_examples": 0,
+      "importance_examples": 32,
+      "adaptation_steps": 32,
+      "seconds": 0.032658101998094935
+    }
+  },
+  {
+    "family": "smol",
+    "phase": "adapter",
+    "threads": 1,
+    "elapsed_seconds": 1.6590510129972245,
+    "system": "Linux",
+    "lifetime_peak_rss_bytes": 340500480,
+    "mean_normalise_seconds": 0.00019770004000747577,
+    "adapter_parameters": 4632,
+    "importance_bytes": 18528,
+    "training_cost": {
+      "pretrain_examples": 2560,
+      "capability_examples": 256,
+      "rehearsal_examples": 0,
+      "importance_examples": 32,
+      "adaptation_steps": 32,
+      "seconds": 0.025269860001571942
+    }
+  },
+  {
+    "family": "qwen",
+    "phase": "backbone",
+    "threads": 3,
+    "elapsed_seconds": 18.50364875300147,
+    "system": "Linux",
+    "lifetime_peak_rss_bytes": 1281425408,
+    "feature_seconds": 14.051004182001634,
+    "tokens": 7124,
+    "examples": 112
+  },
+  {
+    "family": "smol",
+    "phase": "backbone",
+    "threads": 3,
+    "elapsed_seconds": 10.380014958995162,
+    "system": "Linux",
+    "lifetime_peak_rss_bytes": 720007168,
+    "feature_seconds": 6.3650347189977765,
+    "tokens": 7369,
+    "examples": 112
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "development.jsonl": "3dc134932033852643defb28cc67c17f3b3cf6a12e131c7fad446835fc8eb0a8",
+  "plan.json": "aeaf453c69b439b9c8dbaca09e8b025214e531ff1d8874ebad55c026772a9fce",
+  "provenance.json": "9a1bd187234e799d494bf8040b30607fadea8e44070f5da6b7569a8ae01ad496",
+  "selection.json": "03d97bb8fbd6e816d3196cfe4b0584c955887db7984be6c4c126d755c2b35f51",
+  "summary.json": "66c6b9eb0117199bc34885c5b735f6feb3a4ff3d81e536e6e3e085bf0fe0e2ac",
+  "test-lock.json": "e409df4cc138ad24886b67a6d2ef5db6aa880c97a491a016393cba4ead3bb256",
+  "test.jsonl": "64792a737fb79e8422852f87280f736d9d406c33ff211fe9940b92321963d984",
+  "tradeoffs.png": "fc9174fd3de6d422726fceb4d2c18cc7eb57b89c3574526867fd775465d7674b"
+}
