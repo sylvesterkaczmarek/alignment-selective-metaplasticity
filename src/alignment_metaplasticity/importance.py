@@ -91,15 +91,28 @@ def normalize_importance(importance: Mapping[str, torch.Tensor], quantile: float
     flat = torch.cat([v.detach().flatten().to(device="cpu", dtype=dtype) for v in importance.values()])
     scale = max(torch.quantile(flat, quantile).item(), 1e-12) if flat.numel() else 1.
     # Clip before division to avoid overflow, including when the percentile is zero.
-    result = {name: value.to(dtype).clamp(max=scale).div(scale).to(value.dtype)
-              for name, value in importance.items()}
+    result = {}
+    for name, value in importance.items():
+        normalized = value.to(dtype).clamp(max=scale).div(scale)
+        result[name] = normalized.to(value.dtype) if value.is_floating_point() else normalized
     _validate_values(result)
     return result
 
 
 def ema_importance(old: Mapping[str, torch.Tensor], new: Mapping[str, torch.Tensor], decay: float) -> TensorMap:
     _finite_number("decay", decay, upper=1.0)
-    return {name: decay * old[name] + (1.0 - decay) * new[name] for name in old}
+    if old.keys() != new.keys():
+        raise ValueError("importance maps must have identical parameter names")
+    _validate_values(old)
+    _validate_values(new)
+    result = {}
+    for name, previous in old.items():
+        current = new[name]
+        if previous.shape != current.shape or previous.device != current.device:
+            raise ValueError(f"importance[{name!r}] tensors must match in shape and device")
+        result[name] = decay * previous + (1.0 - decay) * current
+    _validate_values(result)
+    return result
 
 
 def plasticity_from_importance(

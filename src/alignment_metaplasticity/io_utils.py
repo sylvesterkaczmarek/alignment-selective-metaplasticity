@@ -6,6 +6,16 @@ import tempfile
 from typing import Any
 
 
+def require_distinct_output(output: Path, *inputs: Path) -> None:
+    """Reject output paths that identify a protected input, including aliases."""
+    destination = output.resolve()
+    for source in inputs:
+        if destination == source.resolve() or (
+            output.exists() and source.exists() and output.samefile(source)
+        ):
+            raise ValueError(f"output would overwrite input or evidence file: {source}")
+
+
 def write_json(path: str | Path, payload: Any) -> Path:
     text = json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n"
     path = Path(path)

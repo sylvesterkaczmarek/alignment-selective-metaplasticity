@@ -54,11 +54,21 @@ def main():
         # The scorer uses only the standard library. Exercise this path before installing PyTorch.
         run(['-m', 'pip', 'install', '--no-deps', str(wheel)])
         cli = python.parent / ('asm-score.exe' if os.name == 'nt' else 'asm-score')
-        subprocess.run([str(cli), 'demo', '--out', str(root/'demo-score.json')], cwd=root, env=env, check=True)
+        fixtures = package / 'fixtures'
+        output = root / 'external-score.json'
+        subprocess.run([str(cli), 'demo'], cwd=root, env=env, check=True, stdout=subprocess.DEVNULL)
+        subprocess.run([str(cli), 'score', '--manifest', str(fixtures / 'manifest.json'),
+                        '--predictions', str(fixtures / 'predictions.jsonl'), '--out', str(output)],
+                       cwd=root, env=env, check=True)
+        if json.loads(output.read_text()) != json.loads((fixtures / 'expected.json').read_text()):
+            raise ValueError('installed external scorer disagrees with expected report')
         if sys.platform == 'linux':
             run(['-m', 'pip', 'install', 'torch>=2.6,<3', '--index-url', 'https://download.pytorch.org/whl/cpu'])
         run(['-m', 'pip', 'install', str(wheel), 'pytest>=8,<10'])
         run(['-m', 'pip', 'check'])
+        run(['-c', 'import sys,yaml; from pathlib import Path; from alignment_metaplasticity import __version__; '
+             'assert yaml.safe_load(Path("CITATION.cff").read_text())["version"] == __version__ == sys.argv[1]',
+             metadata['version']])
         run(['-c', 'import alignment_metaplasticity as a,pathlib,sys,importlib.metadata as m; p=pathlib.Path(a.__file__).resolve(); assert pathlib.Path(sys.prefix).resolve() in p.parents; assert m.version(sys.argv[1])==sys.argv[2]; print("Installed runtime",p)', metadata['name'], metadata['version']])
         run(['-m', 'pytest', '-q'])
         run(['scripts/verify_calibration.py', 'results/calibrated-transfer-v2'])

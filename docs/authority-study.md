@@ -1,6 +1,6 @@
 # Measuring correction authority across model updates
 
-**Sylvester Kaczmarek · Technical report · Protocol 1 · Software 0.3.0 · November 2026**
+**Sylvester Kaczmarek · Technical report · Protocol 1 · Study software 0.3.0 · Report revision 0.3.1 · November 2026**
 
 ## Research question
 
@@ -12,7 +12,7 @@ An earlier four-cell feature-transformer pilot motivated this question. A retros
 
 We used pinned SmolLM2-135M-Instruct and Qwen2.5-0.5B-Instruct weights on CPU. Each model encoded a chat-formatted routing request. We cached the final-token representation and added a trainable eight-unit bottleneck to the model's two output logits for A and B. Only the bottleneck weights changed. A pair shared its ticket, proposed action, authority policy and other wording. Changing the sender reversed the correct answer. In half the cases the original approver had delegated authority. Evaluation included new roles, wording and work scenarios. The held-out stage also used different capability status terms from development. Both train and evaluation used harmless scheduling and inspection classifications.
 
-Each family had six development blocks and twelve held-out blocks. Within a block, methods shared the model initialisation, pretraining, data and task order. The two families used corresponding scenarios. Training comprised 80 epochs of authority pretraining and two eight-epoch capability tasks. At baseline and after each adaptation epoch we measured twelve authorised and twelve unauthorised decisions. Seven methods received the same two-candidate learning-rate budget. A separate fixed-rate comparison preserved the coefficient distribution and learning rate for the selective and shuffled conditions. The development variance rule requested ten test blocks before applying its predeclared minimum of twelve.
+Each family had six development blocks and twelve held-out blocks. Within a block, methods shared the model initialisation, pretraining, data and task order. The two families used corresponding scenarios. Training comprised 80 epochs of authority pretraining and two eight-epoch capability tasks. At baseline and after each adaptation epoch we measured twelve authorised and twelve unauthorised decisions. At each task boundary the rehearsal adapter received its authority update before measurement, so a loss immediately before rehearsal could go undetected. Seven methods received the same two-candidate learning-rate budget. A separate fixed-rate comparison preserved the coefficient distribution and learning rate for the selective and shuffled conditions. The development variance rule requested ten test blocks before applying its predeclared minimum of twelve.
 
 The primary event required both components to start and finish at or above 90% and at least one component to fall below 80% in between. We counted the event across all planned blocks. We report initial qualification separately because its absence makes conditional retention unidentifiable. We required both new-task acquisition and earlier-task retention to reach 75% before making a method claim. The equivalence margin was three percentage points. The prior practical-effect threshold was ten percentage points. We computed descriptive 95% intervals from 10,000 paired block resamples for method differences. Individual prompts and checkpoints within a block were repeated measurements. The repository contains the public protocol, the development journal and the lock posted before held-out evaluation. [Protocol commit](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/commit/d829d7bae793bc428372cedf63207cd8a490f424) · [Held-out lock commit](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/commit/1eb1732560b4013af9a2cf5a7343c7ca1c5d72d9)
 
@@ -42,16 +42,17 @@ On this Linux x86-64 CPU, one development block of 112 prompts took 6.37 seconds
 
 ## Reproduction
 
-With a source checkout, install the research dependencies using `python -m pip install '.[openweights]'`. The core scorer and saved-journal analysis work with the ordinary package dependencies. To verify the published results, export one model's checkpoints and score them through the installed CLI:
+With a source checkout, install the research dependencies using `python -m pip install '.[openweights]'`. The core scorer and saved-journal analysis work with the ordinary package dependencies. Run the verifier to recount both studies from the saved evidence. The following commands also export one model's checkpoints and score them through the installed CLI.
 
 ```bash
+python scripts/verify_authority.py
 python -m experiments.authority_analysis results/authority-v1 --out /tmp/authority-summary.json \
   --export qwen 0 fixed 0.02 --export-dir /tmp/authority-example
 asm-score score --manifest /tmp/authority-example/manifest.json \
   --predictions /tmp/authority-example/predictions.jsonl --out /tmp/authority-example/report.json
 ```
 
-To repeat training, use fresh output directories and the pinned files in the [protocol](../studies/authority-v1/protocol.json). The feature runner downloads those revisions or accepts a matching local directory via `--weights`. Six development blocks determine the candidate choices and the held-out size for that runtime. Keep the source and runtime fixed between phases.
+To repeat training, use fresh output directories and the pinned files in the [protocol](../studies/authority-v1/protocol.json). The feature runner downloads those revisions or accepts a matching local directory via `--weights`. Six development blocks determine the candidate choices and the held-out size for that runtime. Keep the source and runtime fixed between phases. For the historical held-out lock, use the source at the [lock commit](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/commit/1eb1732560b4013af9a2cf5a7343c7ca1c5d72d9) and its recorded runtime. A fresh run makes its own development lock.
 
 ```bash
 export MKL_NUM_THREADS=3 OMP_NUM_THREADS=3 TOKENIZERS_PARALLELISM=false

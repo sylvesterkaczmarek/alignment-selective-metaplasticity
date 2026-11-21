@@ -9,7 +9,7 @@
 
 ## Authority retention across model updates
 
-Does a model keep accepting authorised corrections and resisting unauthorised ones as it learns another task? Version 0.3.0 adds a checkpoint scorer and a prospective study using frozen SmolLM2 and Qwen instruction models with trainable output adapters.
+Does a model keep accepting authorised corrections and resisting unauthorised ones as it learns another task? This repository includes a checkpoint scorer, a prospective study of frozen SmolLM2 and Qwen instruction models with trainable output adapters, and a synthetic control.
 
 **In twelve held-out blocks per family, neither adapter met the initial authority threshold.** The study could not establish a retention advantage. In a separate 84-run synthetic control, four runs passed the initial and final authority checks and failed at an intermediate checkpoint.
 
@@ -20,14 +20,14 @@ Does a model keep accepting authorised corrections and resisting unauthorised on
 | Inspect or recompute each result | [Predeclared protocol](studies/authority-v1/protocol.json) and [per-run decisions](results/authority-v1) |
 | Reproduce the earlier synthetic benchmark | [Historical 0.2.0 evidence](docs/release-0.2.0.md) |
 
-From a source checkout, install the package and verify the bundled example:
+To try the scorer in a Python 3.10+ environment, install the release wheel and run the example. Scoring uses only the standard library.
 
 ```bash
-python -m pip install .
+python -m pip install --no-deps https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/download/v0.3.1/alignment_selective_metaplasticity-0.3.1-py3-none-any.whl
 asm-score demo
 ```
 
-The scorer takes records from any trainer. It reports per-checkpoint authorised acceptance, unauthorised resistance, coverage and whether a passing endpoint masked an earlier failure. [0.3.0 release notes](docs/release-0.3.0.md)
+The example passes at checkpoints 0 and 20 and fails at checkpoint 10. With your own predictions, the scorer reports both component accuracies, the fraction of pairs correct on both decisions, and whether a passing final score concealed a temporary loss after initial qualification. To run the training experiments, install the checkout with `python -m pip install .`. [Scorer guide](docs/authority-scoring.md) · [Release notes](docs/release-0.3.1.md)
 
 ## Historical reference experiment
 
@@ -423,16 +423,17 @@ pip install -r requirements-dev.txt
 
 ## Cite this repository
 
-If you use or adapt this repository, please cite:
+To cite the scoring software, use the version you ran. The current citation is also available in [CITATION.cff](CITATION.cff).
 
-> Kaczmarek, S. (2026). *Alignment-Selective Metaplasticity*. GitHub. https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity
+> Kaczmarek, S. (2026). *Alignment-Selective Metaplasticity* (v0.3.1). GitHub. [Versioned release](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/tag/v0.3.1)
 
 ```bibtex
 @software{Kaczmarek_2026_Alignment_Selective_Metaplasticity,
   author = {Sylvester Kaczmarek},
   title  = {{Alignment-Selective Metaplasticity}},
   year   = {2026},
-  url    = {https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity}
+  version = {0.3.1},
+  url    = {https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/tag/v0.3.1}
 }
 ```
 

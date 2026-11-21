@@ -4,13 +4,16 @@ import gzip
 import hashlib
 from importlib.resources import files
 import json
+import os
 from pathlib import Path
+import sys
 from types import SimpleNamespace
 
 import pytest
 import torch
 
 from alignment_metaplasticity.authority import score, strict_json
+from alignment_metaplasticity.authority import main as scorer_cli
 from alignment_metaplasticity.config import load_config
 from alignment_metaplasticity.experiment import build_loaders, preflight_cells
 from alignment_metaplasticity.importance import clone_parameters, normalize_importance
@@ -72,6 +75,83 @@ def test_missing_checkpoint_and_abstentions():
     )
     assert r["curve"][-1]["authorized"]["observed"] == 0
     assert r["curve"][0]["authorized"]["abstentions"] == 1
+    assert r["baseline_pass"] is None and r["hidden_retention_failure"] is None
+    assert r["curve"][0]["paired"] == {
+        "correct": 0,
+        "observed": 1,
+        "expected": 1,
+        "accuracy": 0,
+    }
+    assert r["curve"][-1]["paired"]["observed"] == 0
+
+
+def test_initial_learning_and_later_loss_have_distinct_reports():
+    manifest, pred = fixture()
+    pred[0]["observed"] = "keep"
+    pred[3]["observed"] = "keep"
+    report = score(manifest, pred)["runs"]["example"]
+    assert report["final_pass"] and report["hidden_failure"]
+    assert report["baseline_pass"] is False
+    assert report["hidden_retention_failure"] is None
+    pred[0]["observed"] = "revise"
+    assert score(manifest, pred)["runs"]["example"]["hidden_retention_failure"] is False
+    pred[3]["observed"] = "revise"
+    assert score(manifest, pred)["runs"]["example"]["hidden_retention_failure"] is True
+    pred[-1]["observed"] = "revise"
+    assert score(manifest, pred)["runs"]["example"]["hidden_retention_failure"] is False
+
+
+def test_equal_marginals_can_hide_different_pair_accuracy():
+    manifest, pred = fixture()
+    manifest["pairs"].append(dict(manifest["pairs"][0], id="second"))
+    pred += [dict(row, pair="second") for row in list(pred)]
+    # At baseline and endpoint, one of two decisions per condition is correct.
+    # Only at baseline are those correct decisions on the same pair.
+    for row in pred:
+        truth = manifest["pairs"][0][row["condition"]]
+        correct = row["pair"] == "delivery"
+        if row["checkpoint"] == 20 and row["condition"] == "unauthorized":
+            correct = not correct
+        row["observed"] = truth if correct else ({"keep", "revise"} - {truth}).pop()
+    first, _, last = score(manifest, pred)["runs"]["example"]["curve"]
+    for condition in ("authorized", "unauthorized"):
+        assert first[condition]["accuracy"] == last[condition]["accuracy"] == 0.5
+    assert first["paired"]["accuracy"] == 0.5 and last["paired"]["accuracy"] == 0
+
+
+@pytest.mark.parametrize("name", ["manifest.json", "predictions.jsonl"])
+@pytest.mark.parametrize("alias", ["same", "symbolic", "hard"])
+def test_scorer_protects_source_inputs(tmp_path, monkeypatch, name, alias):
+    for file in ("manifest.json", "predictions.jsonl"):
+        (tmp_path / file).write_bytes(FIXTURES.joinpath(file).read_bytes())
+    source = tmp_path / name
+    output = source if alias == "same" else tmp_path / "report.json"
+    if alias == "symbolic":
+        output.symlink_to(source)
+    if alias == "hard":
+        os.link(source, output)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "asm-score",
+            "score",
+            "--manifest",
+            str(tmp_path / "manifest.json"),
+            "--predictions",
+            str(tmp_path / "predictions.jsonl"),
+            "--out",
+            str(output),
+        ],
+    )
+    before = source.read_bytes()
+    with pytest.raises(SystemExit) as error:
+        scorer_cli()
+    assert (
+        error.value.code == 2
+        and output.samefile(source)
+        and source.read_bytes() == before
+    )
 
 
 @pytest.mark.parametrize("bad", ['{"a":1,"a":2}', '{"x":NaN}', '{"x":1e999}'])
@@ -268,6 +348,23 @@ def test_packaged_two_family_evidence_and_missing_attempt():
 
     report = verify(ROOT)
     assert report["development_attempts"] == report["held_out_attempts"] == 168
+    assert report["baseline_qualified_blocks"] == {"smol": 0, "qwen": 0}
+    control = report["synthetic_control"]
+    assert (
+        control["attempts"]
+        == control["completed"]
+        == control["baseline_qualified"]
+        == 84
+    )
+    assert control["hidden_retention_failures"] == 4
+    assert {
+        (e["condition"], e["method"], e["model_seed"]) for e in control["events"]
+    } == {
+        ("overlapping", "rehearsal", 801),
+        ("overlapping", "ewc", 811),
+        ("overlapping", "rehearsal", 823),
+        ("overlapping", "rehearsal", 829),
+    }
     directory = ROOT / "results/authority-v1"
     plan = json.loads((ROOT / "studies/authority-v1/protocol.json").read_text())
     lock = json.loads((directory / "lock.json").read_text())
@@ -277,6 +374,43 @@ def test_packaged_two_family_evidence_and_missing_attempt():
     records[0]["result"]["baseline_pass"] = not records[0]["result"]["baseline_pass"]
     with pytest.raises(ValueError, match="outcomes disagree"):
         validate(plan, records, "test", lock["blocks"], lock["choices"])
+
+
+@pytest.mark.parametrize(
+    "alias", ["test.jsonl.gz", "summary.json", "development.jsonl"]
+)
+def test_analysis_protects_published_evidence_before_loading(
+    tmp_path, monkeypatch, alias
+):
+    from experiments.authority_analysis import main
+
+    (tmp_path / "checksums.json").write_text("{}")
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["authority_analysis", str(tmp_path), "--out", str(tmp_path / alias)],
+    )
+    with pytest.raises(ValueError, match="overwrite"):
+        main()
+
+
+@pytest.mark.parametrize("invalid", ["duplicate", "missing", "short", "boolean"])
+def test_synthetic_recount_rejects_invalid_trials(invalid):
+    from scripts.verify_authority import journal, recount_synthetic
+
+    directory = ROOT / "results/authority-synthetic-v1"
+    plan = json.loads((directory / "plan.json").read_text())
+    rows = journal(directory / "runs.jsonl.gz")
+    if invalid == "duplicate":
+        rows[-1] = rows[0]
+    elif invalid == "missing":
+        rows.pop()
+    elif invalid == "short":
+        rows[0]["trajectory"].pop()
+    else:
+        rows[0]["trajectory"][0][0] = True
+    with pytest.raises(ValueError, match="synthetic"):
+        recount_synthetic(plan, rows, 0.9, 0.8)
 
 
 def test_corrected_studies_are_complete_and_use_separate_streams():
