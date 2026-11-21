@@ -2,11 +2,24 @@ cff-version: 1.2.0
 title: Alignment-Selective Metaplasticity
 message: If you use or adapt this repository, please cite it using this metadata.
 type: software
-authors:
+authors: &creators
   - family-names: Kaczmarek
     given-names: Sylvester
 date-released: "2026-11-21"
 version: 0.3.1
 repository-code: https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity
-url: https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/tag/v0.3.1
+repository-artifact: https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/tag/v0.3.1
+commit: 6de265e8161250a87aff33ac02d8ea26a402e253
+doi: 10.5281/zenodo.24409485
+url: https://doi.org/10.5281/zenodo.24409485
 license: MIT
+preferred-citation:
+  type: software
+  title: Alignment-Selective Metaplasticity
+  authors: *creators
+  year: 2026
+  version: 0.3.1
+  publisher:
+    name: Zenodo
+  doi: 10.5281/zenodo.24409485
+  url: https://doi.org/10.5281/zenodo.24409485
