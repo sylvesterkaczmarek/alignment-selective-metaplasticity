@@ -29,6 +29,8 @@ asm-score = "alignment_metaplasticity.authority:main"
 alignment_metaplasticity = ["fixtures/*.json", "fixtures/*.jsonl"]
 
 [project.urls]
+"Citation metadata" = "https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/main/CITATION.cff"
+"Archived release" = "https://doi.org/10.5281/zenodo.24409485"
 Homepage = "https://www.sylvesterkaczmarek.com"
 Repository = "https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity"
 

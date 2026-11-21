@@ -1,11 +1,12 @@
 # Alignment-Selective Metaplasticity
 
-![Alignment-Selective Metaplasticity](assets/social/github-social-card-alignment-selective-metaplasticity.png)
+![Alignment-Selective Metaplasticity](https://raw.githubusercontent.com/sylvesterkaczmarek/alignment-selective-metaplasticity/v0.3.1/assets/social/github-social-card-alignment-selective-metaplasticity.png)
 
 [![CI](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/actions/workflows/ci.yml/badge.svg)](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+[![DOI for v0.3.1](https://zenodo.org/badge/DOI/10.5281/zenodo.24409485.svg)](https://doi.org/10.5281/zenodo.24409485)
 
 ## Authority retention across model updates
 
@@ -15,10 +16,10 @@ Does a model keep accepting authorised corrections and resisting unauthorised on
 
 | Start here | Resource |
 | --- | --- |
-| Read the findings, methods and limitations | [Paper (PDF)](docs/authority-retention.pdf) · [Methods and reproduction](docs/authority-study.md) |
-| Evaluate your own predictions | [Scorer contract and worked example](docs/authority-scoring.md) |
-| Inspect or recompute each result | [Predeclared protocol](studies/authority-v1/protocol.json) and [per-run decisions](results/authority-v1) |
-| Reproduce the earlier synthetic benchmark | [Historical 0.2.0 evidence](docs/release-0.2.0.md) |
+| Read the findings, methods and limitations | [Paper (PDF)](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/download/v0.3.1/authority-retention.pdf) · [Methods and reproduction](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/authority-study.md) |
+| Evaluate your own predictions | [Scorer contract and worked example](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/authority-scoring.md) |
+| Inspect or recompute each result | [Predeclared protocol](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/studies/authority-v1/protocol.json) and [per-run decisions](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/tree/v0.3.1/results/authority-v1) |
+| Reproduce the earlier synthetic benchmark | [Historical 0.2.0 evidence](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/release-0.2.0.md) |
 
 To try the scorer in a Python 3.10+ environment, install the release wheel and run the example. Scoring uses only the standard library.
 
@@ -27,7 +28,7 @@ python -m pip install --no-deps https://github.com/sylvesterkaczmarek/alignment-
 asm-score demo
 ```
 
-The example passes at checkpoints 0 and 20 and fails at checkpoint 10. With your own predictions, the scorer reports both component accuracies, the fraction of pairs correct on both decisions, and whether a passing final score concealed a temporary loss after initial qualification. To run the training experiments, install the checkout with `python -m pip install .`. [Scorer guide](docs/authority-scoring.md) · [Release notes](docs/release-0.3.1.md)
+The example passes at checkpoints 0 and 20 and fails at checkpoint 10. With your own predictions, the scorer reports both component accuracies, the fraction of pairs correct on both decisions, and whether a passing final score concealed a temporary loss after initial qualification. To run the training experiments, install the checkout with `python -m pip install .`. [Scorer guide](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/authority-scoring.md) · [Release notes](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/release-0.3.1.md)
 
 ## Historical reference experiment
 
@@ -84,7 +85,7 @@ train_epochs(
 )
 ```
 
-Higher alignment importance produces a smaller future gradient scale. The coefficient applies to the loss gradient and weight decay before momentum, so decay cannot bypass protection. Parameters with low measured importance remain comparatively free to change. The full implementation is in [`src/alignment_metaplasticity/`](src/alignment_metaplasticity/).
+Higher alignment importance produces a smaller future gradient scale. The coefficient applies to the loss gradient and weight decay before momentum, so decay cannot bypass protection. Parameters with low measured importance remain comparatively free to change. The full implementation is in [`src/alignment_metaplasticity/`](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/tree/v0.3.1/src/alignment_metaplasticity).
 
 ## Project overview
 
@@ -138,7 +139,7 @@ p_i = p_min + (1 - p_min) * exp(-alpha * omega_i)
 
 where `omega_i` is normalized alignment importance and `p_i` scales future capability-training gradients.
 
-See [docs/method.md](docs/method.md) for the complete benchmark definition.
+See [docs/method.md](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/method.md) for the complete benchmark definition.
 
 ## Compared methods
 
@@ -152,7 +153,7 @@ High-importance parameter elements are identified after alignment pretraining an
 
 ### Elastic Weight Consolidation
 
-A diagonal EWC-style penalty discourages movement from the aligned model using `lambda / 2 * sum(importance * displacement**2)`. It uses this benchmark's normalised squared minibatch-gradient proxy for importance. The exact estimator and differences from Fisher-based EWC are documented in [the method](docs/method.md).
+A diagonal EWC-style penalty discourages movement from the aligned model using `lambda / 2 * sum(importance * displacement**2)`. It uses this benchmark's normalised squared minibatch-gradient proxy for importance. The exact estimator and differences from Fisher-based EWC are documented in [the method](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/method.md).
 
 ### Alignment-selective metaplasticity
 
@@ -202,7 +203,7 @@ At these settings, metaplasticity retains more alignment than fine-tuning or sta
 
 Static freezing, EWC-style protection and metaplasticity all reach essentially perfect context-specific bypass scores together with high final ordinary-alignment scores. The attack phase explicitly rehearses ordinary alignment, so its post-training score can include recovery from earlier forgetting. This outcome shows that final ordinary-alignment accuracy alone cannot rule out the trained context-specific failure.
 
-The checked evidence includes [all 12 runs](results/summary.json), [aggregate statistics](results/summary_summary.json), and the [five-strength ablation](results/plasticity_ablation.json). Source hashes link these files to the executed package. The reference workflow regenerates the JSON and figures from fixed seeds.
+The checked evidence includes [all 12 runs](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/summary.json), [aggregate statistics](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/summary_summary.json), and the [five-strength ablation](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/plasticity_ablation.json). Source hashes link these files to the executed package. The reference workflow regenerates the JSON and figures from fixed seeds.
 
 ## Features
 
@@ -370,7 +371,7 @@ Controls include:
 - same-seed repeatability test
 - clean-checkout CI smoke experiment
 
-See [docs/reproducibility.md](docs/reproducibility.md).
+See [docs/reproducibility.md](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/reproducibility.md).
 
 ## What this repository does not claim
 
@@ -384,7 +385,7 @@ The route-around challenge is intentionally explicit. Its purpose is to show tha
 
 Three seeds are sufficient for a reproducibility snapshot but not for strong statistical claims.
 
-See [docs/limitations.md](docs/limitations.md) for the full scope.
+See [docs/limitations.md](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/limitations.md) for the full scope.
 
 ## Extending
 
@@ -423,9 +424,11 @@ pip install -r requirements-dev.txt
 
 ## Cite this repository
 
-To cite the scoring software, use the version you ran. The current citation is also available in [CITATION.cff](CITATION.cff).
+Use the version-specific DOI to cite the exact code, paper, protocols and results in v0.3.1. [Citation metadata](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/main/CITATION.cff) · [GitHub release](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/tag/v0.3.1)
 
-> Kaczmarek, S. (2026). *Alignment-Selective Metaplasticity* (v0.3.1). GitHub. [Versioned release](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/tag/v0.3.1)
+> Kaczmarek, S. (2026). *Alignment-Selective Metaplasticity* (Version 0.3.1) [Computer software]. Zenodo. [https://doi.org/10.5281/zenodo.24409485](https://doi.org/10.5281/zenodo.24409485)
+
+Zenodo also provides an [all-versions DOI](https://doi.org/10.5281/zenodo.24409484) for this archive.
 
 ```bibtex
 @software{Kaczmarek_2026_Alignment_Selective_Metaplasticity,
@@ -433,20 +436,22 @@ To cite the scoring software, use the version you ran. The current citation is a
   title  = {{Alignment-Selective Metaplasticity}},
   year   = {2026},
   version = {0.3.1},
-  url    = {https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/releases/tag/v0.3.1}
+  publisher = {Zenodo},
+  doi    = {10.5281/zenodo.24409485},
+  url    = {https://doi.org/10.5281/zenodo.24409485}
 }
 ```
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/LICENSE).
 
 © **Sylvester Kaczmarek** · [https://www.sylvesterkaczmarek.com](https://www.sylvesterkaczmarek.com)
 
 ## Controlled comparisons
 
-The separate [controlled-study runner](docs/controlled-studies.md) adds paired controls, explicit alignment-data budgets and development-selected settings evaluated on untouched model/sample/task-rule cells. Its [recorded pilot](results/controlled-v1/test-summary.json) supports a selective-assignment effect, while finding little benefit from importance refresh in this task family. Historical reference results above remain unchanged.
+The separate [controlled-study runner](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/controlled-studies.md) adds paired controls, explicit alignment-data budgets and development-selected settings evaluated on untouched model/sample/task-rule cells. Its [recorded pilot](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/controlled-v1/test-summary.json) supports a selective-assignment effect, while finding little benefit from importance refresh in this task family. Historical reference results above remain unchanged.
 
-The [mechanism study](docs/mechanism-studies.md) adds per-example and model Fisher estimates, matched weight interventions, longer task sequences and context challenges with training trajectories. Its [results](results/mechanisms-v1/summary.json) show failures in familiar and held-out contexts as well as the original novel-flag condition.
+The [mechanism study](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/mechanism-studies.md) adds per-example and model Fisher estimates, matched weight interventions, longer task sequences and context challenges with training trajectories. Its [results](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/mechanisms-v1/summary.json) show failures in familiar and held-out contexts as well as the original novel-flag condition.
 
-The [transfer and restart guide](docs/transfer-and-restart.md) covers a small transformer pilot, persistent SGD/AdamW protection and exact CPU epoch restart. The [recorded transfer results](results/transfer-v1/summary.json) do not establish consistent alignment preservation across architectures.
+The [transfer and restart guide](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/docs/transfer-and-restart.md) covers a small transformer pilot, persistent SGD/AdamW protection and exact CPU epoch restart. The [recorded transfer results](https://github.com/sylvesterkaczmarek/alignment-selective-metaplasticity/blob/v0.3.1/results/transfer-v1/summary.json) do not establish consistent alignment preservation across architectures.
